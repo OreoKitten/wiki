@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Game: AFK In The Zombie Apocalypse Game — Wiki & Stat Tracker</title>
+<style>
+  :root {
+    --bg-main: #0b0f17;
+    --bg-card: #131b2e;
+    --bg-card-hover: #19233c;
+    --bg-surface: #0f1626;
+    --border-color: #263454;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --accent-green: #10b981;
+    --accent-green-dim: rgba(16, 185, 129, 0.15);
+    --accent-crimson: #f43f5e;
+    --accent-crimson-dim: rgba(244, 63, 94, 0.15);
+    --accent-gold: #f59e0b;
+    --accent-gold-dim: rgba(245, 158, 11, 0.15);
+    --accent-cyan: #06b6d4;
+    --accent-cyan-dim: rgba(6, 182, 212, 0.15);
+    --accent-purple: #8b5cf6;
+    --accent-purple-dim: rgba(139, 92, 246, 0.15);
+    --shadow-lg: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+  }
+  [data-theme="light"] {
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f1f5f9;
+    --bg-surface: #eef2f6;
+    --border-color: #cbd5e1;
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    --shadow-lg: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.55;
+    padding-bottom: 60px;
+  }
+  /* Header */
+  .app-header {
+    background: linear-gradient(135deg, #0d1527 0%, #172544 55%, #1e1b38 100%);
+    border-bottom: 1px solid var(--border-color);
+    padding: 24px 28px 0 28px;
+    color: #f8fafc;
+  }
+  .header-top {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 18px;
+  }
+  .brand-title {
+    font-size: 1.55rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .brand-badge {
+    background: var(--accent-green);
+    color: #052e16;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 3px 9px;
+    border-radius: 999px;
+    text-transform: uppercase;
+  }
+  .brand-subtitle {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    margin-top: 4px;
+  }
+  .header-stats {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .header-stat-pill {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
+    padding: 6px 13px;
+    font-size: 0.8rem;
+    color: #e2e8f0;
+  }
+  .header-stat-pill strong {
+    color: #34d399;
+    font-weight: 700;
+  }
+  .theme-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 7px 13px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+  .theme-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+  /* Navigation Tabs */
+  .nav-tabs {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+  }
+  .nav-tab {
+    background: transparent;
+    color: #94a3b8;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 12px 18px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+  }
+  .nav-tab:hover {
+    color: #f8fafc;
+    background: rgba(255, 255, 255, 0.04);
+  }
+  .nav-tab.active {
+    color: #34d399;
+    border-bottom-color: #10b981;
+    background: rgba(16, 185, 129, 0.08);
+  }
+  /* Container */
+  .main-container {
+    max-width: 1440px;
+    margin: 24px auto;
+    padding: 0 24px;
+  }
+  .tab-panel {
+    display: none;
+  }
+  .tab-panel.active {
+    display: block;
+  }
+  /* Controls & Cards */
+  .panel-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-lg);
+  }
+  .controls-grid {
+    display: grid;
+    grid-template-columns: 2fr 1.4fr 1.2fr 1.1fr auto;
+    gap: 12px;
+    align-items: end;
+  }
+  @media (max-width: 1024px) {
+    .controls-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 640px) {
+    .controls-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .control-group label {
+    display: block;
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+  }
+  .input-field, .select-field {
+    width: 100%;
+    padding: 9px 12px;
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.9rem;
+  }
+  .input-field:focus, .select-field:focus {
+    outline: none;
+    border-color: var(--accent-green);
+  }
+  /* Sort Quick Bar */
+  .sort-pill-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-color);
+    align-items: center;
+  }
+  .sort-pill-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-right: 4px;
+  }
+  .sort-btn {
+    background: var(--bg-surface);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .sort-btn:hover {
+    border-color: var(--accent-green);
+    color: var(--text-primary);
+  }
+  .sort-btn.active {
+    background: var(--accent-green-dim);
+    color: var(--accent-green);
+    border-color: var(--accent-green);
+  }
+  /* Alphabet Bar */
+  .alpha-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 12px;
+    align-items: center;
+  }
+  .alpha-btn {
+    background: var(--bg-surface);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    min-width: 30px;
+    height: 28px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+  }
+  .alpha-btn.active, .alpha-btn:hover {
+    background: var(--accent-cyan-dim);
+    color: var(--accent-cyan);
+    border-color: var(--accent-cyan);
+  }
+  /* Character Grid */
+  .char-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+  }
+  .char-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 18px;
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .char-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-green);
+    background: var(--bg-card-hover);
+  }
+  .char-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .rank-badge {
+    background: var(--accent-green-dim);
+    color: var(--accent-green);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    font-weight: 800;
+    font-size: 0.78rem;
+    padding: 3px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  .rank-badge.top-1 {
+    background: var(--accent-gold-dim);
+    color: var(--accent-gold);
+    border-color: rgba(245, 158, 11, 0.45);
+  }
+  .rank-badge.top-15 {
+    background: var(--accent-crimson-dim);
+    color: var(--accent-crimson);
+    border-color: rgba(244, 63, 94, 0.4);
+  }
+  .char-name {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--text-primary);
+  }
+  .char-name-breakdown {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .char-name-breakdown span {
+    color: var(--accent-cyan);
+    font-weight: 600;
+  }
+  .mention-Right {
+    text-align: right;
+  }
+  .mention-count {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--accent-green);
+  }
+  .chapter-count {
+    font-size: 0.74rem;
+    color: var(--text-secondary);
+  }
+  .char-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 8px 0;
+  }
+  .tag-pill {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+  }
+  .tag-pill.faction {
+    color: var(--accent-purple);
+    background: var(--accent-purple-dim);
+    border-color: rgba(139, 92, 246, 0.3);
+  }
+  .char-role {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    margin-bottom: 6px;
+  }
+  .char-bio {
+    font-size: 0.83rem;
+    color: var(--text-secondary);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  /* Chapter Timeline Bar */
+  .timeline-wrap {
+    margin-top: auto;
+    padding-top: 8px;
+    border-top: 1px solid rgba(148, 163, 184, 0.12);
+  }
+  .timeline-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .timeline-track {
+    width: 100%;
+    height: 6px;
+    background: var(--bg-surface);
+    border-radius: 999px;
+    position: relative;
+    overflow: hidden;
+  }
+  .timeline-fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, var(--accent-cyan), var(--accent-green));
+    border-radius: 999px;
+  }
+  /* Data Table */
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+  }
+  table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.86rem;
+    background: var(--bg-card);
+  }
+  table.data-table th, table.data-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-color);
+    text-align: left;
+  }
+  table.data-table th {
+    background: var(--bg-surface);
+    color: var(--text-secondary);
+    font-weight: 700;
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  table.data-table th:hover {
+    color: var(--accent-green);
+  }
+  table.data-table tr:hover td {
+    background: var(--bg-card-hover);
+  }
+  .num-col {
+    text-align: right !important;
+    font-variant-numeric: tabular-nums;
+  }
+  /* KPI Grid */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin: 16px 0;
+  }
+  .kpi-box {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+  .kpi-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+  .kpi-val {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .kpi-val.green { color: var(--accent-green); }
+  .kpi-val.crimson { color: var(--accent-crimson); }
+  .kpi-val.gold { color: var(--accent-gold); }
+  .kpi-val.cyan { color: var(--accent-cyan); }
+  .kpi-sub {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 2px;
+  }
+  /* Modal */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 7, 18, 0.78);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 1000;
+  }
+  .modal-backdrop.open {
+    display: flex;
+  }
+  .modal-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    max-width: 720px;
+    width: 100%;
+    padding: 26px;
+    box-shadow: var(--shadow-lg);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .btn-primary {
+    background: var(--accent-green);
+    color: #042f1e;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 16px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  .btn-primary:hover {
+    opacity: 0.92;
+  }
+  .btn-secondary {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 9px 15px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 900px) {
+    .two-col {
+      grid-template-columns: 1fr;
+    }
+  }
+  .verified-row {
+    background: rgba(16, 185, 129, 0.07);
+  }
+  .milestone-pill {
+    display: inline-block;
+    background: var(--accent-green-dim);
+    color: var(--accent-green);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    border-radius: 6px;
+    padding: 2px 7px;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="header-top">
+    <div>
+      <div class="brand-title">
+        <span>🧟 Global Game: AFK In The Zombie Apocalypse Game</span>
+        <span class="brand-badge">Wiki & Stat Suite</span>
+      </div>
+      <div class="brand-subtitle">Complete Character Frequency Encyclopedia (Ch. 1–3,555) & Interactive Fang Heng Progression Calculators</div>
+    </div>
+    <div class="header-stats">
+      <div class="header-stat-pill">Chapters Parsed: <strong>3,555</strong></div>
+      <div class="header-stat-pill">Fang Heng Mentions: <strong>66,802</strong></div>
+      <div class="header-stat-pill">Indexed Characters: <strong>150</strong></div>
+      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">☀️ Light Mode</button>
+    </div>
+  </div>
+  <nav class="nav-tabs">
+    <button class="nav-tab active" onclick="switchTab('wiki', this)">📖 Character Wiki & Index (150)</button>
+    <button class="nav-tab" onclick="switchTab('zombie', this)">🧟 Zombie Clone & Proliferator Calculator</button>
+    <button class="nav-tab" onclick="switchTab('abe', this)">🌳 Sacred Tree Abe Akaya & Bloodline Calculators</button>
+    <button class="nav-tab" onclick="switchTab('tracker', this)">📊 Reading Chapter Time-Machine & Stat Tracker</button>
+  </nav>
+</header>
+
+<main class="main-container">
+
+  <!-- ==================== TAB 1: CHARACTER WIKI & INDEX ==================== -->
+  <section id="tab-wiki" class="tab-panel active">
+    <div class="panel-card">
+      <div class="controls-grid">
+        <div class="control-group">
+          <label>Search Character Name, Alias, Role, Ability, or Bio</label>
+          <input type="text" id="wikiSearch" class="input-field" placeholder="e.g., Fang Heng, Mo Jiawei, Vampire, Alchemy, Tower of Bones..." oninput="renderWiki()">
+        </div>
+        <div class="control-group">
+          <label>Filter by Faction / Affiliation</label>
+          <select id="wikiFaction" class="select-field" onchange="renderWiki()">
+            <option value="ALL">All Factions (150)</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label>Filter by Prominence Tier</label>
+          <select id="wikiTier" class="select-field" onchange="renderWiki()">
+            <option value="ALL">All Tiers</option>
+            <option value="Protagonist">Protagonist (#1)</option>
+            <option value="Core Deuteragonist / Major Ally">Core Deuteragonist (#2–#15)</option>
+            <option value="Major Recurring Character">Major Recurring (#16–#50)</option>
+            <option value="Key Arc Figure">Key Arc Figure (#51–#100)</option>
+            <option value="Supporting Character">Supporting (#101–#150)</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label>Display Mode</label>
+          <select id="wikiViewMode" class="select-field" onchange="renderWiki()">
+            <option value="cards">Rich Wiki Cards + Index Table</option>
+            <option value="table">Compact Sortable Index Table Only</option>
+            <option value="cards_only">Rich Wiki Cards Only</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <button class="btn-secondary" onclick="resetWikiFilters()">Reset Filters</button>
+        </div>
+      </div>
+
+      <!-- Multi-Mode Ordering Buttons -->
+      <div class="sort-pill-bar">
+        <span class="sort-pill-label">Order Index By:</span>
+        <button class="sort-btn active" data-sort="mentions_desc" onclick="setWikiSort('mentions_desc', this)">🔥 Most Appearances (Default)</button>
+        <button class="sort-btn" data-sort="chapters_desc" onclick="setWikiSort('chapters_desc', this)">📚 Most Chapters</button>
+        <button class="sort-btn" data-sort="first_asc" onclick="setWikiSort('first_asc', this)">🔤 First / Given Name (A → Z)</button>
+        <button class="sort-btn" data-sort="first_desc" onclick="setWikiSort('first_desc', this)">🔤 First / Given Name (Z → A)</button>
+        <button class="sort-btn" data-sort="last_asc" onclick="setWikiSort('last_asc', this)">🏷️ Last / Family Name (A → Z)</button>
+        <button class="sort-btn" data-sort="last_desc" onclick="setWikiSort('last_desc', this)">🏷️ Last / Family Name (Z → A)</button>
+        <button class="sort-btn" data-sort="full_asc" onclick="setWikiSort('full_asc', this)">🅰️ Full Name (A → Z)</button>
+        <button class="sort-btn" data-sort="debut_asc" onclick="setWikiSort('debut_asc', this)">⏱️ Debut Chapter (Ch. 1 → 3555)</button>
+      </div>
+
+      <!-- A-Z Jump / Filter Bar -->
+      <div class="alpha-bar" id="alphaBar"></div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
+      <div id="wikiCountSummary" style="font-size:0.9rem; color:var(--text-secondary); font-weight:600;"></div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn-secondary" onclick="exportWikiCSV()">⬇️ Export Filtered Wiki CSV</button>
+      </div>
+    </div>
+
+    <!-- Cards Container -->
+    <div id="wikiCardsContainer" class="char-grid" style="margin-bottom:28px;"></div>
+
+    <!-- Index Table Container -->
+    <div id="wikiTableContainer" class="panel-card" style="padding:0; overflow:hidden;">
+      <div style="padding:16px 20px; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="font-size:1.05rem;">Master Character Index Table (Click Any Row for Full Character Dossier)</h3>
+        <span style="font-size:0.78rem; color:var(--text-muted);">Note: Chinese names follow [Surname/Last] + [Given/First] order (e.g., Fang Heng → Given: Heng, Last: Fang)</span>
+      </div>
+      <div class="table-wrap" style="border:none; border-radius:0;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th onclick="setWikiSortByCol('mentions_desc')">Freq Rank ↕</th>
+              <th onclick="setWikiSortByCol('full_asc')">Full Name ↕</th>
+              <th onclick="setWikiSortByCol('first_asc')">First / Given Name ↕</th>
+              <th onclick="setWikiSortByCol('last_asc')">Last / Family Name ↕</th>
+              <th class="num-col" onclick="setWikiSortByCol('mentions_desc')">Total Mentions ↕</th>
+              <th class="num-col" onclick="setWikiSortByCol('chapters_desc')">Chapters ↕</th>
+              <th onclick="setWikiSortByCol('debut_asc')">Chapter Span ↕</th>
+              <th>Faction / Affiliation</th>
+              <th>Role / Position</th>
+            </tr>
+          </thead>
+          <tbody id="wikiTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 2: ZOMBIE CLONE & PROLIFERATOR CALCULATOR ==================== -->
+  <section id="tab-zombie" class="tab-panel">
+    <div class="two-col">
+      <!-- Left: Single Level Inspector -->
+      <div class="panel-card">
+        <h2 style="font-size:1.2rem; margin-bottom:6px;">🧟 Interactive Zombie Clone & Proliferator Inspector</h2>
+        <p style="font-size:0.84rem; color:var(--text-secondary); margin-bottom:16px;">
+          Upgraded from your <code>zombiecalc.py</code> script. Levels 1–10 add <code>n</code> clones per level (55 at Lv 10). Levels 11+ apply the SSS Stage 1 Talent <strong>Rapid Growth</strong> (<code>ceil(prev × 1.2)</code> base clones, plus 1 Proliferator every 6 hours out of combat up to <code>×4</code> total army after 18 hours).
+        </p>
+
+        <div style="display:flex; gap:14px; align-items:center; margin-bottom:14px;">
+          <div style="flex:1;">
+            <label style="font-size:0.78rem; font-weight:700; color:var(--text-secondary);">FANG HENG'S CHARACTER LEVEL (1 – 120)</label>
+            <input type="range" id="zLevelSlider" min="1" max="120" value="40" style="width:100%; margin-top:6px;" oninput="syncZombieLevel(this.value)">
+          </div>
+          <div style="width:110px;">
+            <label style="font-size:0.75rem; font-weight:700; color:var(--text-secondary);">EXACT LEVEL</label>
+            <input type="number" id="zLevelInput" class="input-field" min="1" max="150" value="40" oninput="syncZombieLevel(this.value)">
+          </div>
+        </div>
+
+        <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px;">
+          <span style="font-size:0.75rem; color:var(--text-muted); align-self:center;">Quick Jump to Novel Milestones:</span>
+          <button class="sort-btn" onclick="syncZombieLevel(1)">Lv 1 (Ch.2)</button>
+          <button class="sort-btn" onclick="syncZombieLevel(10)">Lv 10 (Ch.76)</button>
+          <button class="sort-btn" onclick="syncZombieLevel(23)">Lv 23 (Ch.819)</button>
+          <button class="sort-btn" onclick="syncZombieLevel(30)">Lv 30 (Ch.1386)</button>
+          <button class="sort-btn" onclick="syncZombieLevel(40)">Lv 40 (Ch.1813)</button>
+          <button class="sort-btn" onclick="syncZombieLevel(50)">Lv 50 (Ch.2579)</button>
+          <button class="sort-btn" onclick="syncZombieLevel(59)">Lv 59 (Ch.2622)</button>
+          <button class="sort-btn" onclick="syncZombieLevel(63)">Lv 63 (Ch.3269)</button>
+          <button class="sort-btn" onclick="syncZombieLevel(67)">Lv 67 (Ch.3305)</button>
+          <button class="sort-btn" onclick="syncZombieLevel(70)">Lv 70</button>
+          <button class="sort-btn" onclick="syncZombieLevel(100)">Lv 100 (Ch.113)</button>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-box">
+            <div class="kpi-label">Base Zombie Clones</div>
+            <div class="kpi-val green" id="kpiBaseZombies">13,548</div>
+            <div class="kpi-sub" id="kpiGainedZombies">+2,258 gained at Level 40</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-label">Full Army +3 Prolif (18h, ×4)</div>
+            <div class="kpi-val crimson" id="kpiFullArmy">54,192</div>
+            <div class="kpi-sub" id="kpiProlifOnly">40,644 Proliferators active</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-label">6h / 12h Growth Stages</div>
+            <div class="kpi-val cyan" id="kpiMidProlif">27,096 / 40,644</div>
+            <div class="kpi-sub">After 6h (×2) and 12h (×3)</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-label">Unenhanced S-Rank Baseline</div>
+            <div class="kpi-val gold" id="kpiUnenhanced">820</div>
+            <div class="kpi-sub" id="kpiMultiplier">16.52× more base clones</div>
+          </div>
+        </div>
+
+        <div id="novelMilestoneBanner" style="background:var(--accent-green-dim); border:1px solid rgba(16,185,129,0.4); border-radius:10px; padding:12px 15px; font-size:0.85rem; margin-top:10px;"></div>
+      </div>
+
+      <!-- Right: Zombie Modification & Solidification Cost Calculator -->
+      <div class="panel-card">
+        <h2 style="font-size:1.2rem; margin-bottom:6px;">🧬 Zombie Form Solidification & Mutation Cost Calculator</h2>
+        <p style="font-size:0.84rem; color:var(--text-secondary); margin-bottom:16px;">
+          Calculate the exact resource expenditure required to transform and permanently solidify Fang Heng's zombie clones across different arcs of the novel.
+        </p>
+
+        <div class="control-group" style="margin-bottom:12px;">
+          <label>Select Zombie Clone Evolution / Modification Tier</label>
+          <select id="modFormSelect" class="select-field" onchange="calcModCosts()">
+            <option value="vine_tyrant">Vine Parasite + Tyrant Fusion Solidification (Ch. 177 & 379 — 15,000 Survival Pts + 3 Tier-1 Crystals / clone)</option>
+            <option value="worm_trifusion">Mutant Worm + Tyrant + Vine Tri-Fusion (Ch. 445 — 2,000 Survival Pts + 1 Tier-1 Crystal / clone)</option>
+            <option value="worm_late" selected>Late-Game Worm Body Solidification (Ch. 3256 & 3258 — 500 King of Gods' Pts / clone)</option>
+            <option value="rapid_div">Rapid Division Transformation (Ch. 2919 — 1,500 King of Gods' Pts / clone)</option>
+            <option value="undead_base">Undead Form Base Conversion (Ch. 3307 — 5,000 King of Gods' Pts / clone)</option>
+            <option value="underworld_hunter">Underworld Hunter Faith Solidification (Ch. 3332 — 105,000 King of Gods' Pts / clone)</option>
+            <option value="god_underworld">God of the Underworld Faith Solidification (Ch. 3378 — 10,005,000 King of Gods' Pts / clone)</option>
+          </select>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr auto auto; gap:10px; align-items:end; margin-bottom:14px;">
+          <div class="control-group">
+            <label>Number of Clones to Transform</label>
+            <input type="number" id="modCloneCount" class="input-field" value="86577" min="1" oninput="calcModCosts()">
+          </div>
+          <button class="btn-secondary" onclick="useLevelBaseForMod()">Use Current Lv Total</button>
+          <button class="btn-secondary" onclick="useLevelGainedForMod()">Use Current Lv Gained</button>
+        </div>
+
+        <div class="kpi-grid" id="modCostKPIs"></div>
+        <div id="modLoreNote" style="background:var(--bg-surface); border:1px solid var(--border-color); border-radius:10px; padding:12px 15px; font-size:0.83rem; color:var(--text-secondary);"></div>
+      </div>
+    </div>
+
+    <!-- Full Zombie Progression Table -->
+    <div class="panel-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+        <div>
+          <h3 style="font-size:1.1rem;">Complete Level-by-Level Zombie Clone & Proliferator Table</h3>
+          <p style="font-size:0.82rem; color:var(--text-secondary);">Rows highlighted in green match exact zombie clone numbers explicitly stated in the novel text.</p>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+          <label style="font-size:0.8rem; font-weight:600; color:var(--text-secondary);">Max Level:</label>
+          <input type="number" id="tableMaxLevel" class="input-field" style="width:90px;" value="70" min="10" max="120" onchange="renderZombieTable()">
+          <select id="tableFilterMode" class="select-field" style="width:220px;" onchange="renderZombieTable()">
+            <option value="all">Show All Levels (1 to Max)</option>
+            <option value="verified">Show Novel-Verified Levels Only (27)</option>
+          </select>
+          <button class="btn-primary" onclick="exportZombieCSV()">⬇️ Export CSV</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Level</th>
+              <th class="num-col">Zombies Gained</th>
+              <th class="num-col">Total Base Zombies</th>
+              <th class="num-col">6h (+1 Prolif, ×2)</th>
+              <th class="num-col">12h (+2 Prolif, ×3)</th>
+              <th class="num-col">18h Full Army (×4)</th>
+              <th class="num-col">Unenhanced S-Rank</th>
+              <th>Novel Verification & Lore Milestone</th>
+            </tr>
+          </thead>
+          <tbody id="zombieTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 3: ABE AKAYA & BLOODLINE CALCULATORS ==================== -->
+  <section id="tab-abe" class="tab-panel">
+    <div class="two-col">
+      <!-- Left: Sacred Tree Abe Akaya Calculator -->
+      <div class="panel-card">
+        <h2 style="font-size:1.2rem; margin-bottom:6px;">🌳 Sacred Tree Abe Akaya — Dimensional & Vampire Boost Calculator</h2>
+        <p style="font-size:0.84rem; color:var(--text-secondary); margin-bottom:16px;">
+          Tracks Fang Heng's soul-bound companion sacred tree <strong>Abe Akaya</strong> (Ch. 1062–3518). Once Abe Akaya enters Dimensional Form (Ch. 2280), its maximum Dimensional Level follows <code>floor(Tree_Level / 10) + 1</code>, granting massive base attribute multipliers to Fang Heng's entire Vampire Clan.
+        </p>
+
+        <div style="display:grid; grid-template-columns: 1fr 140px; gap:14px; align-items:center; margin-bottom:14px;">
+          <div>
+            <label style="font-size:0.78rem; font-weight:700; color:var(--text-secondary);">ABE AKAYA TREE LEVEL (1 – 320)</label>
+            <input type="range" id="abeLevelSlider" min="1" max="320" value="148" style="width:100%; margin-top:6px;" oninput="syncAbeLevel(this.value)">
+          </div>
+          <div>
+            <label style="font-size:0.75rem; font-weight:700; color:var(--text-secondary);">TREE LEVEL</label>
+            <input type="number" id="abeLevelInput" class="input-field" min="1" max="500" value="148" oninput="syncAbeLevel(this.value)">
+          </div>
+        </div>
+
+        <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px;">
+          <button class="sort-btn" onclick="syncAbeLevel(41)">Lv 41 (Ch.2282 Mature)</button>
+          <button class="sort-btn" onclick="syncAbeLevel(48)">Lv 48 (Ch.2290 Dim Lv 5)</button>
+          <button class="sort-btn" onclick="syncAbeLevel(60)">Lv 60 (Ch.2295 Dim Lv 7)</button>
+          <button class="sort-btn" onclick="syncAbeLevel(81)">Lv 81 (Ch.2314 Dim Lv 9)</button>
+          <button class="sort-btn" onclick="syncAbeLevel(148)">Lv 148 (Ch.2325 Dim Lv 15)</button>
+          <button class="sort-btn" onclick="syncAbeLevel(188)">Lv 188 (Ch.2332 Complete Eligible)</button>
+          <button class="sort-btn" onclick="syncAbeLevel(277)">Lv 277 (Ch.3031 Tree of Hell)</button>
+          <button class="sort-btn" onclick="syncAbeLevel(310)">Lv 310 (Ch.2766 Dim Lv 32)</button>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-box">
+            <div class="kpi-label">Max Dimensional Level</div>
+            <div class="kpi-val green" id="abeMaxDimLv">Level 15</div>
+            <div class="kpi-sub">Formula: floor(Lv / 10) + 1</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-label">Vampire Clan Attribute Boost</div>
+            <div class="kpi-val crimson" id="abeVampBoost">+150%</div>
+            <div class="kpi-sub">Academic & Bloodline attributes</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-label">Prayer Temple Discount (Ch.2298)</div>
+            <div class="kpi-val cyan">-12% Energy</div>
+            <div class="kpi-sub">Bound to Temple of Incantation</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-label">Current Evolution Form</div>
+            <div class="kpi-val gold" id="abeFormStage" style="font-size:1.05rem;">Dimensional Form</div>
+            <div class="kpi-sub" id="abeFormSub">Spatial Extension & Tree Realm Seal</div>
+          </div>
+        </div>
+
+        <h4 style="font-size:0.9rem; margin:16px 0 8px 0;">🔥 Tree of Hell — Seven Deadly Sins Demonic Seed Absorption (Ch. 2494–3031)</h4>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Demonic Seed</th>
+                <th>Key Host / Source</th>
+                <th>Absorption Chapter</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Gluttony</strong></td><td>Qiu Xiaoling / Origin Fragment</td><td>Ch. 2516</td><td><span class="milestone-pill">100% Absorbed</span></td></tr>
+              <tr><td><strong>Jealousy</strong></td><td>Jealousy Avatar / Occult Assoc.</td><td>Ch. 2534 & 3028</td><td><span class="milestone-pill">100% Absorbed</span></td></tr>
+              <tr><td><strong>Sloth</strong></td><td>Abulati / Sloth Seed Core</td><td>Ch. 2665 & 2767</td><td><span class="milestone-pill">100% Absorbed</span></td></tr>
+              <tr><td><strong>Wrath</strong></td><td>Demon Suppressing Temple Seal</td><td>Ch. 2764 & 3029</td><td><span class="milestone-pill">100% Absorbed</span></td></tr>
+              <tr><td><strong>Pride & Greed</strong></td><td>Central Sanctuary / Hell Core</td><td>Ch. 3030–3031</td><td><span class="milestone-pill">Complete Form Lv.277</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right: Seed of Ouroboros & Academic Tier Reference -->
+      <div class="panel-card">
+        <h2 style="font-size:1.2rem; margin-bottom:6px;">🐍 Seed of Ouroboros & Academic Discipline Progression</h2>
+        <p style="font-size:0.84rem; color:var(--text-secondary); margin-bottom:14px;">
+          Calculate Fang Heng's <strong>Seed of Ouroboros</strong> external zombie modification slots (Ch. 2802–3304) and inspect his 10-tier Academic Discipline mastery ladder.
+        </p>
+
+        <div style="display:grid; grid-template-columns: 1fr 120px; gap:14px; align-items:center; margin-bottom:14px;">
+          <div>
+            <label style="font-size:0.78rem; font-weight:700; color:var(--text-secondary);">SEED OF OUROBOROS LEVEL (1 – 60)</label>
+            <input type="range" id="ouroSlider" min="1" max="60" value="56" style="width:100%; margin-top:6px;" oninput="syncOuroLevel(this.value)">
+          </div>
+          <div>
+            <label style="font-size:0.75rem; font-weight:700; color:var(--text-secondary);">OUROBOROS LV</label>
+            <input type="number" id="ouroInput" class="input-field" min="1" max="100" value="56" oninput="syncOuroLevel(this.value)">
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-box">
+            <div class="kpi-label">External Modification Slots</div>
+            <div class="kpi-val green" id="ouroSlots">3 Slots</div>
+            <div class="kpi-sub">Spiked Armor, Acidic Fluid, Split Form</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-label">Primogenitor Awakening</div>
+            <div class="kpi-val gold" id="ouroAwaken">Unlocked (Lv 50+)</div>
+            <div class="kpi-sub">Ch. 3304 Final Fusion Passed</div>
+          </div>
+        </div>
+
+        <h4 style="font-size:0.9rem; margin:16px 0 8px 0;">🎓 Fang Heng's Peak Academic & Bloodline Mastery Ladder</h4>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Discipline / Power</th>
+                <th>Peak Tier Reached</th>
+                <th>Breakthrough Ch.</th>
+                <th>Key Effect / Wonder</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Necromancy (Undead)</strong></td><td><span class="milestone-pill">Super-God Level (Unique)</span></td><td>Ch. 2706 → 2990</td><td>Blood Branch Fusion, Death Realm Expansion, Undead Conversion</td></tr>
+              <tr><td><strong>Hell Studies</strong></td><td><span class="milestone-pill">Super-God Level</span></td><td>Ch. 3488 → 3518</td><td>Eyes of Hell Fusion (300%), 99 Layers of Hell Domination</td></tr>
+              <tr><td><strong>Alchemy</strong></td><td><span class="milestone-pill">Super-God / Demigod</span></td><td>Ch. 3122 → 3316</td><td>Saint of Alchemy Inheritance + Omniscient Eye Array Control</td></tr>
+              <tr><td><strong>Occultism</strong></td><td><span class="milestone-pill">God-Level</span></td><td>Ch. 3106 → 3272</td><td>Omniscient Eye Occult Fusion, Noel Clan Secret Arts</td></tr>
+              <tr><td><strong>Natural Science</strong></td><td><span class="milestone-pill">God-Level</span></td><td>Ch. 3233 → 3245</td><td>Sacred Tree Communion, Ancient Tree of Life Absorption</td></tr>
+              <tr><td><strong>Sealing Art</strong></td><td><span class="milestone-pill">Demigod-Level</span></td><td>Ch. 2640 → 2643</td><td>Passed Final Sealing Trial Grounds, 12-Layer Divine Seals</td></tr>
+              <tr><td><strong>Mysticism & Spatial</strong></td><td><span class="milestone-pill">Demigod / Grandmaster</span></td><td>Ch. 3070 → 3124</td><td>Secondary Space Projection, Dimensional Teleportation</td></tr>
+              <tr><td><strong>Origin Power & Sacred</strong></td><td><span class="milestone-pill">Demigod-Level (Lv 20)</span></td><td>Ch. 3453 → 3541</td><td>Great Sage Bloodline Conversion & Void Bloodline</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 4: READING CHAPTER TIME-MACHINE & TRACKER ==================== -->
+  <section id="tab-tracker" class="tab-panel">
+    <div class="panel-card">
+      <h2 style="font-size:1.25rem; margin-bottom:6px;">⏱️ Novel Chapter Time-Machine & Personal Reading Tracker (Chapters 1 – 3,555)</h2>
+      <p style="font-size:0.86rem; color:var(--text-secondary); margin-bottom:18px;">
+        Slide or enter any chapter number from <strong>Chapter 1 to Chapter 3,555</strong> to see Fang Heng's exact canonical level, zombie clone count, active companions, story arc, and unlocked powers at that point in the novel—avoiding spoilers from later chapters! Your reading bookmark is automatically saved in your browser.
+      </p>
+
+      <div style="display:grid; grid-template-columns: 1fr 140px auto; gap:14px; align-items:center; margin-bottom:18px;">
+        <div>
+          <label style="font-size:0.78rem; font-weight:700; color:var(--text-secondary);">CURRENT READING CHAPTER (1 – 3,555)</label>
+          <input type="range" id="chTrackerSlider" min="1" max="3555" value="1813" style="width:100%; margin-top:6px;" oninput="updateChapterTracker(this.value)">
+        </div>
+        <div>
+          <label style="font-size:0.75rem; font-weight:700; color:var(--text-secondary);">CHAPTER #</label>
+          <input type="number" id="chTrackerInput" class="input-field" min="1" max="3555" value="1813" oninput="updateChapterTracker(this.value)">
+        </div>
+        <div style="padding-top:18px;">
+          <button class="btn-primary" onclick="saveReadingBookmark()">💾 Save Bookmark</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-box">
+          <div class="kpi-label">Active Story Arc</div>
+          <div class="kpi-val gold" id="trkArc" style="font-size:1.1rem;">Tower of Bones & Lv.40 Advancement</div>
+          <div class="kpi-sub" id="trkArcRange">Chapters 1360 – 1820</div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-label">Fang Heng's Level at Ch.</div>
+          <div class="kpi-val green" id="trkLevel">Level 40</div>
+          <div class="kpi-sub" id="trkTalentStage">Stage 3 SSS Talent Unlocked</div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-label">Base Zombie Clones</div>
+          <div class="kpi-val cyan" id="trkBaseClones">13,548</div>
+          <div class="kpi-sub" id="trkFullArmy">54,192 with Proliferators (×4)</div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-label">Dominant Zombie & Tree Forms</div>
+          <div class="kpi-val crimson" id="trkForms" style="font-size:1.05rem;">Flesh Armored + Mutant Worm</div>
+          <div class="kpi-sub" id="trkTreeStatus">Abe Akaya: Mature Companion (Lv.40)</div>
+        </div>
+      </div>
+
+      <div class="two-col" style="margin-top:18px;">
+        <div class="kpi-box">
+          <div class="kpi-label" style="margin-bottom:8px;">Active Characters in This Chapter Window (±50 Chapters)</div>
+          <div id="trkActiveChars" style="display:flex; flex-wrap:wrap; gap:6px; margin-top:6px;"></div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-label" style="margin-bottom:8px;">Personal Reading Notes (Saved Locally)</div>
+          <textarea id="trkNotes" class="input-field" rows="3" placeholder="Jot down your favorite chapters, builds, or theories..." oninput="saveReadingBookmark()"></textarea>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Character Dossier Modal -->
+<div class="modal-backdrop" id="charModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box" id="charModalContent"></div>
+</div>
+
+<script>
+const CHARACTERS = [{"rank": 1, "name": "Fang Heng", "full_display": "Fang Heng", "first_name": "Heng", "last_name": "Fang", "first_word": "Fang", "last_word": "Heng", "aliases": "World Lord of District 8, Vampire King Inheritor, Great Sage Inheritor, Underworld Lord, Fang Bai", "tier": "Protagonist", "faction": "Prison 507 / Zombie Apocalypse", "role": "Protagonist / Sovereign of the Undead & Sacred Trees", "arc": "All Arcs (Ch. 1–3555)", "abilities": "SSS-Rank Enhanced Super Zombie Clone (Rapid Growth, Efficient Evolution, Life Diversion, Mutant Infection), Undying Body, Omniscient Eye (Alchemy/Occult), Vampire King Bloodline, Soul Symbiote Abe Akaya, Seed of Ouroboros, Super-God Necromancy & Hell Studies, God-Level Occult & Natural Science, Demigod Alchemy/Mysticism/Sealing/Sacred Study", "bio": "Transmigrated into the body of a former pro gamer who awakens the SSS-rank Enhanced Super Zombie Clone talent. Starting from Prison No. 507 in District 8, he builds an automated zombie empire that mines, crafts, researches, and fights 24/7. Across the novel, he fuses the Undying Body, steals and binds the Vampire Sacred Tree Angetas and the Vampire King's Coffin, bonds with the dimensional sacred tree Abe Akaya, transplants the Omniscient Eye, masters Super-God Necromancy and Hell Studies, and battles the Holy Court, OmniTech, Demonic Seeds, and the God Clan.", "total_mentions": 66802, "chapters_count": 3529, "first_chapter": 1, "last_chapter": 3555, "peak_chapter": 2311, "peak_mentions": 48}, {"rank": 2, "name": "Mo Jiawei", "full_display": "Mo Jiawei", "first_name": "Jiawei", "last_name": "Mo", "first_word": "Mo", "last_word": "Jiawei", "aliases": "Brother Wei, Old Mo, Envoy of the Underworld", "tier": "Core Deuteragonist / Major Ally", "faction": "Prison 507 / Zombie Apocalypse", "role": "Core Companion / Tactician & Master Manipulator", "arc": "District 8, Enkama Empire, Tower of Bones, World of Forests & Beyond (Ch. 144–3011)", "abilities": "Sealing Arts, Necromancy, Psychological Warfare, Disguise & Reconnaissance, Underworld Summoning", "bio": "Fang Heng's closest friend, right-hand confidant, and chief schemer. Initially meeting Fang Heng during the Meteorite Company shelter mission in District 8, he quickly recognizes Fang Heng's absurd potential and joins his core crew. Known for his shameless wit, silver tongue, and strategic brilliance, he accompanies Fang Heng across the Enkama Empire, Punoze, and the Necromancer Association.", "total_mentions": 2470, "chapters_count": 589, "first_chapter": 144, "last_chapter": 3011, "peak_chapter": 291, "peak_mentions": 23}, {"rank": 3, "name": "Qiu Yaokang", "full_display": "Qiu Yaokang", "first_name": "Yaokang", "last_name": "Qiu", "first_word": "Qiu", "last_word": "Yaokang", "aliases": "Dr. Qiu, Director Qiu, Chief Scientist of Prison 507", "tier": "Core Deuteragonist / Major Ally", "faction": "Prison 507 / Zombie Apocalypse", "role": "Chief Biologist & Virus Mutation Researcher", "arc": "District 8, Vampire Apocalypse, Ouroboros & Netherworld Arcs (Ch. 43–3389)", "abilities": "T-Virus & G-Virus Mutation Research, Mutation Fusion Talent, Sacred Tree Transplantation, Seed of Ouroboros Analysis, Gene Modification", "bio": "A brilliant, fanatical former Meteorite Company researcher rescued and recruited by Fang Heng into Prison No. 507. He leads all biological research in Fang Heng's shelter, engineering the Vine Parasite, Fusion Tyrant, Licker, Mutant Worm, and Ouroboros zombie clone modifications, as well as synthesizing the three S-rank talent plans into Fang Heng's SSS-rank Rapid Growth plan.", "total_mentions": 1222, "chapters_count": 273, "first_chapter": 43, "last_chapter": 3389, "peak_chapter": 85, "peak_mentions": 28}, {"rank": 4, "name": "Tang Mingyue", "full_display": "Tang Mingyue", "first_name": "Mingyue", "last_name": "Tang", "first_word": "Tang", "last_word": "Mingyue", "aliases": "Her Highness Mingyue, Princess Mingyue, Empress of Enkama", "tier": "Core Deuteragonist / Major Ally", "faction": "Enkama Empire / Royal Family", "role": "Imperial Princess (later Ruler) of the Enkama Empire", "arc": "World Lords Summit & Enkama Empire Civil War Arc (Ch. 509–1752)", "abilities": "Spatial Science Magic, Imperial Royal Bloodline, Strategic Command, Magic Array Control", "bio": "The composed, chestnut-haired princess of the Enkama Empire and representative of District 5. Seeking allies to save her fractured empire from usurpers, barbarians, and the Holy Court's infiltration, she forms a deep alliance with Fang Heng, granting him access to Imperial resources, spatial magic, and the World of Forests.", "total_mentions": 1192, "chapters_count": 216, "first_chapter": 509, "last_chapter": 1752, "peak_chapter": 1008, "peak_mentions": 25}, {"rank": 5, "name": "Chen Yu", "full_display": "Chen Yu", "first_name": "Yu", "last_name": "Chen", "first_word": "Chen", "last_word": "Yu", "aliases": "Captain Chen, Commander Chen", "tier": "Core Deuteragonist / Major Ally", "faction": "Federation", "role": "Captain of the 17th Elite Team / Senior Eastern Federation Liaison", "arc": "District 8, District 7, Vampire Wars & God Clan Arcs (Ch. 73–3495)", "abilities": "Tactical Firearms, Elite Squad Command, Crisis Coordination, Combat Martial Arts", "bio": "Originally introduced as the upright captain of the Federation's 17th Elite Team assigned to cooperate with Fang Heng at Prison No. 507. Despite being repeatedly left speechless by Fang Heng's unorthodox methods and massive zombie hordes, he becomes Fang Heng's most trusted ally inside the Federation hierarchy.", "total_mentions": 1188, "chapters_count": 196, "first_chapter": 73, "last_chapter": 3495, "peak_chapter": 488, "peak_mentions": 31}, {"rank": 6, "name": "Zane", "full_display": "Zane", "first_name": "Zane", "last_name": "Zane", "first_word": "Zane", "last_word": "Zane", "aliases": "Evil God Apostle Zane", "tier": "Core Deuteragonist / Major Ally", "faction": "Netherworld / Death Realm / Evil Clan", "role": "Late-Game Deuteragonist / Evil God Space Survivor & Guide", "arc": "Netherworld, Hell & God Clan Tribunal Arcs (Ch. 3209–3555)", "abilities": "Shadow & Evil God Power, Netherworld Navigation, Illusion & Soul Concealment, Underworld Faith Rituals", "bio": "A cunning yet perpetually terrified specialist in Evil God and Netherworld powers who becomes bound to Fang Heng's operations in the final third of the novel. He serves as Fang Heng's insider guide through the Death Realm, the Ninety-Nine Layers of Hell, and the God Clan's Tribunal of Sin.", "total_mentions": 1114, "chapters_count": 211, "first_chapter": 3209, "last_chapter": 3555, "peak_chapter": 3395, "peak_mentions": 28}, {"rank": 7, "name": "Sandy", "full_display": "Sandy Nelen", "first_name": "Sandy", "last_name": "Nelen", "first_word": "Sandy", "last_word": "Sandy", "aliases": "Sandy Nelen, Curator Sandy, Saint of Alchemy Inheritor", "tier": "Core Deuteragonist / Major Ally", "faction": "Prison 507 / Zombie Apocalypse", "role": "Chief Alchemist of Prison 507 / Former Yin City Museum Curator", "arc": "Yin City, Enkama Empire, Chiporeya & Alchemy Arcs (Ch. 276–2406)", "abilities": "Elementary to God-Level Alchemy, Magic Array Construction, Saint of Alchemy Inheritance, Sculpture & Artifact Appraisal", "bio": "Originally an eccentric NPC art gallery curator in Yin City obsessed with the 'Heart of the Apocalypse' sculpture. After Fang Heng recruits him into Prison No. 507, Sandy's obsession shifts to alchemy; backed by Fang Heng's infinite resources and zombie assistants, he awakens the Saint of Alchemy's inheritance and becomes the chief magic array architect of Fang Heng's faction.", "total_mentions": 1027, "chapters_count": 222, "first_chapter": 276, "last_chapter": 2406, "peak_chapter": 1177, "peak_mentions": 21}, {"rank": 8, "name": "Adam", "full_display": "Adam", "first_name": "Adam", "last_name": "Adam", "first_word": "Adam", "last_word": "Adam", "aliases": "Divine Artificer Adam", "tier": "Core Deuteragonist / Major Ally", "faction": "God Clan / Tribunal of Sin", "role": "God Clan Divine Magic Array Master", "arc": "God Clan Temple & Netherworld Fusion Arc (Ch. 3308–3380)", "abilities": "Divine Magic Array Reconstruction, Super-Tier Alchemy, God Clan Mental Strength, Sacred Seal Engineering", "bio": "A high-ranking God Clan scholar and master of divine magic arrays stationed inside the sacred temple. His intricate array reconstructions become a major focal point during Fang Heng's infiltration of the God Clan's domain, where Fang Heng uses Super-God Alchemy and the Omniscient Eye to dissect and subvert Adam's work.", "total_mentions": 1015, "chapters_count": 62, "first_chapter": 3308, "last_chapter": 3380, "peak_chapter": 3312, "peak_mentions": 28}, {"rank": 9, "name": "Li Shaoqiang", "full_display": "Li Shaoqiang", "first_name": "Shaoqiang", "last_name": "Li", "first_word": "Li", "last_word": "Shaoqiang", "aliases": "Old Li, Brother Qiang", "tier": "Core Deuteragonist / Major Ally", "faction": "Federation", "role": "Veteran Federation Necromancer & Analyst", "arc": "Necromancer Association, Zombie Wave, Tower of Bones & Death Realm Arcs (Ch. 526–2619)", "abilities": "Advanced Necromancy, Soul Absorption, Battlefield Deduction, Undead Summoning", "bio": "A veteran Federation player and close comrade of Tan Shuo within the Necromancer Association. Famous for making elaborate, logical-sounding deductions about Fang Heng that are either wildly off-mark or unintentionally hilarious, he becomes one of Fang Heng's most loyal necromancer lieutenants.", "total_mentions": 816, "chapters_count": 154, "first_chapter": 526, "last_chapter": 2619, "peak_chapter": 648, "peak_mentions": 17}, {"rank": 10, "name": "Vannes", "full_display": "Vannes", "first_name": "Vannes", "last_name": "Vannes", "first_word": "Vannes", "last_word": "Vannes", "aliases": "Elder Vannes", "tier": "Core Deuteragonist / Major Ally", "faction": "Tree Spirit Tribe / World of Forests", "role": "Elder of the Tree Spirit Race & Guardian of the Sacred Tree", "arc": "World of Forests & OmniTech Conflict Arc (Ch. 2131–2363)", "abilities": "Natural Science Magic, Sacred Tree Communion, Life Rituals, Forest Barrier Manipulation", "bio": "A devoted and venerable elder of the Tree Spirit Race in the World of Forests. Desperate to save the dying sacred tree and rescue captured tribe members from OmniTech Company, he allies with Fang Heng and witnesses Abe Akaya pass the progenitor sacred tree trial.", "total_mentions": 802, "chapters_count": 92, "first_chapter": 2131, "last_chapter": 2363, "peak_chapter": 2293, "peak_mentions": 35}, {"rank": 11, "name": "Ji Xiaobo", "full_display": "Ji Xiaobo", "first_name": "Xiaobo", "last_name": "Ji", "first_word": "Ji", "last_word": "Xiaobo", "aliases": "Young Master Ji, Necromancer Ji", "tier": "Core Deuteragonist / Major Ally", "faction": "Necromancer Association / Tower of Bones", "role": "Tower of Bones Necromancer & Information Conduit", "arc": "Tower of Bones, Punoze & Seed of Ouroboros Arcs (Ch. 1363–2802)", "abilities": "Necromancy Studies, Bone Magic, Academic Research, Faction Intelligence", "bio": "An excitable, talkative young necromancer at the Tower of Bones who initially clashes with the Holy Court's paladins during Viona's visit. He quickly befriends Fang Heng and Mo Jiawei, serving as their enthusiastic guide, logistical helper, and fellow student under Mentor Gu Luo.", "total_mentions": 801, "chapters_count": 162, "first_chapter": 1363, "last_chapter": 2802, "peak_chapter": 1476, "peak_mentions": 27}, {"rank": 12, "name": "Lucia", "full_display": "Lucia", "first_name": "Lucia", "last_name": "Lucia", "first_word": "Lucia", "last_word": "Lucia", "aliases": "Vice-Captain Lucia", "tier": "Core Deuteragonist / Major Ally", "faction": "Dark Knights / Apocalypse Merchants", "role": "Leader of the Meteorite Company Logistics Team / Shelter Researcher", "arc": "District 8 Meteorite Company & Shelter Expansion Arc (Ch. 144–531)", "abilities": "Pharmaceuticals, Anti-Infection Potion Development, Logistics Management, Biological Sampling", "bio": "A proud, capable researcher and logistics team leader from the Meteorite Company who initially doubts Fang Heng during the joint expedition into the fallen city. After witnessing his overwhelming zombie army and high honor rank, she joins his shelter research team alongside Victor and Qiu Yaokang.", "total_mentions": 792, "chapters_count": 110, "first_chapter": 144, "last_chapter": 531, "peak_chapter": 161, "peak_mentions": 35}, {"rank": 13, "name": "Ed", "full_display": "Ed", "first_name": "Ed", "last_name": "Ed", "first_word": "Ed", "last_word": "Ed", "aliases": "President Ed", "tier": "Core Deuteragonist / Major Ally", "faction": "Enkama Empire / Royal Family", "role": "President of the Imperial Mage & Mercenary Guild", "arc": "Enkama Empire & Imperial Capital Arc (Ch. 1103–1486)", "abilities": "Elemental Magic, Guild Intelligence Network, Imperial Politics, Defensive Arrays", "bio": "A cautious, perpetually stressed guild president in the Enkama Empire who works closely with Princess Tang Mingyue. Though suspicious by nature, he relies heavily on Fang Heng's forces to survive the barbarian incursions, feudal rebellions, and Holy Court schemes.", "total_mentions": 782, "chapters_count": 135, "first_chapter": 1103, "last_chapter": 1486, "peak_chapter": 1167, "peak_mentions": 25}, {"rank": 14, "name": "Viona", "full_display": "Viona", "first_name": "Viona", "last_name": "Viona", "first_word": "Viona", "last_word": "Viona", "aliases": "Saintess Viona", "tier": "Core Deuteragonist / Major Ally", "faction": "Holy Court / Purifiers", "role": "Chosen Saintess of the Holy Court", "arc": "Tower of Bones, Punoze & Holy Realm Arcs (Ch. 1362–2783)", "abilities": "Demigod-Level Holy Light, Sacred Purification, Oracle Communion, Saintess Blessing", "bio": "The seemingly stoic Chosen Saintess of the Holy Court escorted by Holy Paladins to the Tower of Bones. Secretly harboring her own agenda to break free from the Holy Court's control, she cooperates with Fang Heng in a staged conflict that allows him to submit her demigod-level soul imprint for his SSS-rank Level 30 talent advancement.", "total_mentions": 736, "chapters_count": 106, "first_chapter": 1362, "last_chapter": 2783, "peak_chapter": 1616, "peak_mentions": 39}, {"rank": 15, "name": "Old Black", "full_display": "Old Black (Information Broker)", "first_name": "Old Black", "last_name": "Black", "first_word": "Old", "last_word": "Black", "aliases": "Blackie, Broker Old Black", "tier": "Core Deuteragonist / Major Ally", "faction": "Dark Knights / Apocalypse Merchants", "role": "Underground Information Broker & Black Market Merchant", "arc": "District 8, District 1 & Cross-World Trade Arcs (Ch. 48–2808)", "abilities": "Cross-Server Intelligence, King of Gods' Points Trading, Black Market Logistics, Stealth & Survival", "bio": "A veteran underground broker who first contacts Fang Heng in the survival radio forums of District 8. Initially treating Fang Heng as a promising newcomer, Old Black is repeatedly shocked by Fang Heng's astronomical supply of resources and becomes his go-to middleman for intelligence and rare blueprints.", "total_mentions": 726, "chapters_count": 147, "first_chapter": 48, "last_chapter": 2808, "peak_chapter": 887, "peak_mentions": 25}, {"rank": 16, "name": "Gu Qingzhu", "full_display": "Gu Qingzhu", "first_name": "Qingzhu", "last_name": "Gu", "first_word": "Gu", "last_word": "Qingzhu", "aliases": "Target Gu Qingzhu", "tier": "Major Recurring Character", "faction": "Prison 507 / Zombie Apocalypse", "role": "High-Level Demi-Human Combatant & Protector of Xia Xi", "arc": "Real World Crisis, City of Darkness & Late-Game Arcs (Ch. 1824–3502)", "abilities": "High-Tier Demi-Human Mutation, Extreme Close-Quarters Combat, Enhanced Regeneration & Reflexes", "bio": "A 26-year-old elite demi-human warrior with a massive mutation reaction who emerges during the real-world and parallel-world convergence crisis. Fiercely protective and lethal in combat, she becomes a vital guardian and recurring combat ally for Fang Heng's inner circle.", "total_mentions": 667, "chapters_count": 120, "first_chapter": 1824, "last_chapter": 3502, "peak_chapter": 1875, "peak_mentions": 24}, {"rank": 17, "name": "Charlene", "full_display": "Charlene", "first_name": "Charlene", "last_name": "Charlene", "first_word": "Charlene", "last_word": "Charlene", "aliases": "Commander Charlene", "tier": "Major Recurring Character", "faction": "Black Castle / Demon Hunters", "role": "Senior Leader of Black Castle", "arc": "Black Castle, Demi-Human & Ouroboros Arcs (Ch. 1714–2967)", "abilities": "Spirit Transmission, Demon Hunting Arts, Commander-Tier Combat, Shadow & Blood Suppression", "bio": "A calm, authoritative leader within the Black Castle faction who collaborates with Fang Heng against mutated creatures and rival organizations. Together with Fang Heng, she hunts high-tier commander creatures and navigates the shadowy politics between Black Castle and the Federation.", "total_mentions": 599, "chapters_count": 74, "first_chapter": 1714, "last_chapter": 2967, "peak_chapter": 1774, "peak_mentions": 28}, {"rank": 18, "name": "Li Qingran", "full_display": "Li Qingran", "first_name": "Qingran", "last_name": "Li", "first_word": "Li", "last_word": "Qingran", "aliases": "Junior Sister Li, Commander Li", "tier": "Major Recurring Character", "faction": "Necromancer Association / Tower of Bones", "role": "Disciple of Teacher Pu Shi & Leader of the Necromancer Player Coalition", "arc": "Necromancer Association, Punoze & Miyisca Fortress Arcs (Ch. 717–3456)", "abilities": "Master/Grandmaster Necromancy, Formation Command, Spirit Binding, Logistics Coordination", "bio": "The dedicated, level-headed star disciple of Teacher Pu Shi in the Necromancer Association. After Pu Shi entrusts the necro-faction's legacy to Fang Heng, Li Qingran becomes a core coordinator of Fang Heng's necromancer player army across multiple worlds.", "total_mentions": 588, "chapters_count": 109, "first_chapter": 717, "last_chapter": 3456, "peak_chapter": 1609, "peak_mentions": 30}, {"rank": 19, "name": "Lu Yanlong", "full_display": "Lu Yanlong", "first_name": "Yanlong", "last_name": "Lu", "first_word": "Lu", "last_word": "Yanlong", "aliases": "Commander Lu", "tier": "Major Recurring Character", "faction": "Federation", "role": "Outpost Commander & Veteran Frontier Officer", "arc": "Frontier Outpost & Dimensional Rift Arc (Ch. 1640–2365)", "abilities": "Heavy Weaponry, Outpost Fortification, Mutated Creature Countermeasures, Military Command", "bio": "A solemn, battle-hardened frontier commander introduced to Fang Heng by Hector. Tasked with defending poorly supplied outposts against mixed-type mutated creatures, he forms a steadfast military partnership with Fang Heng.", "total_mentions": 584, "chapters_count": 92, "first_chapter": 1640, "last_chapter": 2365, "peak_chapter": 1645, "peak_mentions": 20}, {"rank": 20, "name": "Chu Yan", "full_display": "Chu Yan", "first_name": "Yan", "last_name": "Chu", "first_word": "Chu", "last_word": "Yan", "aliases": "Sniper Chu Yan", "tier": "Major Recurring Character", "faction": "Federation", "role": "Ace Sniper & Elite Federation Operatives Leader", "arc": "District 7, Holy Court Invasion & Cross-Realm Arcs (Ch. 679–2079)", "abilities": "Master Marksmanship, Long-Range Reconnaissance, Armor-Piercing Sniping, Tactical Evasion", "bio": "An elite sniper who first crosses paths with Fang Heng during the District 7 conflict when Fang Heng effortlessly dodges his ambush in bat form. Impressed and humbled, Chu Yan later fights alongside Fang Heng's forces during major cross-world campaigns.", "total_mentions": 573, "chapters_count": 92, "first_chapter": 679, "last_chapter": 2079, "peak_chapter": 709, "peak_mentions": 22}, {"rank": 21, "name": "Tan Shuo", "full_display": "Tan Shuo", "first_name": "Shuo", "last_name": "Tan", "first_word": "Tan", "last_word": "Shuo", "aliases": "Brother Tan", "tier": "Major Recurring Character", "faction": "Federation", "role": "Senior Federation Necromancer & Squad Leader", "arc": "Necromancer Association, Tower of Bones & Death Realm Arcs (Ch. 521–2625)", "abilities": "Necromancy, Undead Hordes Control, Soul Sealing, Squad Leadership", "bio": "A pragmatic senior Federation player stationed at the Hall of the Dead who partners closely with Li Shaoqiang. From the moment Fang Heng arrives at the Necromancer Association after conquering District 8, Tan Shuo serves as a reliable bridge between Fang Heng and the necromancer player base.", "total_mentions": 563, "chapters_count": 133, "first_chapter": 521, "last_chapter": 2625, "peak_chapter": 524, "peak_mentions": 19}, {"rank": 22, "name": "Victor", "full_display": "Victor", "first_name": "Victor", "last_name": "Victor", "first_word": "Victor", "last_word": "Victor", "aliases": "Engineer Victor", "tier": "Major Recurring Character", "faction": "Prison 507 / Zombie Apocalypse", "role": "Chief Mechanical Engineer of Prison 507 / Former Meteorite Company Engineer", "arc": "District 8 Shelter & Mechanical Engineering Arcs (Ch. 157–2460)", "abilities": "Advanced Mechanical Maintenance (Lv 50+), Space Tearing Device Engineering, Heavy Turrets & Vehicle Modification", "bio": "A former mechanical engineer of the Meteorite Company rescued by Fang Heng alongside his daughter. Grateful for Fang Heng's protection, Victor becomes the chief mechanical engineer of Prison No. 507, teaching Fang Heng high-level maintenance and building space-tearing devices and war machinery.", "total_mentions": 561, "chapters_count": 141, "first_chapter": 157, "last_chapter": 2460, "peak_chapter": 181, "peak_mentions": 31}, {"rank": 23, "name": "Wei Tao", "full_display": "Wei Tao", "first_name": "Tao", "last_name": "Wei", "first_word": "Wei", "last_word": "Tao", "aliases": "World Lord Wei Tao, Chief Commander Wei", "tier": "Major Recurring Character", "faction": "Federation", "role": "World Lord of District 1 & Chief Commander of Zombie Apocalypse (Eastern Federation)", "arc": "World Lords Summit, District 1 & Enkama Empire Arcs (Ch. 507–1384)", "abilities": "World Lord Authority, Strategic Command, High-Tier Combat Talent, Federation Military Mobilization", "bio": "The overburdened World Lord of District 1 and Chief Commander of the Zombie Apocalypse department for the Eastern Federation. Constantly dealing with crises caused by the Vampires, Night Owl, and Jian Muzhi's betrayal, he views Fang Heng as both his biggest headache and his greatest trump card.", "total_mentions": 548, "chapters_count": 121, "first_chapter": 507, "last_chapter": 1384, "peak_chapter": 1191, "peak_mentions": 20}, {"rank": 24, "name": "Senzo", "full_display": "Senzo", "first_name": "Senzo", "last_name": "Senzo", "first_word": "Senzo", "last_word": "Senzo", "aliases": "Elder Senzo", "tier": "Major Recurring Character", "faction": "Tree Spirit Tribe / World of Forests", "role": "Senior Elder of the Tree Spirit Council", "arc": "World of Forests & OmniTech War Arc (Ch. 2138–2362)", "abilities": "Ancient Tree Spirit Magic, Tribal Council Authority, Nature Warding, Niam Alloy Intelligence", "bio": "A senior elder of the Tree Spirit race who coordinates the multi-tribe resistance against OmniTech Company's central research institute. He works closely with Elder Vannes and Fang Heng to infiltrate OmniTech and safeguard the Sacred Tree's heritage.", "total_mentions": 527, "chapters_count": 78, "first_chapter": 2138, "last_chapter": 2362, "peak_chapter": 2353, "peak_mentions": 30}, {"rank": 25, "name": "Jian Muzhi", "full_display": "Jian Muzhi", "first_name": "Muzhi", "last_name": "Jian", "first_word": "Jian", "last_word": "Muzhi", "aliases": "Former World Lord Jian Muzhi", "tier": "Major Recurring Character", "faction": "Federation", "role": "Rogue Former World Lord of District 1 / Land of Origin Usurper", "arc": "District 1 Land of Origin Arc (Ch. 890–1002)", "abilities": "Land of Origin Fusion, Spatial & Origin Manipulation, Ancient Sealing Arrays", "bio": "A former World Lord of District 1 who spent decades plotting in secret behind the Elders Council to fuse with the Land of Origin and seize ultimate power, serving as the primary antagonist of the District 1 Origin climax.", "total_mentions": 481, "chapters_count": 61, "first_chapter": 890, "last_chapter": 1002, "peak_chapter": 996, "peak_mentions": 37}, {"rank": 26, "name": "Maica", "full_display": "Maica", "first_name": "Maica", "last_name": "Maica", "first_word": "Maica", "last_word": "Maica", "aliases": "Marquis Maica", "tier": "Major Recurring Character", "faction": "Vampire Clan", "role": "Youngest of the Three Vampire Marquises / Loyalist of Fang Heng", "arc": "Vampire World, Vampire King's Coffin & Late-Game Vampire Arcs (Ch. 875–3076)", "abilities": "Marquis/Duke-Tier Hemomancy, Blood Flight, Crimson Barrier, Vampire Clan Administration", "bio": "Initially the suspicious youngest Marquis of the Vampire Clan guarding the sealed remains of the Vampire King. After Fang Heng claims the Vampire King's Coffin and proves his dominance, Maica becomes a core vampire subordinate managing Fang Heng's bloodline forces.", "total_mentions": 474, "chapters_count": 59, "first_chapter": 875, "last_chapter": 3076, "peak_chapter": 979, "peak_mentions": 25}, {"rank": 27, "name": "Carl", "full_display": "Carl", "first_name": "Carl", "last_name": "Carl", "first_word": "Carl", "last_word": "Carl", "aliases": "Prince Carl", "tier": "Major Recurring Character", "faction": "Vampire Clan", "role": "Hibernating Prince of the Vampires / Senior Vampire Commander", "arc": "Vampire Awakening, World of Forests & God Clan Arcs (Ch. 787–3519)", "abilities": "Vampire Prince Bloodline, Scarlet Domain, Ancient Blood Spears, High-Speed Regeneration", "bio": "An ancient Vampire Prince originally found bound in a coffin by twenty-four golden chains of the Holy Court. Freed and recruited under Fang Heng's banner as the Vampire King's successor, Carl serves as one of Fang Heng's strongest undead/vampire vanguard generals right up to the final battles.", "total_mentions": 446, "chapters_count": 129, "first_chapter": 787, "last_chapter": 3519, "peak_chapter": 791, "peak_mentions": 24}, {"rank": 28, "name": "Gu Luo", "full_display": "Gu Luo", "first_name": "Luo", "last_name": "Gu", "first_word": "Gu", "last_word": "Luo", "aliases": "Teacher Gu Luo, Mentor Gu Luo", "tier": "Major Recurring Character", "faction": "Necromancer Association / Tower of Bones", "role": "Grandmaster Necromancy Mentor at the Tower of Bones", "arc": "Tower of Bones & Talent Advancement Arcs (Ch. 1391–2798)", "abilities": "Grandmaster/Demigod Necromancy, Soul Appraisal, Talent Advancement Guidance, Bone Tower Authority", "bio": "A revered, hunched elder on the upper floors of the Tower of Bones who serves as Fang Heng's talent advancement and Grandmaster Necromancy mentor. Continually astonished by Fang Heng's 5,600% SSS-rank mission completions, he grants Fang Heng the Level 30 and Level 40 dual SSS talent enhancements.", "total_mentions": 446, "chapters_count": 75, "first_chapter": 1391, "last_chapter": 2798, "peak_chapter": 1628, "peak_mentions": 26}, {"rank": 29, "name": "Dani", "full_display": "Dani", "first_name": "Dani", "last_name": "Dani", "first_word": "Dani", "last_word": "Dani", "aliases": "Lord Dani, Feudal Lord Dani", "tier": "Major Recurring Character", "faction": "Punoze / Revolution Society", "role": "Feudal Lord of Punoze", "arc": "Punoze Feudal Conflict & Sacred Tree Arc (Ch. 1455–2702)", "abilities": "Shadow Manipulation, Feudal Domain Authority, Political Assassination Networks", "bio": "A calculating female feudal lord in Punoze who initially issues secret bounties against Fang Heng before being drawn into the deeper struggle over the Sacred Tree and Holy Court interference.", "total_mentions": 428, "chapters_count": 82, "first_chapter": 1455, "last_chapter": 2702, "peak_chapter": 1621, "peak_mentions": 20}, {"rank": 30, "name": "Kotal", "full_display": "Kotal", "first_name": "Kotal", "last_name": "Kotal", "first_word": "Kotal", "last_word": "Kotal", "aliases": "Leader Kotal", "tier": "Major Recurring Character", "faction": "Netherworld / Death Realm / Evil Clan", "role": "Dark Clan Commander in the Death Realm", "arc": "Death Realm & Netherworld Exploration Arcs (Ch. 2585–3306)", "abilities": "Dark Clan Combat Arts, Death Realm Survival, Underworld Temple Lore", "bio": "A proud warrior leader of the Dark Clan stationed in the Death Realm. Initially wary of Fang Heng as an outsider human, Kotal becomes a key local ally as Fang Heng expands the Death Realm passages and confronts the Netherworld's ancient perils.", "total_mentions": 413, "chapters_count": 69, "first_chapter": 2585, "last_chapter": 3306, "peak_chapter": 2803, "peak_mentions": 25}, {"rank": 31, "name": "Pu Shi", "full_display": "Pu Shi", "first_name": "Shi", "last_name": "Pu", "first_word": "Pu", "last_word": "Shi", "aliases": "Teacher Pu Shi", "tier": "Major Recurring Character", "faction": "Necromancer Association / Tower of Bones", "role": "Venerable Necromancy Mentor & Guardian of the Hall of the Dead", "arc": "Necromancer Association Defense Arc (Ch. 649–1609)", "abilities": "Master Necromancy, Soul Guiding, Undead Formation Defense", "bio": "Li Qingran's self-sacrificing teacher and a pillar of the Necromancer Association in the lower realm. Exhausted from defending the necromancers against the Holy Court's relentless purges, he recognizes Fang Heng as the savior of their lineage.", "total_mentions": 408, "chapters_count": 56, "first_chapter": 649, "last_chapter": 1609, "peak_chapter": 718, "peak_mentions": 28}, {"rank": 32, "name": "Wangnet", "full_display": "Wangnet", "first_name": "Wangnet", "last_name": "Wangnet", "first_word": "Wangnet", "last_word": "Wangnet", "aliases": "Chieftain Wangnet", "tier": "Major Recurring Character", "faction": "Enkama Empire / Royal Family", "role": "Successor of the Barbarian Leader", "arc": "Enkama Empire & Land of Plague Arc (Ch. 1114–1411)", "abilities": "Barbarian Totem Strength, Berserker Combat, Tribe Mobilization", "bio": "A cautious yet formidable successor to the barbarian leadership bordering the Enkama Empire who contends with Fang Heng and the Land of Plague crisis.", "total_mentions": 402, "chapters_count": 67, "first_chapter": 1114, "last_chapter": 1411, "peak_chapter": 1138, "peak_mentions": 20}, {"rank": 33, "name": "Dickey", "full_display": "Dickey", "first_name": "Dickey", "last_name": "Dickey", "first_word": "Dickey", "last_word": "Dickey", "aliases": "Master Dickey, Dickie", "tier": "Major Recurring Character", "faction": "Necromancer Association / Tower of Bones", "role": "Senior Necromancer & Soul Scholar", "arc": "Necromancer Association & Death Realm Arcs (Ch. 517–2626)", "abilities": "Necromancy Lore, Sacred Tree Soul Analysis, Undead Rituals", "bio": "A warm, scholarly senior member of the Necromancer Association introduced to Fang Heng by Mo Yunxiao. He provides critical insights into the Vampire Sacred Tree Angetas and the mechanics of soul rebirth.", "total_mentions": 393, "chapters_count": 82, "first_chapter": 517, "last_chapter": 2626, "peak_chapter": 529, "peak_mentions": 30}, {"rank": 34, "name": "Collete", "full_display": "Collete", "first_name": "Collete", "last_name": "Collete", "first_word": "Collete", "last_word": "Collete", "aliases": "Colette, Leader Collete", "tier": "Major Recurring Character", "faction": "Netherworld / Death Realm / Evil Clan", "role": "Hanu Clan Leader & Mutant Cocoon Researcher", "arc": "Death Realm & Western Federation Cocoon Arc (Ch. 2571–2958)", "abilities": "Hanu Clan Imprints, Gray Aura Manipulation, Biological Cocoon Research", "bio": "Leader of the Hanu Clan (also spelled Colette in some chapters) who participates in the Death Realm expeditions and later oversees mutant worm cocoon research alongside Vionne, Jayne, and Emery.", "total_mentions": 381, "chapters_count": 43, "first_chapter": 2571, "last_chapter": 2958, "peak_chapter": 2903, "peak_mentions": 22}, {"rank": 35, "name": "Ji Haiting", "full_display": "Ji Haiting", "first_name": "Haiting", "last_name": "Ji", "first_word": "Ji", "last_word": "Haiting", "aliases": "Director Ji Haiting", "tier": "Major Recurring Character", "faction": "OmniTech Company", "role": "Executive Director of OmniTech Company", "arc": "World of Forests & OmniTech Arc (Ch. 2116–2367)", "abilities": "Corporate Military Command, Bio-Mechanical Guards, Dimensional Tech Research", "bio": "The ambitious executive director of OmniTech Company in the World of Forests. He repeatedly alternates between clashing with Fang Heng over the Tree Whisperers Alliance and attempting to recruit Fang Heng into OmniTech's dimensional energy projects.", "total_mentions": 371, "chapters_count": 66, "first_chapter": 2116, "last_chapter": 2367, "peak_chapter": 2168, "peak_mentions": 22}, {"rank": 36, "name": "Xia Xi", "full_display": "Xia Xi", "first_name": "Xi", "last_name": "Xia", "first_word": "Xia", "last_word": "Xi", "aliases": "Miss Xia Xi", "tier": "Major Recurring Character", "faction": "Prison 507 / Zombie Apocalypse", "role": "Fang Heng's Childhood Friend & Early Real-World Benefactor", "arc": "Prologue, Real World & Demi-Human Convergence Arcs (Ch. 1–3457)", "abilities": "Support & Administration, Real-World Coordination", "bio": "The kind-hearted girl from the very first chapter who helped the original Fang Heng stay out of prison and submitted his resume to Phoenix Sound Gaming Company. Fang Heng consistently protects her in the real world, eventually assigning Gu Qingzhu and his elite forces to ensure her safety.", "total_mentions": 366, "chapters_count": 91, "first_chapter": 1, "last_chapter": 3457, "peak_chapter": 1826, "peak_mentions": 21}, {"rank": 37, "name": "Fana", "full_display": "Fana", "first_name": "Fana", "last_name": "Fana", "first_word": "Fana", "last_word": "Fana", "aliases": "Researcher Fana", "tier": "Major Recurring Character", "faction": "Necromancer Association / Tower of Bones", "role": "Senior Botanical & Necromantic Researcher", "arc": "Tower of Bones & Demi-Human Research Arcs (Ch. 1388–2925)", "abilities": "Night Violet Refinement, Botanical Alchemy, Mutation Monitoring", "bio": "A dedicated researcher who first meets Fang Heng when he submits bulk quantities of Night Violets at the Tower of Bones. She later assists in monitoring Gu Qingzhu's demi-human mutation and supporting Fang Heng's research logistics.", "total_mentions": 365, "chapters_count": 75, "first_chapter": 1388, "last_chapter": 2925, "peak_chapter": 1678, "peak_mentions": 19}, {"rank": 38, "name": "Liao Bufan", "full_display": "Liao Bufan", "first_name": "Bufan", "last_name": "Liao", "first_word": "Liao", "last_word": "Bufan", "aliases": "Student Liao", "tier": "Major Recurring Character", "faction": "Prison 507 / Zombie Apocalypse", "role": "University Student Survivor & Early Shelter Ally", "arc": "Early District 8 Survival & Shelter Arc (Ch. 4–1005)", "abilities": "Scavenging, Basic Combat, Shelter Outpost Management", "bio": "A talkative university student who meets Fang Heng in Chapter 4 alongside Jimmy and Liu Lin. One of the earliest players to witness Fang Heng's rise from a starter cabin to the ruler of District 8.", "total_mentions": 365, "chapters_count": 72, "first_chapter": 4, "last_chapter": 1005, "peak_chapter": 26, "peak_mentions": 28}, {"rank": 39, "name": "Aktu", "full_display": "Aktu", "first_name": "Aktu", "last_name": "Aktu", "first_word": "Aktu", "last_word": "Aktu", "aliases": "Boss Aktu", "tier": "Major Recurring Character", "faction": "Black Castle / Demon Hunters", "role": "Squad Leader of the Mundt Gang in the City of Darkness", "arc": "City of Darkness & Mundt Gang Arc (Ch. 1836–1873)", "abilities": "Street Warfare, Ambush Tactics, Gang Command", "bio": "A key combat leader of the Mundt Gang during the City of Darkness conflict who encounters Fang Heng during the clash between underground gangs and federal teams.", "total_mentions": 362, "chapters_count": 37, "first_chapter": 1836, "last_chapter": 1873, "peak_chapter": 1855, "peak_mentions": 23}, {"rank": 40, "name": "Zaka", "full_display": "Zaka", "first_name": "Zaka", "last_name": "Zaka", "first_word": "Zaka", "last_word": "Zaka", "aliases": "Mercenary Zaka", "tier": "Major Recurring Character", "faction": "Federation", "role": "Western District Mercenary Leader & Zate's Brother", "arc": "Western District Federation Train & Recruitment Arc (Ch. 2809–2984)", "abilities": "Heavy Melee Combat, Mercenary Squad Leadership, Escort Operations", "bio": "A seasoned mercenary traveling with his brother Zate on the Western District Federation train who teams up with Fang Heng and Su Guantong during the Black Fog and recruitment center incidents.", "total_mentions": 353, "chapters_count": 73, "first_chapter": 2809, "last_chapter": 2984, "peak_chapter": 2825, "peak_mentions": 20}, {"rank": 41, "name": "Bai Mu", "full_display": "Bai Mu", "first_name": "Mu", "last_name": "Bai", "first_word": "Bai", "last_word": "Mu", "aliases": "Mr. Bai Mu", "tier": "Major Recurring Character", "faction": "Noel Clan / Occult Research", "role": "Mastermind of the Underground Information Website & Shadow Alliance Partner", "arc": "Underground Network & Shadow Alliance Arcs (Ch. 2403–3016)", "abilities": "Information Manipulation, Occult Intelligence, Strategic Planning", "bio": "A refined, coffee-loving strategist who operates the mysterious underground intelligence website from behind the scenes and introduces Fang Heng to Wu Yan and the Shadow Alliance.", "total_mentions": 342, "chapters_count": 61, "first_chapter": 2403, "last_chapter": 3016, "peak_chapter": 2404, "peak_mentions": 24}, {"rank": 42, "name": "Cleriway", "full_display": "Cleriway", "first_name": "Cleriway", "last_name": "Cleriway", "first_word": "Cleriway", "last_word": "Cleriway", "aliases": "Apprentice Cleriway", "tier": "Major Recurring Character", "faction": "Noel Clan / Occult Research", "role": "Apprentice of Master Oriana & Natural/Alchemy Scholar", "arc": "Natural Science & Cross-Realm Research Arcs (Ch. 1583–3262)", "abilities": "Natural Science Magic, Herbalism & Alchemy, Magic Array Assistance", "bio": "The sharp-eyed, hat-wearing apprentice of Master Oriana. Initially cautious of Fang Heng's scrutiny, she collaborates with him across multiple research and natural science advancement missions.", "total_mentions": 335, "chapters_count": 76, "first_chapter": 1583, "last_chapter": 3262, "peak_chapter": 1583, "peak_mentions": 22}, {"rank": 43, "name": "Tippy", "full_display": "Tippy", "first_name": "Tippy", "last_name": "Tippy", "first_word": "Tippy", "last_word": "Tippy", "aliases": "Saintess Tippy", "tier": "Major Recurring Character", "faction": "Tree Spirit Tribe / World of Forests", "role": "Leader of the Soul Tribe (Tree Spirit Race)", "arc": "World of Forests & Sacred Tree Trial Arc (Ch. 2249–2402)", "abilities": "Soul Tribe Magic, Spiritual Sensing, Sacred Tree Rituals", "bio": "A prominent figure of the Soul Tribe within the Tree Spirit Alliance who confronts Vannes over the Sacred Tree crisis and later participates in the dimensional defense of the forest realm.", "total_mentions": 329, "chapters_count": 40, "first_chapter": 2249, "last_chapter": 2402, "peak_chapter": 2348, "peak_mentions": 19}, {"rank": 44, "name": "Bellamy", "full_display": "Bellamy", "first_name": "Bellamy", "last_name": "Bellamy", "first_word": "Bellamy", "last_word": "Bellamy", "aliases": "Duchess Bellamy, Duke Bellamy", "tier": "Major Recurring Character", "faction": "Vampire Clan", "role": "Vampire Duchess & Chief Bloodline Researcher", "arc": "District 7, Vampire World & World of Forests Arcs (Ch. 588–2400)", "abilities": "Duke-Tier Hemomancy, Biological & Tissue Research, Blood Seals", "bio": "A scholarly Vampire Duchess fascinated by Hila's tissue samples and the Sacred Tree Angetas. After Fang Heng claims the Vampire King's inheritance, Duchess Bellamy pledges loyalty to him, slaying Holy Court archbishops and leading vampire research under his command.", "total_mentions": 318, "chapters_count": 70, "first_chapter": 588, "last_chapter": 2400, "peak_chapter": 851, "peak_mentions": 30}, {"rank": 45, "name": "Ruan Ziying", "full_display": "Ruan Ziying", "first_name": "Ziying", "last_name": "Ruan", "first_word": "Ruan", "last_word": "Ziying", "aliases": "Operative Ruan Ziying", "tier": "Major Recurring Character", "faction": "Punoze / Revolution Society", "role": "Core Operative of the Revolution Society", "arc": "Punoze & Revolution Society Arc (Ch. 1490–2540)", "abilities": "Urban Infiltration, Intelligence Relay, Natural Science Support", "bio": "A calm, capable female operative in Punoze who introduces Fang Heng to the local resistance network and accompanies him to Cole's safehouse.", "total_mentions": 316, "chapters_count": 46, "first_chapter": 1490, "last_chapter": 2540, "peak_chapter": 1546, "peak_mentions": 28}, {"rank": 46, "name": "Nasir", "full_display": "Nasir", "first_name": "Nasir", "last_name": "Nasir", "first_word": "Nasir", "last_word": "Nasir", "aliases": "Instructor Nasir, Master Nasir", "tier": "Major Recurring Character", "faction": "Noel Clan / Occult Research", "role": "Transcendent Alchemy Instructor", "arc": "Noel Clan & Demigod Alchemy Arc (Ch. 3081–3190)", "abilities": "Transcendent/Demigod Alchemy, Ancient Magic Arrays, Occult Synthesis", "bio": "A reclusive master alchemist associated with the Noel Clan whose teachings and array blueprints play a central role in Fang Heng's leap from Grandmaster to Demigod-level Alchemy.", "total_mentions": 315, "chapters_count": 36, "first_chapter": 3081, "last_chapter": 3190, "peak_chapter": 3082, "peak_mentions": 23}, {"rank": 47, "name": "Wu Yi", "full_display": "Wu Yi", "first_name": "Yi", "last_name": "Wu", "first_word": "Wu", "last_word": "Yi", "aliases": "Envoy Wu Yi", "tier": "Major Recurring Character", "faction": "Netherworld / Death Realm / Evil Clan", "role": "Evil Clan Liaison & Vanguard Scout", "arc": "Mechanical Legion & Evil Clan Arc (Ch. 3158–3455)", "abilities": "Evil Clan Secret Arts, Stealth Reconnaissance, Battlefield Reporting", "bio": "A female operative dispatched by the Elders of the Evil Clan to establish contact with Fang Heng during the advance of the mechanical legion.", "total_mentions": 311, "chapters_count": 50, "first_chapter": 3158, "last_chapter": 3455, "peak_chapter": 3165, "peak_mentions": 19}, {"rank": 48, "name": "Ovi", "full_display": "Ovi", "first_name": "Ovi", "last_name": "Ovi", "first_word": "Ovi", "last_word": "Ovi", "aliases": "Ovi of the Leaf Tribe", "tier": "Major Recurring Character", "faction": "Tree Spirit Tribe / World of Forests", "role": "Young Elite of the Leaf Tribe", "arc": "World of Forests & Temple of Incantation Arc (Ch. 2244–2309)", "abilities": "Leaf Tribe Nature Arts, Dimensional Passage Guiding, Temple Guarding", "bio": "A young Leaf Tribe member assigned by Patriarch Rudyard to guide Fang Heng into the Temple of Incantation and dimensional world, who ends up witnessing Fang Heng and Abe Akaya siphon the temple's dimensional energy.", "total_mentions": 302, "chapters_count": 31, "first_chapter": 2244, "last_chapter": 2309, "peak_chapter": 2254, "peak_mentions": 25}, {"rank": 49, "name": "Nate", "full_display": "Nate", "first_name": "Nate", "last_name": "Nate", "first_word": "Nate", "last_word": "Nate", "aliases": "Duke Nate", "tier": "Major Recurring Character", "faction": "Vampire Clan", "role": "Vampire Duke & Guardian of the Underground Sacred Tree Cave", "arc": "District 7 & Vampire Headquarters Arc (Ch. 582–979)", "abilities": "Duke-Tier Blood Magic, Blood Pool Control, Bat Swarm Transformation", "bio": "A stern Vampire Duke originally in charge of defending the Sacred Tree Angetas against intruders, who is repeatedly outmaneuvered when Fang Heng infiltrates the blood pool and steals the Sacred Tree.", "total_mentions": 294, "chapters_count": 47, "first_chapter": 582, "last_chapter": 979, "peak_chapter": 839, "peak_mentions": 25}, {"rank": 50, "name": "Chen Lin", "full_display": "Chen Lin", "first_name": "Lin", "last_name": "Chen", "first_word": "Chen", "last_word": "Lin", "aliases": "Hunter Chen Lin", "tier": "Major Recurring Character", "faction": "Black Castle / Demon Hunters", "role": "Elite Demon Hunter Commander", "arc": "Demon Hunters & Vampire Inheritance Arc (Ch. 735–943)", "abilities": "Demon Hunter Martial Arts, Extreme Speed & Burst Combat, Anti-Vampire Weapons", "bio": "A fierce, high-ranking Demon Hunter who tests Fang Heng's strength firsthand and becomes entangled in the three-way struggle between Demon Hunters, Vampires, and the Holy Court.", "total_mentions": 294, "chapters_count": 31, "first_chapter": 735, "last_chapter": 943, "peak_chapter": 736, "peak_mentions": 27}, {"rank": 51, "name": "Ding Min", "full_display": "Ding Min", "first_name": "Min", "last_name": "Ding", "first_word": "Ding", "last_word": "Min", "aliases": "Researcher Ding Min", "tier": "Key Arc Figure", "faction": "Federation", "role": "Cultivation Pod & Biological Researcher", "arc": "District 7 Research Base & Vaccine Arc (Ch. 426–2701)", "abilities": "Cultivation Pod Engineering, Original Liquid Analysis, Virus Purification Research", "bio": "A Federation scientist who introduces Fang Heng to advanced cultivation pods and original viral liquids during the District 7 research base operation.", "total_mentions": 293, "chapters_count": 72, "first_chapter": 426, "last_chapter": 2701, "peak_chapter": 542, "peak_mentions": 20}, {"rank": 52, "name": "Kapa", "full_display": "Kapa", "first_name": "Kapa", "last_name": "Kapa", "first_word": "Kapa", "last_word": "Kapa", "aliases": "Captain Kapa", "tier": "Key Arc Figure", "faction": "Tree Spirit Tribe / World of Forests", "role": "Captain of the Flying Squirrel Clan", "arc": "Starship & Elven/Tree Spirit Alliance Arc (Ch. 3034–3244)", "abilities": "Dimensional Airship Navigation, Main Control Hall Operations, Tribal Diplomacy", "bio": "The jovial captain of the Flying Squirrel Clan who welcomes Fang Heng aboard the command vessel and coordinates travel alongside Prince Cole Karot.", "total_mentions": 288, "chapters_count": 45, "first_chapter": 3034, "last_chapter": 3244, "peak_chapter": 3049, "peak_mentions": 26}, {"rank": 53, "name": "Zoran", "full_display": "Zoran", "first_name": "Zoran", "last_name": "Zoran", "first_word": "Zoran", "last_word": "Zoran", "aliases": "Captain Zoran", "tier": "Key Arc Figure", "faction": "Federation", "role": "Western District Security & Mercenary Captain", "arc": "Western District Federation Arc (Ch. 2815–2945)", "abilities": "Security Command, Anti-Mutant Tactics, Facility Defense", "bio": "A gruff security captain in the Western District Federation who oversees incoming mercenary teams that Fang Heng's group infiltrates.", "total_mentions": 286, "chapters_count": 43, "first_chapter": 2815, "last_chapter": 2945, "peak_chapter": 2924, "peak_mentions": 20}, {"rank": 54, "name": "Yu Jiayuan", "full_display": "Yu Jiayuan", "first_name": "Jiayuan", "last_name": "Yu", "first_word": "Yu", "last_word": "Jiayuan", "aliases": "Operative Yu Jiayuan", "tier": "Key Arc Figure", "faction": "Punoze / Revolution Society", "role": "Vigilant Investigator of the Revolution Society", "arc": "Punoze & Holy Door Arc (Ch. 1508–2540)", "abilities": "Reconnaissance, Combat Support, Counter-Espionage", "bio": "A sharp, vigilant member of the Revolution Society in Punoze who works alongside Ruan Ziying, Luo Xu, and Sheng Tao during the uprising against the Holy Court.", "total_mentions": 279, "chapters_count": 48, "first_chapter": 1508, "last_chapter": 2540, "peak_chapter": 1522, "peak_mentions": 23}, {"rank": 55, "name": "Meng Hao", "full_display": "Meng Hao", "first_name": "Hao", "last_name": "Meng", "first_word": "Meng", "last_word": "Hao", "aliases": "Officer Meng Hao", "tier": "Key Arc Figure", "faction": "Federation", "role": "Federation Intelligence & Video Analysis Officer", "arc": "District 8 & District 7 Intelligence Arcs (Ch. 222–967)", "abilities": "Surveillance Analysis, Tactical Briefing, Regional Coordination", "bio": "A rising officer in the Federation who analyzes combat footage of Fang Heng's mutated zombies and coordinates early intelligence exchanges.", "total_mentions": 276, "chapters_count": 46, "first_chapter": 222, "last_chapter": 967, "peak_chapter": 705, "peak_mentions": 15}, {"rank": 56, "name": "Zhong Lei", "full_display": "Zhong Lei", "first_name": "Lei", "last_name": "Zhong", "first_word": "Zhong", "last_word": "Lei", "aliases": "Deputy Commander Zhong Lei", "tier": "Key Arc Figure", "faction": "Federation", "role": "Deputy Commander of the District 7 Federation Forces", "arc": "District 7 Vaccine & Vampire Invasion Arc (Ch. 436–640)", "abilities": "Military Operations, Frontline Defense, Joint Taskforce Command", "bio": "Deputy Commander under Tian Zhen in District 7 who accompanies Fang Heng into the vampire-infested underground and is left dumbstruck when Fang Heng uproots and steals the entire Vampire Sacred Tree.", "total_mentions": 272, "chapters_count": 61, "first_chapter": 436, "last_chapter": 640, "peak_chapter": 462, "peak_mentions": 14}, {"rank": 57, "name": "Karkkila", "full_display": "Karkkila", "first_name": "Karkkila", "last_name": "Karkkila", "first_word": "Karkkila", "last_word": "Karkkila", "aliases": "Bishop Karkkila, Archbishop Karkkila", "tier": "Key Arc Figure", "faction": "Holy Court / Purifiers", "role": "Archbishop of the Holy Court in the Enkama Imperial City", "arc": "Enkama Empire & Imperial Capital Arc (Ch. 1217–1531)", "abilities": "Archbishop-Tier Holy Light, Divine Prayers, Sacred Barrier Summoning", "bio": "A zealous Archbishop of the Holy Court stationed in the Enkama Empire who manipulates Emperor Tang Wu and clashes violently with Fang Heng and Abe Akaya during the Imperial City crisis.", "total_mentions": 270, "chapters_count": 37, "first_chapter": 1217, "last_chapter": 1531, "peak_chapter": 1290, "peak_mentions": 23}, {"rank": 58, "name": "Atina", "full_display": "Atina", "first_name": "Atina", "last_name": "Atina", "first_word": "Atina", "last_word": "Atina", "aliases": "Blood Mage Atina", "tier": "Key Arc Figure", "faction": "Vampire Clan", "role": "Vampire Blood Curse Specialist", "arc": "District 7 Vampire Invasion Arc (Ch. 537–875)", "abilities": "Binding Blood Curse, Sacred Tree Rituals, Blood Sealing", "bio": "A seductive, dangerous vampire specialist skilled in binding blood curses who attempts to seal Fang Heng's Fusion Tyrant clones under the Sacred Tree Angetas.", "total_mentions": 269, "chapters_count": 39, "first_chapter": 537, "last_chapter": 875, "peak_chapter": 639, "peak_mentions": 32}, {"rank": 59, "name": "Sheng Tao", "full_display": "Sheng Tao", "first_name": "Tao", "last_name": "Sheng", "first_word": "Sheng", "last_word": "Tao", "aliases": "Leader Sheng Tao", "tier": "Key Arc Figure", "faction": "Punoze / Revolution Society", "role": "Key Vanguard Leader of the Revolution Society", "arc": "Punoze Uprising & Holy Door Arc (Ch. 1527–2527)", "abilities": "Revolutionary Command, Anti-Holy Court Warfare, Siege Operations", "bio": "A prominent, charismatic leader of the Revolution Society whose arrival in Punoze sparks the major confrontation against the Holy Court's sealed Holy Door.", "total_mentions": 268, "chapters_count": 38, "first_chapter": 1527, "last_chapter": 2527, "peak_chapter": 1540, "peak_mentions": 33}, {"rank": 60, "name": "Mikhael", "full_display": "Mikhael", "first_name": "Mikhael", "last_name": "Mikhael", "first_word": "Mikhael", "last_word": "Mikhael", "aliases": "World Lord Mikhael", "tier": "Key Arc Figure", "faction": "Federation", "role": "World Lord of District 6 (Western/Northern Coalition)", "arc": "World Lords Summit & Enkama Empire Arcs (Ch. 509–1488)", "abilities": "World Lord Authority, Rival Coalition Command, High-Tier Combat", "bio": "The mocking, opportunistic World Lord of District 6 who rivals Wei Tao at the World Lords Summit and seeks to exploit the Eastern Federation's troubles before running afoul of Fang Heng.", "total_mentions": 266, "chapters_count": 73, "first_chapter": 509, "last_chapter": 1488, "peak_chapter": 1124, "peak_mentions": 14}, {"rank": 61, "name": "Georgi", "full_display": "Georgi Gonsalves", "first_name": "Georgi", "last_name": "Gonsalves", "first_word": "Georgi", "last_word": "Georgi", "aliases": "Georgi Gonsalves, Commander Georgi", "tier": "Key Arc Figure", "faction": "Holy Court / Purifiers", "role": "Commander-in-Chief of the Holy Court Expedition in Chiporeya", "arc": "Chiporeya World & Death Realm Arcs (Ch. 1943–3387)", "abilities": "Holy Court Armada Command, Sacred Light Pillars, Inquisition Tactics", "bio": "Commander-in-Chief Georgi Gonsalves, dispatched by the Holy Court to conquer the Chiporeya game world, where his crusading forces collide with Fang Heng's alchemy arrays and undead legions.", "total_mentions": 264, "chapters_count": 76, "first_chapter": 1943, "last_chapter": 3387, "peak_chapter": 2705, "peak_mentions": 22}, {"rank": 62, "name": "Kou Huai", "full_display": "Kou Huai", "first_name": "Huai", "last_name": "Kou", "first_word": "Kou", "last_word": "Huai", "aliases": "Director Kou Huai", "tier": "Key Arc Figure", "faction": "Federation", "role": "Chief Director of the Federation's District 7 Operation", "arc": "District 7 Investigation Arc (Ch. 345–593)", "abilities": "Strategic Intelligence, Operations Management, Classified File Control", "bio": " Cheng Ya's superior and the strategic head of the Federation's District 7 operations who evaluates Fang Heng's early actions with the Scavenger Army.", "total_mentions": 264, "chapters_count": 45, "first_chapter": 345, "last_chapter": 593, "peak_chapter": 513, "peak_mentions": 20}, {"rank": 63, "name": "Xiao Yun", "full_display": "Xiao Yun", "first_name": "Yun", "last_name": "Xiao", "first_word": "Xiao", "last_word": "Yun", "aliases": "Commander Xiao Yun", "tier": "Key Arc Figure", "faction": "Enkama Empire / Royal Family", "role": "Commander of the Imperial Royal Guards", "arc": "Enkama Empire Royal Palace Arc (Ch. 1165–1385)", "abilities": "Royal Guard Swordsmanship, Lifeblood Burst, Palace Defense", "bio": "The fiercely loyal commander of the royal guards in the Enkama Empire who battles Fang Heng's summoned Vampire King's Coffin and blood altars.", "total_mentions": 263, "chapters_count": 38, "first_chapter": 1165, "last_chapter": 1385, "peak_chapter": 1350, "peak_mentions": 34}, {"rank": 64, "name": "Wayne", "full_display": "Wayne", "first_name": "Wayne", "last_name": "Wayne", "first_word": "Wayne", "last_word": "Wayne", "aliases": "President Wayne", "tier": "Key Arc Figure", "faction": "Vampire Clan", "role": "President of the Vampire Elders Council / Vampire Association", "arc": "Vampire Headquarters & Dimensional Vampire Arcs (Ch. 661–2964)", "abilities": "Elder-Tier Hemomancy, Clan Governance, Bloodline Evaluation", "bio": "The calculating president of the vampire leadership who oversees responses to intruders and later evaluates Arkley and Fang Heng's dimensional bloodline power.", "total_mentions": 262, "chapters_count": 56, "first_chapter": 661, "last_chapter": 2964, "peak_chapter": 2834, "peak_mentions": 25}, {"rank": 65, "name": "Ma Xiaowan", "full_display": "Ma Xiaowan", "first_name": "Xiaowan", "last_name": "Ma", "first_word": "Ma", "last_word": "Xiaowan", "aliases": "Deputy Commander Ma Xiaowan", "tier": "Key Arc Figure", "faction": "Enkama Empire / Royal Family", "role": "Deputy Commander of the Tianli Mercenary Group", "arc": "Enkama Border & Forest Entry Arc (Ch. 1016–1221)", "abilities": "Mercenary Tactics, Reconnaissance, Defensive Command", "bio": "The cautious and perceptive deputy commander of the Tianli Mercenary Group who escorts Tang Mingyue and Fang Heng's party through war-torn imperial territory.", "total_mentions": 260, "chapters_count": 45, "first_chapter": 1016, "last_chapter": 1221, "peak_chapter": 1024, "peak_mentions": 21}, {"rank": 66, "name": "Hao Zhou", "full_display": "Hao Zhou", "first_name": "Zhou", "last_name": "Hao", "first_word": "Hao", "last_word": "Zhou", "aliases": "Leader Hao Zhou", "tier": "Key Arc Figure", "faction": "Dark Knights / Apocalypse Merchants", "role": "Mercenary Mission Leader in District 8", "arc": "Early District 8 Hospital & Prison Arc (Ch. 49–285)", "abilities": "Explosives Handling, Heavy Melee, Squad Leadership", "bio": "A sturdy veteran mission leader hired through Old Black in District 8 who leads the early hospital infiltration alongside Fang Heng.", "total_mentions": 260, "chapters_count": 33, "first_chapter": 49, "last_chapter": 285, "peak_chapter": 61, "peak_mentions": 19}, {"rank": 67, "name": "Cole", "full_display": "Cole", "first_name": "Cole", "last_name": "Cole", "first_word": "Cole", "last_word": "Cole", "aliases": "Editor Cole", "tier": "Key Arc Figure", "faction": "Punoze / Revolution Society", "role": "Senior Column Editor & Underground Safehouse Keeper", "arc": "Punoze Underground Arc (Ch. 1497–1577)", "abilities": "Information Publishing, Safehouse Concealment, Underground Networking", "bio": "A senior column editor in Punoze whose secluded hut serves as a critical safehouse and meeting point for Fang Heng, Ruan Ziying, and the Revolution Society.", "total_mentions": 258, "chapters_count": 24, "first_chapter": 1497, "last_chapter": 1577, "peak_chapter": 1565, "peak_mentions": 26}, {"rank": 68, "name": "Proust", "full_display": "Proust", "first_name": "Proust", "last_name": "Proust", "first_word": "Proust", "last_word": "Proust", "aliases": "Lord Proust", "tier": "Key Arc Figure", "faction": "Netherworld / Death Realm / Evil Clan", "role": "Evolved Death Realm Overlord", "arc": "Death Realm & Disaster Fusion Arc (Ch. 2603–2998)", "abilities": "Disaster & Death Realm Fusion, 90%+ Potential Awakening, Undead Domination", "bio": "A formidable Death Realm warlord allied with Mu Qingxin who fuses Disaster power with Death Realm energy to conquer native creatures before clashing with Fang Heng.", "total_mentions": 253, "chapters_count": 26, "first_chapter": 2603, "last_chapter": 2998, "peak_chapter": 2705, "peak_mentions": 33}, {"rank": 69, "name": "Tang Mo", "full_display": "Tang Mo", "first_name": "Mo", "last_name": "Tang", "first_word": "Tang", "last_word": "Mo", "aliases": "Prince Tang Mo", "tier": "Key Arc Figure", "faction": "Enkama Empire / Royal Family", "role": "Royal Family Scion & Rival Commander", "arc": "Enkama Empire Succession Arc (Ch. 1055–1299)", "abilities": "Imperial Martial Arts, Royal Guard Command, Political Ambition", "bio": "A powerful member of the Tang royal clan who seeks out Tang Mingyue during the imperial succession struggle.", "total_mentions": 251, "chapters_count": 50, "first_chapter": 1055, "last_chapter": 1299, "peak_chapter": 1263, "peak_mentions": 20}, {"rank": 70, "name": "Tang Wu", "full_display": "Tang Wu", "first_name": "Wu", "last_name": "Tang", "first_word": "Tang", "last_word": "Wu", "aliases": "Emperor Tang Wu, His Majesty Tang Wu", "tier": "Key Arc Figure", "faction": "Enkama Empire / Royal Family", "role": "Ruling Monarch of the Enkama Empire", "arc": "Enkama Imperial City Climax (Ch. 1247–1384)", "abilities": "Imperial Authority, Capital Defense Arrays, Pact with Holy Court", "bio": "The desperate ruler of the Enkama Imperial City who allies with Archbishop Karkkila of the Holy Court, only to watch terrifying tentacles and Abe Akaya's roots erupt beneath his capital.", "total_mentions": 249, "chapters_count": 47, "first_chapter": 1247, "last_chapter": 1384, "peak_chapter": 1263, "peak_mentions": 21}, {"rank": 71, "name": "Luo Xu", "full_display": "Luo Xu", "first_name": "Xu", "last_name": "Luo", "first_word": "Luo", "last_word": "Xu", "aliases": "Sir Luo Xu", "tier": "Key Arc Figure", "faction": "Punoze / Revolution Society", "role": "High-Ranking Enforcer & Investigator in Punoze", "arc": "Punoze & Revolution Society Arc (Ch. 1510–2542)", "abilities": "Tracking & Pursuit, High-Tier Combat, Faction Command", "bio": "A tall, gaunt high-ranking figure with prominent cheekbones who relentlessly hunts for Fang Heng's true identity during the Punoze upheaval.", "total_mentions": 249, "chapters_count": 47, "first_chapter": 1510, "last_chapter": 2542, "peak_chapter": 1576, "peak_mentions": 18}, {"rank": 72, "name": "Zhao Dongyang", "full_display": "Zhao Dongyang", "first_name": "Dongyang", "last_name": "Zhao", "first_word": "Zhao", "last_word": "Dongyang", "aliases": "Specialist Zhao Dongyang", "tier": "Key Arc Figure", "faction": "Federation", "role": "Special Vampire Countermeasures Expert", "arc": "District 7 Vampire Cave Arc (Ch. 562–639)", "abilities": "Vampire Lore, Anti-Bloodline Gadgets, Underground Navigation", "bio": "A specialist hired by the Federation through special channels to guide Zhong Lei, Cheng Ya, and Fang Heng into the vampire underground in District 7.", "total_mentions": 246, "chapters_count": 46, "first_chapter": 562, "last_chapter": 639, "peak_chapter": 564, "peak_mentions": 22}, {"rank": 73, "name": "Osborne", "full_display": "Osborne", "first_name": "Osborne", "last_name": "Osborne", "first_word": "Osborne", "last_word": "Osborne", "aliases": "Master Osborne", "tier": "Key Arc Figure", "faction": "Dark Knights / Apocalypse Merchants", "role": "Potionology & Warehouse Quartermaster", "arc": "Potionology & Warlord Potion Arc (Ch. 392–553)", "abilities": "Potion Appraisal, Bulk Supply Management, Formula Distribution", "bio": "An alchemy/potion quartermaster working alongside Yatu who supplies Fang Heng with raw materials and witnesses Fang Heng's zombie clones mass-produce thousands of modified Warlord Potions.", "total_mentions": 245, "chapters_count": 41, "first_chapter": 392, "last_chapter": 553, "peak_chapter": 401, "peak_mentions": 28}, {"rank": 74, "name": "Dodd", "full_display": "Dodd", "first_name": "Dodd", "last_name": "Dodd", "first_word": "Dodd", "last_word": "Dodd", "aliases": "Investigator Dodd", "tier": "Key Arc Figure", "faction": "Necromancer Association / Tower of Bones", "role": "Missing Primeval Forest Investigator & Professor Eddington's Friend", "arc": "Primeval Forest & Tower of Bones Arcs (Ch. 821–1799)", "abilities": "Field Investigation, Ancient Ruins Lore, Survival", "bio": "A former friend of Professor Eddington whose disappearance while investigating the Glorious Sunlight Association in the primeval forest triggers a major chain mission for Fang Heng.", "total_mentions": 240, "chapters_count": 40, "first_chapter": 821, "last_chapter": 1799, "peak_chapter": 1636, "peak_mentions": 22}, {"rank": 75, "name": "Mo Jianghe", "full_display": "Mo Jianghe", "first_name": "Jianghe", "last_name": "Mo", "first_word": "Mo", "last_word": "Jianghe", "aliases": "Master Mo Jianghe", "tier": "Key Arc Figure", "faction": "Noel Clan / Occult Research", "role": "Grandmaster of the Sealing Art Association", "arc": "Sealing Art Academy & Trial Grounds Arcs (Ch. 489–2746)", "abilities": "Master/Grandmaster Sealing Techniques, Seal Calligraphy, Trial Administration", "bio": "A renowned lecturer and elder of the Sealing Art Association whose weekend seal lectures Fang Heng attends early on, and who later witnesses Fang Heng conquer the Demigod Sealing Art trial.", "total_mentions": 230, "chapters_count": 35, "first_chapter": 489, "last_chapter": 2746, "peak_chapter": 2630, "peak_mentions": 18}, {"rank": 76, "name": "Warren", "full_display": "Warren", "first_name": "Warren", "last_name": "Warren", "first_word": "Warren", "last_word": "Warren", "aliases": "Lord Warren", "tier": "Key Arc Figure", "faction": "Enkama Empire / Royal Family", "role": "Imperial Noble & Chief Logistics Patron of Tang Mingyue", "arc": "Enkama Empire Civil War Arc (Ch. 1124–1354)", "abilities": "Noble Domain Management, Supply Line Mobilization, Political Diplomacy", "bio": "A powerful feudal lord in the Enkama Empire who covertly supplies Princess Tang Mingyue and Fang Heng with vital war materials.", "total_mentions": 229, "chapters_count": 51, "first_chapter": 1124, "last_chapter": 1354, "peak_chapter": 1194, "peak_mentions": 18}, {"rank": 77, "name": "Lin Hanzheng", "full_display": "Lin Hanzheng", "first_name": "Hanzheng", "last_name": "Lin", "first_word": "Lin", "last_word": "Hanzheng", "aliases": "Operative Lin Hanzheng", "tier": "Key Arc Figure", "faction": "Federation", "role": "Undercover Scout in the Necromancer / Night Owl Conflict", "arc": "District 7 & Night Owl Arc (Ch. 532–638)", "abilities": "NPC Disguise, Stealth Infiltration, Field Reporting", "bio": "A resourceful player who disguises himself as an ordinary NPC to survive Night Owl's ambushes and witnesses Fang Heng's clashes in District 7.", "total_mentions": 228, "chapters_count": 45, "first_chapter": 532, "last_chapter": 638, "peak_chapter": 539, "peak_mentions": 21}, {"rank": 78, "name": "Ignis", "full_display": "Ignis", "first_name": "Ignis", "last_name": "Ignis", "first_word": "Ignis", "last_word": "Ignis", "aliases": "Young Master Ignis", "tier": "Key Arc Figure", "faction": "Netherworld / Death Realm / Evil Clan", "role": "Strongest Youth of the Mag Clan in Hell", "arc": "Hell Layers 37–99 Arc (Ch. 3458–3515)", "abilities": "Mag Clan Hellfire Combat, Lava Adaptation, Elite Squad Leadership", "bio": "The strongest young warrior of the Mag Clan dispatched by his patriarch to investigate the 37th upper layer of Hell, where he runs directly into Fang Heng and Abe Akaya devouring the Hell grottos.", "total_mentions": 227, "chapters_count": 31, "first_chapter": 3458, "last_chapter": 3515, "peak_chapter": 3461, "peak_mentions": 24}, {"rank": 79, "name": "Ji Qiubei", "full_display": "Ji Qiubei", "first_name": "Qiubei", "last_name": "Ji", "first_word": "Ji", "last_word": "Qiubei", "aliases": "Representative Ji Qiubei", "tier": "Key Arc Figure", "faction": "Night Owl Organization", "role": "De Facto Representative of the Night Owl Organization", "arc": "Night Owl Conspiracy & District 7 Arc (Ch. 476–659)", "abilities": "Mainframe Deduction Talent, Strategic Conspiracy, Assassin Mobilization", "bio": "A round-faced, smiling schemer whose predictive talent makes him the representative of the Night Owl organization. Despite his mainframe predicting a 95%+ success rate against Fang Heng, every single plot he orchestrates ends in catastrophic failure.", "total_mentions": 225, "chapters_count": 33, "first_chapter": 476, "last_chapter": 659, "peak_chapter": 589, "peak_mentions": 32}, {"rank": 80, "name": "Eugene", "full_display": "Eugene", "first_name": "Eugene", "last_name": "Eugene", "first_word": "Eugene", "last_word": "Eugene", "aliases": "Commander Eugene", "tier": "Key Arc Figure", "faction": "God Clan / Tribunal of Sin", "role": "Lead God Clan Investigator", "arc": "God Clan Pursuit Arc (Ch. 3367–3388)", "abilities": "Dark Gold Mental Strength Arrows, God Clan Coercion, Spatial Tracking", "bio": "An arrogant elite of the God Clan who leads Archbishop Auston and a divine squad to investigate Kevin's death, wielding tangible dark-gold arrows of mental strength against Fang Heng.", "total_mentions": 211, "chapters_count": 16, "first_chapter": 3367, "last_chapter": 3388, "peak_chapter": 3384, "peak_mentions": 30}, {"rank": 81, "name": "Xius", "full_display": "Xius", "first_name": "Xius", "last_name": "Xius", "first_word": "Xius", "last_word": "Xius", "aliases": "Lord Xius", "tier": "Key Arc Figure", "faction": "God Clan / Tribunal of Sin", "role": "High-Ranking God Clan Overseer", "arc": "Netherworld & God Clan Arc (Ch. 3252–3538)", "abilities": "Divine Realm Authority, Spatial Sensing, Multi-Race Subjugation", "bio": "A prideful leader among the God Clan who receives the submission of lower races and monitors the spatial anomalies triggered by Fang Heng's Blood Explosion and Netherworld expansion.", "total_mentions": 209, "chapters_count": 33, "first_chapter": 3252, "last_chapter": 3538, "peak_chapter": 3300, "peak_mentions": 36}, {"rank": 82, "name": "Rudyard", "full_display": "Rudyard", "first_name": "Rudyard", "last_name": "Rudyard", "first_word": "Rudyard", "last_word": "Rudyard", "aliases": "Patriarch Rudyard", "tier": "Key Arc Figure", "faction": "Tree Spirit Tribe / World of Forests", "role": "Patriarch of the Leaf Tribe", "arc": "World of Forests & Temple of Incantation Arc (Ch. 2211–2312)", "abilities": "Leaf Tribe Nature Power, Sacred Tree Sensing, Tribal Warfare", "bio": "The stern patriarch of the Leaf Tribe who guards the island of the Sacred Tree and eventually falls victim to Abe Akaya's Blood Nutrient absorption during the climax of the forest conflict.", "total_mentions": 209, "chapters_count": 25, "first_chapter": 2211, "last_chapter": 2312, "peak_chapter": 2302, "peak_mentions": 31}, {"rank": 83, "name": "Orkney", "full_display": "Orkney", "first_name": "Orkney", "last_name": "Orkney", "first_word": "Orkney", "last_word": "Orkney", "aliases": "Adjudicator Orkney", "tier": "Key Arc Figure", "faction": "Holy Court / Purifiers", "role": "Holy Realm Adjudicator of the Holy Court", "arc": "Duncha World & Holy Realm Investigation Arcs (Ch. 2048–2797)", "abilities": "Holy Adjudication, Divine Judgement Arrays, Cross-Realm Investigation", "bio": "A high-ranking adjudicator dispatched from the Holy Realm with five arbitrator officials to investigate Fang Heng's devastation of Holy Court forces in the lower realms.", "total_mentions": 206, "chapters_count": 38, "first_chapter": 2048, "last_chapter": 2797, "peak_chapter": 2792, "peak_mentions": 20}, {"rank": 84, "name": "Pena", "full_display": "Pena", "first_name": "Pena", "last_name": "Pena", "first_word": "Pena", "last_word": "Pena", "aliases": "Envoy Pena", "tier": "Key Arc Figure", "faction": "Netherworld / Death Realm / Evil Clan", "role": "Netherworld Contact & Associate of Zane", "arc": "Netherworld & Hell Entry Arc (Ch. 3391–3447)", "abilities": "Underworld Intelligence, Shadow Passage Control, Soul Bartering", "bio": "A pragmatic female operative in the Netherworld and longtime acquaintance of Zane who assists Fang Heng's group during their deeper push toward the Hell passages.", "total_mentions": 206, "chapters_count": 37, "first_chapter": 3391, "last_chapter": 3447, "peak_chapter": 3438, "peak_mentions": 20}, {"rank": 85, "name": "Hain", "full_display": "Hain", "first_name": "Hain", "last_name": "Hain", "first_word": "Hain", "last_word": "Hain", "aliases": "Commander Hain", "tier": "Key Arc Figure", "faction": "Holy Court / Purifiers", "role": "Commander of the God's Punishment Knight Legion", "arc": "Demon Suppressing Temple & Starry Temple Arc (Ch. 2756–3018)", "abilities": "God's Punishment Holy Strikes, Knight Legion Command, Ancient Temple Lore", "bio": "The veteran commander of the God's Punishment Knight Legion at the Demon Suppressing Temple who tests Fang Heng's claim as the Great Sage's inheritor.", "total_mentions": 205, "chapters_count": 27, "first_chapter": 2756, "last_chapter": 3018, "peak_chapter": 2758, "peak_mentions": 21}, {"rank": 86, "name": "Argyll", "full_display": "Argyll", "first_name": "Argyll", "last_name": "Argyll", "first_word": "Argyll", "last_word": "Argyll", "aliases": "Guide Argyll", "tier": "Key Arc Figure", "faction": "Enkama Empire / Royal Family", "role": "Veteran Pathfinder & Expedition Specialist", "arc": "Enkama Underground & Starry Temple Arcs (Ch. 1079–2744)", "abilities": "Subterranean Navigation, Trap Detection, Ruin Exploration", "bio": "A thin, middle-aged specialist who accompanies Mo Jiawei and Fang Heng down perilous rock walls and ancient ruins.", "total_mentions": 204, "chapters_count": 29, "first_chapter": 1079, "last_chapter": 2744, "peak_chapter": 2740, "peak_mentions": 24}, {"rank": 87, "name": "Mu Shunan", "full_display": "Mu Shunan", "first_name": "Mu", "last_name": "Shunan", "first_word": "Mu", "last_word": "Shunan", "aliases": "Warrior Mu Shunan", "tier": "Key Arc Figure", "faction": "Noel Clan / Occult Research", "role": "External Demigod Occult Warrior of the Noel Clan", "arc": "Noel Clan & Demigod Occult Arc (Ch. 3072–3175)", "abilities": "Demigod-Level Occultism, Meditation Array Control, Spiritual Combat", "bio": "A warm, accomplished outsider warrior possessing demigod-level Occult strength recruited by the Noel Clan, who welcomes Fang Heng and connects him with Instructor Nasir's alchemy lineage.", "total_mentions": 204, "chapters_count": 26, "first_chapter": 3072, "last_chapter": 3175, "peak_chapter": 3080, "peak_mentions": 23}, {"rank": 88, "name": "Emery", "full_display": "Emery", "first_name": "Emery", "last_name": "Emery", "first_word": "Emery", "last_word": "Emery", "aliases": "Chief Inspector Emery", "tier": "Key Arc Figure", "faction": "Federation", "role": "Chief Inspector of the Mutant Worm Cocoon Investigation", "arc": "Western District Cocoon Theft Arc (Ch. 2902–2966)", "abilities": "Forensic Detection, Psychological Interrogation, Lockdown Command", "bio": "The sharp-eyed chief inspector assigned to investigate the disappearance of the mutant worm cocoons (which Fang Heng secretly absorbed to upgrade his Seed of Ouroboros).", "total_mentions": 203, "chapters_count": 26, "first_chapter": 2902, "last_chapter": 2966, "peak_chapter": 2935, "peak_mentions": 25}, {"rank": 89, "name": "Zheng Yuping", "full_display": "Zheng Yuping", "first_name": "Yuping", "last_name": "Zheng", "first_word": "Zheng", "last_word": "Yuping", "aliases": "Captain Zheng Yuping", "tier": "Key Arc Figure", "faction": "Federation", "role": "Captain of the Federation Enforcement Team", "arc": "Tower of Bones Entry Arc (Ch. 1394–1458)", "abilities": "Law Enforcement Tactics, Player Level Verification, Squad Lockdown", "bio": "The captain of the Federation's enforcement team outside the Tower of Bones who is stunned to discover that Fang Heng has already reached Level 30 and unlocked the second talent advancement.", "total_mentions": 201, "chapters_count": 30, "first_chapter": 1394, "last_chapter": 1458, "peak_chapter": 1406, "peak_mentions": 16}, {"rank": 90, "name": "Anthea", "full_display": "Anthea", "first_name": "Anthea", "last_name": "Anthea", "first_word": "Anthea", "last_word": "Anthea", "aliases": "Commander Anthea", "tier": "Key Arc Figure", "faction": "Enkama Empire / Royal Family", "role": "Female Commander of the Jones Kingdom Expedition", "arc": "Enkama Border & Jones Kingdom Arc (Ch. 1893–1926)", "abilities": "Border Warfare, Expeditionary Command, Defensive Formations", "bio": "A prudent female military commander of the Jones Kingdom ordered by her king to explore the hazardous border regions of the Enkama Empire.", "total_mentions": 200, "chapters_count": 27, "first_chapter": 1893, "last_chapter": 1926, "peak_chapter": 1899, "peak_mentions": 19}, {"rank": 91, "name": "Vettel", "full_display": "Vettel", "first_name": "Vettel", "last_name": "Vettel", "first_word": "Vettel", "last_word": "Vettel", "aliases": "Merchant Vettel", "tier": "Key Arc Figure", "faction": "Dark Knights / Apocalypse Merchants", "role": "Apocalypse Merchant Camp Leader in District 8", "arc": "Early District 8 Survival & Talent Plan Arc (Ch. 10–1614)", "abilities": "Apocalypse Trade System, Bounty Issuance, Talent Plan Appraisal", "bio": "The very first Apocalypse Merchant NPC Fang Heng deals with in Chapter 10. Vettel buys Fang Heng's massive zombie-harvested wood stockpiles, issues the lumberyard clearing quest, and rewards him with the A-minus Talent Enhancement Plan.", "total_mentions": 198, "chapters_count": 40, "first_chapter": 10, "last_chapter": 1614, "peak_chapter": 42, "peak_mentions": 18}, {"rank": 92, "name": "Arkley", "full_display": "Arkley", "first_name": "Arkley", "last_name": "Arkley", "first_word": "Arkley", "last_word": "Arkley", "aliases": "Lord Arkley", "tier": "Key Arc Figure", "faction": "Vampire Clan", "role": "Dimensional-Empowered Vampire Prodigy", "arc": "Western District & Dimensional Vampire Arc (Ch. 2831–3270)", "abilities": "Dimensional Bloodline Power, High-Speed Blood Assault, Elder Council Backing", "bio": "A vampire with a special identity whose combat power skyrockets after absorbing dimensional energy, serving as President Wayne's benchmark against Fang Heng.", "total_mentions": 196, "chapters_count": 52, "first_chapter": 2831, "last_chapter": 3270, "peak_chapter": 2835, "peak_mentions": 36}, {"rank": 93, "name": "Simone", "full_display": "Simone", "first_name": "Simone", "last_name": "Simone", "first_word": "Simone", "last_word": "Simone", "aliases": "Broker Simone", "tier": "Key Arc Figure", "faction": "Noel Clan / Occult Research", "role": "Urban Village Internet Café Contact", "arc": "Demonic Seed & Ring Mission Arc (Ch. 2464–2496)", "abilities": "Encrypted Communications, Ring Mission Coordination, Underground Guiding", "bio": "A key contact hiding in an urban village internet café whose ring mission leads Fang Heng into the Demonic Seed arena and Occult Research plotline.", "total_mentions": 196, "chapters_count": 20, "first_chapter": 2464, "last_chapter": 2496, "peak_chapter": 2467, "peak_mentions": 25}, {"rank": 94, "name": "Meng Bo", "full_display": "Meng Bo", "first_name": "Bo", "last_name": "Meng", "first_word": "Meng", "last_word": "Bo", "aliases": "Captain Meng Bo", "tier": "Key Arc Figure", "faction": "Vampire Clan", "role": "Vampire-Turned Scavenger Investigator", "arc": "District 7 Sacred Tree Rebirth Arc (Ch. 536–590)", "abilities": "Binding Blood Curse, Sacred Tree Soul Rebirth, Undercover Sabotage", "bio": "An arrogant operative who obtains the binding blood curse from Atina and is repeatedly killed and reborn through the Vampire Sacred Tree Angetas, inadvertently revealing Angetas's soul-rebirth mechanics to Fang Heng.", "total_mentions": 195, "chapters_count": 18, "first_chapter": 536, "last_chapter": 590, "peak_chapter": 555, "peak_mentions": 32}, {"rank": 95, "name": "Norbert", "full_display": "Norbert", "first_name": "Norbert", "last_name": "Norbert", "first_word": "Norbert", "last_word": "Norbert", "aliases": "President Norbert", "tier": "Key Arc Figure", "faction": "Necromancer Association / Tower of Bones", "role": "President of the Eternal Night Guild", "arc": "Tower of Bones Defense Arc (Ch. 2408–2447)", "abilities": "Guild Command, Necromancy Support, Defensive Coordination", "bio": "The respectful young president of the Eternal Night Guild who coordinates with Fang Heng, Li Shaoqiang, and Tan Shuo during the Purifiers' assault on the Tower of Bones.", "total_mentions": 195, "chapters_count": 18, "first_chapter": 2408, "last_chapter": 2447, "peak_chapter": 2444, "peak_mentions": 26}, {"rank": 96, "name": "Robben", "full_display": "Robben", "first_name": "Robben", "last_name": "Robben", "first_word": "Robben", "last_word": "Robben", "aliases": "Leader Robben", "tier": "Key Arc Figure", "faction": "Federation", "role": "Federation Expedition Leader in Punoze", "arc": "Tower of Bones & Punoze Entry Arc (Ch. 1410–1484)", "abilities": "Diplomatic Badges, Team Coordination, Tactical Reconnaissance", "bio": "A smiling, well-prepared Federation team leader who distributes special badges and coordinates joint entry operations with Fang Heng's group.", "total_mentions": 192, "chapters_count": 22, "first_chapter": 1410, "last_chapter": 1484, "peak_chapter": 1478, "peak_mentions": 21}, {"rank": 97, "name": "Augustine", "full_display": "Augustine", "first_name": "Augustine", "last_name": "Augustine", "first_word": "Augustine", "last_word": "Augustine", "aliases": "Director Augustine", "tier": "Key Arc Figure", "faction": "Federation", "role": "Director of the Black Fog Crisis Management Division (Western Federation Parliament)", "arc": "Western District Black Fog & Netherworld Arc (Ch. 2925–3344)", "abilities": "Black Fog Countermeasures, Parliamentary Crisis Authority, Elite Taskforce Command", "bio": "The affable yet sharp Director of the Black Fog Crisis Management Division in the Western District Federation Parliament who recruits elite operatives to contain the spreading Black Fog.", "total_mentions": 190, "chapters_count": 32, "first_chapter": 2925, "last_chapter": 3344, "peak_chapter": 3330, "peak_mentions": 30}, {"rank": 98, "name": "Cheng Ya", "full_display": "Cheng Ya", "first_name": "Ya", "last_name": "Cheng", "first_word": "Cheng", "last_word": "Ya", "aliases": "Operative Cheng Ya", "tier": "Key Arc Figure", "faction": "Federation", "role": "District 7 Federation Field Operative", "arc": "District 7 Scavenger Army & Vampire Arc (Ch. 343–583)", "abilities": "Field Reconnaissance, Intelligence Reporting, Tactical Firearms", "bio": "A proud female operative under Kou Huai in District 7 who initially keeps her distance from Fang Heng before being drawn into his audacious operations against the Scavenger Army and Vampires.", "total_mentions": 187, "chapters_count": 32, "first_chapter": 343, "last_chapter": 583, "peak_chapter": 345, "peak_mentions": 16}, {"rank": 99, "name": "Tian Zhen", "full_display": "Tian Zhen", "first_name": "Zhen", "last_name": "Tian", "first_word": "Tian", "last_word": "Zhen", "aliases": "Commander Tian Zhen", "tier": "Key Arc Figure", "faction": "Federation", "role": "Chief Commander of the Federation in District 7", "arc": "District 7 Vaccine & Vampire War Arc (Ch. 403–642)", "abilities": "Regional Military Command, Guild Coalition Leadership, Crisis Defense", "bio": "The stressed Chief Commander of District 7 who rallies the major player guilds and relies on Fang Heng's shelter research to survive the viral mutation and vampire invasion.", "total_mentions": 187, "chapters_count": 30, "first_chapter": 403, "last_chapter": 642, "peak_chapter": 441, "peak_mentions": 23}, {"rank": 100, "name": "Xie Junhao", "full_display": "Xie Junhao", "first_name": "Junhao", "last_name": "Xie", "first_word": "Xie", "last_word": "Junhao", "aliases": "Deputy Chief Commander Xie Junhao", "tier": "Key Arc Figure", "faction": "Federation", "role": "Hostile Deputy Chief Commander Sent to District 7", "arc": "District 7 Vampire Sacred Tree Climax (Ch. 582–642)", "abilities": "Heavy Military Command, Political Coercion, Frontline Blockade", "bio": "An ambitious, ill-intentioned Deputy Chief Commander dispatched by higher-ups to seize credit in District 7, who ends up scapegoated by the furious Vampires when Fang Heng steals their Sacred Tree.", "total_mentions": 186, "chapters_count": 27, "first_chapter": 582, "last_chapter": 642, "peak_chapter": 625, "peak_mentions": 25}, {"rank": 101, "name": "Karolina", "full_display": "Karolina", "first_name": "Karolina", "last_name": "Karolina", "first_word": "Karolina", "last_word": "Karolina", "aliases": "Purifier Karolina", "tier": "Supporting Character", "faction": "Holy Court / Purifiers", "role": "Purifier Instructor from the Holy Realm", "arc": "Tower of Bones Siege Arc (Ch. 2418–2460)", "abilities": "Holy Purification Arrays, Purifier Squad Command", "bio": "An elite Purifier instructor from the Holy Realm who leads the Holy Court's purification siege against the Tower of Bones while Fang Heng absorbs the undead aura inside.", "total_mentions": 179, "chapters_count": 20, "first_chapter": 2418, "last_chapter": 2460, "peak_chapter": 2458, "peak_mentions": 28}, {"rank": 102, "name": "Zet", "full_display": "Zet", "first_name": "Zet", "last_name": "Zet", "first_word": "Zet", "last_word": "Zet", "aliases": "Mage Zet", "tier": "Supporting Character", "faction": "Tree Spirit Tribe / World of Forests", "role": "Magic Array Overseer of the Tree Spirit Tribe", "arc": "World of Forests Temple Arc (Ch. 2269–2292)", "abilities": "Sacred Tree Array Construction, Dimensional Channeling", "bio": "A specialist trusted by Elder Vannes to oversee the construction of the Sacred Tree magic array, unwittingly giving Fang Heng direct access to siphon dimensional energy.", "total_mentions": 179, "chapters_count": 17, "first_chapter": 2269, "last_chapter": 2292, "peak_chapter": 2270, "peak_mentions": 25}, {"rank": 103, "name": "Patrick", "full_display": "Patrick", "first_name": "Patrick", "last_name": "Patrick", "first_word": "Patrick", "last_word": "Patrick", "aliases": "Commander Patrick", "tier": "Supporting Character", "faction": "God Clan / Tribunal of Sin", "role": "Divine Expedition Leader in Hell", "arc": "Eyes of Hell & God Clan Arc (Ch. 3484–3520)", "abilities": "Sustained Divine Brilliance, Hell Expedition Command", "bio": "A powerful commander who leads an expedition deep into Hell to reclaim the Eyes of Hell before encountering Fang Heng's overwhelming forces.", "total_mentions": 178, "chapters_count": 22, "first_chapter": 3484, "last_chapter": 3520, "peak_chapter": 3493, "peak_mentions": 23}, {"rank": 104, "name": "Gano", "full_display": "Gano", "first_name": "Gano", "last_name": "Gano", "first_word": "Gano", "last_word": "Gano", "aliases": "Operative Gano", "tier": "Supporting Character", "faction": "Punoze / Revolution Society", "role": "Impulsive Field Leader in Punoze", "arc": "Punoze Faction Conflict Arc (Ch. 1446–1627)", "abilities": "Close-Quarters Assault, Urban Raids", "bio": "A hot-tempered faction leader in Punoze who clashes with Yatsek's Chamber of Commerce and gets caught up in the chaos surrounding Fang Heng.", "total_mentions": 176, "chapters_count": 18, "first_chapter": 1446, "last_chapter": 1627, "peak_chapter": 1451, "peak_mentions": 27}, {"rank": 105, "name": "Chadwick", "full_display": "Chadwick", "first_name": "Chadwick", "last_name": "Chadwick", "first_word": "Chadwick", "last_word": "Chadwick", "aliases": "Lord Chadwick", "tier": "Supporting Character", "faction": "Enkama Empire / Royal Family", "role": "Treacherous Imperial Feudal Lord", "arc": "Enkama Empire Betrayal Arc (Ch. 1222–1336)", "abilities": "Feudal Cavalry Command, Ambush Warfare", "bio": "A feudal lord of the Enkama Empire who suddenly turns hostile and backstabs Mo Jiawei, triggering Fang Heng's ruthless retaliation.", "total_mentions": 173, "chapters_count": 30, "first_chapter": 1222, "last_chapter": 1336, "peak_chapter": 1269, "peak_mentions": 24}, {"rank": 106, "name": "Gisele", "full_display": "Gisele", "first_name": "Gisele", "last_name": "Gisele", "first_word": "Gisele", "last_word": "Gisele", "aliases": "Captain Gisele", "tier": "Supporting Character", "faction": "Federation", "role": "Captain of the Western Federation Security Guard", "arc": "Western District Cocoon & Black Fog Arc (Ch. 2904–2979)", "abilities": "Facility Lockdown, Squad Tactics, Investigation Support", "bio": "A security captain working alongside Chief Inspector Emery during the Western District mutant cocoon investigation.", "total_mentions": 172, "chapters_count": 32, "first_chapter": 2904, "last_chapter": 2979, "peak_chapter": 2968, "peak_mentions": 20}, {"rank": 107, "name": "An Qian", "full_display": "An Qian", "first_name": "Qian", "last_name": "An", "first_word": "An", "last_word": "Qian", "aliases": "Envoy An Qian", "tier": "Supporting Character", "faction": "Noel Clan / Occult Research", "role": "Noel Clan Liaison & Recruiter", "arc": "Noel Clan & Elder Ambrose Arc (Ch. 3069–3246)", "abilities": "Occultism, Clan Etiquette & Liaison", "bio": "A polite, perceptive member of the Noel Clan who recruits Fang Heng as an external warrior and introduces him to Mu Shunan and Great Elder Ambrose.", "total_mentions": 171, "chapters_count": 43, "first_chapter": 3069, "last_chapter": 3246, "peak_chapter": 3071, "peak_mentions": 11}, {"rank": 108, "name": "Raven", "full_display": "Raven", "first_name": "Raven", "last_name": "Raven", "first_word": "Raven", "last_word": "Raven", "aliases": "Operative Raven", "tier": "Supporting Character", "faction": "Tree Spirit Tribe / World of Forests", "role": "Scout & Field Operative", "arc": "World of Forests & Western District Arcs (Ch. 2174–2855)", "abilities": "Forest Reconnaissance, Stealth Tracking", "bio": "A recurring field operative active during the World of Forests and Western District campaigns.", "total_mentions": 170, "chapters_count": 20, "first_chapter": 2174, "last_chapter": 2855, "peak_chapter": 2174, "peak_mentions": 20}, {"rank": 109, "name": "Zhao Nan", "full_display": "Zhao Nan", "first_name": "Nan", "last_name": "Zhao", "first_word": "Zhao", "last_word": "Nan", "aliases": "Captain Zhao Nan", "tier": "Supporting Character", "faction": "Federation", "role": "Federation Defense Captain", "arc": "Holy Court Incursion Arc (Ch. 669–719)", "abilities": "Defensive Line Command, Firearms Mastery", "bio": "A frontline captain who coordinates player defenses during the early Holy Court and vampire skirmishes.", "total_mentions": 169, "chapters_count": 18, "first_chapter": 669, "last_chapter": 719, "peak_chapter": 690, "peak_mentions": 32}, {"rank": 110, "name": "Qiao Wei", "full_display": "Qiao Wei", "first_name": "Wei", "last_name": "Qiao", "first_word": "Qiao", "last_word": "Wei", "aliases": "Investigator Qiao Wei", "tier": "Supporting Character", "faction": "Federation", "role": "Special School Incident Investigator", "arc": "Real-World & Demi-Human Investigation Arc (Ch. 1776–1835)", "abilities": "Field Forensics, Demi-Human Tracking", "bio": "An investigator working with Kleinman on the abnormal school incident and demi-human emergence.", "total_mentions": 169, "chapters_count": 16, "first_chapter": 1776, "last_chapter": 1835, "peak_chapter": 1779, "peak_mentions": 28}, {"rank": 111, "name": "Narlyev", "full_display": "Narlyev", "first_name": "Narlyev", "last_name": "Narlyev", "first_word": "Narlyev", "last_word": "Narlyev", "aliases": "Master Narlyev", "tier": "Supporting Character", "faction": "Noel Clan / Occult Research", "role": "Occult Research Association Elder", "arc": "Jealousy Demonic Seed Arc (Ch. 2511–2540)", "abilities": "Occult Sealing, Demonic Seed Analysis", "bio": "A senior member of the Occult Research Association during the campaign to suppress and absorb the Jealousy Demonic Seed.", "total_mentions": 164, "chapters_count": 21, "first_chapter": 2511, "last_chapter": 2540, "peak_chapter": 2513, "peak_mentions": 20}, {"rank": 112, "name": "Prisoner Snake", "full_display": "Prisoner Snake", "first_name": "Snake", "last_name": "Prisoner", "first_word": "Prisoner", "last_word": "Snake", "aliases": "Snake", "tier": "Supporting Character", "faction": "Prison 507 / Zombie Apocalypse", "role": "Notorious Inmate Boss of Prison No. 507", "arc": "Early Prison No. 507 Clearing Arc (Ch. 19–132)", "abilities": "Prison Gang Control, Firearms & Riot Gear", "bio": "The ruthless inmate boss who originally controlled part of Prison No. 507 before Fang Heng's growing zombie horde wiped out his gang and claimed the prison.", "total_mentions": 164, "chapters_count": 18, "first_chapter": 19, "last_chapter": 132, "peak_chapter": 87, "peak_mentions": 31}, {"rank": 113, "name": "Lin Nuo", "full_display": "Lin Nuo", "first_name": "Nuo", "last_name": "Lin", "first_word": "Lin", "last_word": "Nuo", "aliases": "Hunter Lin Nuo", "tier": "Supporting Character", "faction": "Black Castle / Demon Hunters", "role": "Top-Tier Demon Hunter", "arc": "Sacred Tree Angetas & Demon Hunter Arc (Ch. 728–792)", "abilities": "Demon Hunting Blade Arts, Blood Pool Ambush", "bio": "An elite Demon Hunter who confronts Fang Heng in front of the Vampire Sacred Tree Angetas and witnesses Fang Heng tank the lethal blood poison with his Undying Body.", "total_mentions": 160, "chapters_count": 24, "first_chapter": 728, "last_chapter": 792, "peak_chapter": 772, "peak_mentions": 22}, {"rank": 114, "name": "Mo Yunxiao", "full_display": "Mo Yunxiao", "first_name": "Yunxiao", "last_name": "Mo", "first_word": "Mo", "last_word": "Yunxiao", "aliases": "Elder Mo Yunxiao", "tier": "Supporting Character", "faction": "Necromancer Association / Tower of Bones", "role": "Senior Necromancer & Mentor Contact", "arc": "District 8 to Tower of Bones Arcs (Ch. 252–1497)", "abilities": "Necromancy, Faction Diplomacy", "bio": "A respected necromancer who bridges Fang Heng's early necromancy studies with Dickey and the wider Necromancer Association.", "total_mentions": 159, "chapters_count": 41, "first_chapter": 252, "last_chapter": 1497, "peak_chapter": 252, "peak_mentions": 14}, {"rank": 115, "name": "Randolf", "full_display": "Randolf", "first_name": "Randolf", "last_name": "Randolf", "first_word": "Randolf", "last_word": "Randolf", "aliases": "Lord Randolf", "tier": "Supporting Character", "faction": "Enkama Empire / Royal Family", "role": "Imperial Noble & Commander", "arc": "Enkama Empire Campaign (Ch. 1069–1333)", "abilities": "Noble Command, Siege Defense", "bio": "An imperial nobleman involved in the military struggle surrounding Tang Mingyue's faction in the Enkama Empire.", "total_mentions": 159, "chapters_count": 30, "first_chapter": 1069, "last_chapter": 1333, "peak_chapter": 1104, "peak_mentions": 19}, {"rank": 116, "name": "Joel", "full_display": "Joel", "first_name": "Joel", "last_name": "Joel", "first_word": "Joel", "last_word": "Joel", "aliases": "Vampire Joel", "tier": "Supporting Character", "faction": "Vampire Clan", "role": "Vampire Clan Officer", "arc": "Vampire World & Forest Arcs (Ch. 770–2160)", "abilities": "Hemomancy, Blood Scout", "bio": "A vampire officer who participates in the bloodline wars and cross-realm operations.", "total_mentions": 159, "chapters_count": 19, "first_chapter": 770, "last_chapter": 2160, "peak_chapter": 989, "peak_mentions": 36}, {"rank": 117, "name": "Roche", "full_display": "Roche", "first_name": "Roche", "last_name": "Roche", "first_word": "Roche", "last_word": "Roche", "aliases": "Commander Roche", "tier": "Supporting Character", "faction": "Dark Knights / Apocalypse Merchants", "role": "Scavenger Army & Potion Arc Commander", "arc": "District 7 Scavenger Army Arc (Ch. 341–448)", "abilities": "Arms Dealing, Base Command", "bio": "A regional commander in District 7 who interacts with Fang Heng during the Scavenger Army weapons and potion operations.", "total_mentions": 158, "chapters_count": 27, "first_chapter": 341, "last_chapter": 448, "peak_chapter": 395, "peak_mentions": 20}, {"rank": 118, "name": "Brutus", "full_display": "Brutus", "first_name": "Brutus", "last_name": "Brutus", "first_word": "Brutus", "last_word": "Brutus", "aliases": "Lord Brutus", "tier": "Supporting Character", "faction": "Netherworld / Death Realm / Evil Clan", "role": "Ancient Undead / Void-Touched Warlord", "arc": "Vampire Inheritance & Origin Power Arcs (Ch. 958–3436)", "abilities": "Heavy Undead Combat, Origin Power Clash", "bio": "A powerful recurring antagonist/warlord who appears across the Vampire inheritance and late-game Origin Power battles.", "total_mentions": 156, "chapters_count": 22, "first_chapter": 958, "last_chapter": 3436, "peak_chapter": 3418, "peak_mentions": 21}, {"rank": 119, "name": "Zhou Yi", "full_display": "Zhou Yi", "first_name": "Yi", "last_name": "Zhou", "first_word": "Zhou", "last_word": "Yi", "aliases": "Player Zhou Yi", "tier": "Supporting Character", "faction": "Prison 507 / Zombie Apocalypse", "role": "Early Survivor & Companion of Lu Yu", "arc": "Starter Forest & Merchant Camp Arc (Ch. 15–334)", "abilities": "Basic Survival, Resource Gathering", "bio": "An early player traveling with Lu Yu in District 8 who is floored by Fang Heng's massive survival point transactions and wood stockpiles.", "total_mentions": 155, "chapters_count": 23, "first_chapter": 15, "last_chapter": 334, "peak_chapter": 41, "peak_mentions": 22}, {"rank": 120, "name": "Deng Xin", "full_display": "Deng Xin", "first_name": "Xin", "last_name": "Deng", "first_word": "Deng", "last_word": "Xin", "aliases": "Leader Deng Xin", "tier": "Supporting Character", "faction": "Federation", "role": "Early District 8 Player Guild Leader", "arc": "District 8 Shelter Competition Arc (Ch. 134–298)", "abilities": "Guild Management, Early Firearms", "bio": "A local player leader in District 8 who witnesses Fang Heng's rapid monopolization of the server's resources and missions.", "total_mentions": 155, "chapters_count": 18, "first_chapter": 134, "last_chapter": 298, "peak_chapter": 135, "peak_mentions": 27}, {"rank": 121, "name": "Sydney", "full_display": "Sydney", "first_name": "Sydney", "last_name": "Sydney", "first_word": "Sydney", "last_word": "Sydney", "aliases": "Alchemist Sydney", "tier": "Supporting Character", "faction": "Enkama Empire / Royal Family", "role": "Dual-Array Eye Alchemist in Enkama", "arc": "Enkama Alchemy & Omniscient Eye Arc (Ch. 1192–1286)", "abilities": "Optical Alchemy Arrays, Magic Circle Control", "bio": "A mysterious robed alchemist with dual alchemy magic arrays in his eyes encountered by Fang Heng and Tang Mingyue prior to Fang Heng acquiring the Omniscient Eye.", "total_mentions": 154, "chapters_count": 21, "first_chapter": 1192, "last_chapter": 1286, "peak_chapter": 1209, "peak_mentions": 22}, {"rank": 122, "name": "Damon", "full_display": "Damon", "first_name": "Damon", "last_name": "Damon", "first_word": "Damon", "last_word": "Damon", "aliases": "President Damon", "tier": "Supporting Character", "faction": "Noel Clan / Occult Research", "role": "President of the Sealing Art Association", "arc": "Sealing Art Trial Grounds Arc (Ch. 2631–3379)", "abilities": "Grandmaster/Demigod Sealing Arts, Association Governance", "bio": "The diligent president of the Sealing Art Association who oversees the Sealing Art trial grounds alongside Mo Jianghe.", "total_mentions": 152, "chapters_count": 17, "first_chapter": 2631, "last_chapter": 3379, "peak_chapter": 3360, "peak_mentions": 24}, {"rank": 123, "name": "Shi Lipeng", "full_display": "Shi Lipeng", "first_name": "Lipeng", "last_name": "Shi", "first_word": "Shi", "last_word": "Lipeng", "aliases": "Commander Shi Lipeng", "tier": "Supporting Character", "faction": "Necromancer Association / Tower of Bones", "role": "Young Operations Commander at Miyisca Fortress", "arc": "Miyisca Fortress & Dark City Arc (Ch. 2371–2726)", "abilities": "Fortress Deployment, Undead Coalition Tactics", "bio": "A young military planner at Miyisca Fortress who works closely with Li Qingran and Tang Chuji during the Death Realm and Dark City campaigns.", "total_mentions": 150, "chapters_count": 37, "first_chapter": 2371, "last_chapter": 2726, "peak_chapter": 2660, "peak_mentions": 15}, {"rank": 124, "name": "Zhong Haoyang", "full_display": "Zhong Haoyang", "first_name": "Haoyang", "last_name": "Zhong", "first_word": "Zhong", "last_word": "Haoyang", "aliases": "Captain Zhong Haoyang", "tier": "Supporting Character", "faction": "Federation", "role": "Captain of the Western Federation Player Team", "arc": "Vampire World & Western Federation Arc (Ch. 755–997)", "abilities": "Squad Command, Tactical Assault", "bio": "Captain of an elite player team from the Western Federation who chooses diplomacy over hostility when encountering Fang Heng.", "total_mentions": 148, "chapters_count": 22, "first_chapter": 755, "last_chapter": 997, "peak_chapter": 974, "peak_mentions": 19}, {"rank": 125, "name": "Dormer", "full_display": "Dormer", "first_name": "Dormer", "last_name": "Dormer", "first_word": "Dormer", "last_word": "Dormer", "aliases": "Captain Dormer", "tier": "Supporting Character", "faction": "Federation", "role": "Captain of the Federal Field Team", "arc": "Mutant Zone & Late-Game Arcs (Ch. 1709–3499)", "abilities": "Field Medicine Support, Tactical Command", "bio": "A seasoned federal team captain who cooperates with Fang Heng during high-risk field operations.", "total_mentions": 147, "chapters_count": 27, "first_chapter": 1709, "last_chapter": 3499, "peak_chapter": 3496, "peak_mentions": 19}, {"rank": 126, "name": "Jite", "full_display": "Jite", "first_name": "Jite", "last_name": "Jite", "first_word": "Jite", "last_word": "Jite", "aliases": "Boss Jite", "tier": "Supporting Character", "faction": "Black Castle / Demon Hunters", "role": "Gang Leader in the City of Darkness", "arc": "City of Darkness Arc (Ch. 1833–1999)", "abilities": "Underworld Brawl, Gang Mobilization", "bio": "A fierce local gang leader in the City of Darkness who negotiates with Meng Ruhui and the Mundt Gang.", "total_mentions": 147, "chapters_count": 17, "first_chapter": 1833, "last_chapter": 1999, "peak_chapter": 1849, "peak_mentions": 27}, {"rank": 127, "name": "Yimamu", "full_display": "Yimamu", "first_name": "Yimamu", "last_name": "Yimamu", "first_word": "Yimamu", "last_word": "Yimamu", "aliases": "Elder Yimamu", "tier": "Supporting Character", "faction": "Enkama Empire / Royal Family", "role": "Shrewd Desert/Border Faction Leader", "arc": "Enkama Plague & Border Arc (Ch. 1309–1330)", "abilities": "Border Navigation, Faction Negotiation", "bio": "An older, shrewd leader encountered during the Enkama border and plague aura storyline.", "total_mentions": 145, "chapters_count": 19, "first_chapter": 1309, "last_chapter": 1330, "peak_chapter": 1314, "peak_mentions": 18}, {"rank": 128, "name": "Ji Shaojie", "full_display": "Ji Shaojie", "first_name": "Shaojie", "last_name": "Ji", "first_word": "Ji", "last_word": "Shaojie", "aliases": "Player Ji Shaojie", "tier": "Supporting Character", "faction": "Federation", "role": "Bloodline Awakening Player under Miyamoto Teru", "arc": "Bloodline Cultivation Arc (Ch. 2006–2021)", "abilities": "Bloodline Awakening, Martial Combat", "bio": "A player who volunteers to assist Miyamoto Teru in exchange for bloodline cultivation opportunities, only to witness Fang Heng's overwhelming power.", "total_mentions": 145, "chapters_count": 16, "first_chapter": 2006, "last_chapter": 2021, "peak_chapter": 2020, "peak_mentions": 21}, {"rank": 129, "name": "Wu Siying", "full_display": "Wu Siying", "first_name": "Siying", "last_name": "Wu", "first_word": "Wu", "last_word": "Siying", "aliases": "Assassin Wu Siying", "tier": "Supporting Character", "faction": "Federation", "role": "Dagger Specialist & Agile Combatant", "arc": "District 7 & Mid-Game Arcs (Ch. 443–1764)", "abilities": "Close-Range Dagger Arts, High Agility Evasion", "bio": "A skilled female dagger specialist who participates in the District 7 combat operations.", "total_mentions": 144, "chapters_count": 27, "first_chapter": 443, "last_chapter": 1764, "peak_chapter": 913, "peak_mentions": 16}, {"rank": 130, "name": "Elisa", "full_display": "Elisa", "first_name": "Elisa", "last_name": "Elisa", "first_word": "Elisa", "last_word": "Elisa", "aliases": "Miss Elisa", "tier": "Supporting Character", "faction": "Necromancer Association / Tower of Bones", "role": "Scion of the Herta Family Branch", "arc": "Tower of Bones Entry Arc (Ch. 1392–1458)", "abilities": "Necromantic Heritage, Noble Connections", "bio": "A young lady from a branch of the Herta family who travels with Old Man Herta to the Tower of Bones.", "total_mentions": 144, "chapters_count": 24, "first_chapter": 1392, "last_chapter": 1458, "peak_chapter": 1424, "peak_mentions": 19}, {"rank": 131, "name": "David", "full_display": "David", "first_name": "David", "last_name": "David", "first_word": "David", "last_word": "David", "aliases": "Mr. David", "tier": "Supporting Character", "faction": "Dark Knights / Apocalypse Merchants", "role": "Dark Knights Liaison in District 8", "arc": "District 8 S-Rank Talent Plan Arc (Ch. 83–572)", "abilities": "Faction Appraisal, Mission Dispatch, Honor Rank Management", "bio": "Fang Heng's primary contact within the Dark Knights who rewards him with his first S-rank Talent Enhancement Plan (Zombie Clone Summoning).", "total_mentions": 142, "chapters_count": 33, "first_chapter": 83, "last_chapter": 572, "peak_chapter": 273, "peak_mentions": 15}, {"rank": 132, "name": "Su Guantong", "full_display": "Su Guantong", "first_name": "Guantong", "last_name": "Su", "first_word": "Su", "last_word": "Guantong", "aliases": "Operative Su Guantong", "tier": "Supporting Character", "faction": "Federation", "role": "Western District Train & Recruitment Operative", "arc": "Western District Federation Arc (Ch. 2809–2964)", "abilities": "Tactical Cooperation, Intelligence Gathering", "bio": "A composed female operative who teams up with Fang Heng and Zaka aboard the train bound for the Western District Federation recruitment center.", "total_mentions": 140, "chapters_count": 45, "first_chapter": 2809, "last_chapter": 2964, "peak_chapter": 2826, "peak_mentions": 12}, {"rank": 133, "name": "Brent", "full_display": "Brent", "first_name": "Brent", "last_name": "Brent", "first_word": "Brent", "last_word": "Brent", "aliases": "Lord Brent", "tier": "Supporting Character", "faction": "Enkama Empire / Royal Family", "role": "Leader of the Imperial Feudal Lords Coalition", "arc": "Enkama Empire Feudal Politics Arc (Ch. 1106–1330)", "abilities": "Noble Coalition Leadership, Political Pressure", "bio": "A prominent feudal lord in the Enkama Empire who leads a delegation of lords suspicious of Fang Heng's necromancer identity.", "total_mentions": 140, "chapters_count": 28, "first_chapter": 1106, "last_chapter": 1330, "peak_chapter": 1120, "peak_mentions": 22}, {"rank": 134, "name": "Dean", "full_display": "Dean", "first_name": "Dean", "last_name": "Dean", "first_word": "Dean", "last_word": "Dean", "aliases": "Great Sage Dean", "tier": "Supporting Character", "faction": "Holy Court / Purifiers", "role": "One of the Twelve Great Sages of the Holy Court", "arc": "Holy Court & Divine Realm Arc (Ch. 2783–3522)", "abilities": "Demigod/God-Tier Sacred Study, Holy Judgement", "bio": "A high-ranking Great Sage of the Holy Court involved in the late-game sacred trials and conflicts against Fang Heng.", "total_mentions": 136, "chapters_count": 19, "first_chapter": 2783, "last_chapter": 3522, "peak_chapter": 3019, "peak_mentions": 24}, {"rank": 135, "name": "Wendy", "full_display": "Wendy", "first_name": "Wendy", "last_name": "Wendy", "first_word": "Wendy", "last_word": "Wendy", "aliases": "NPC Wendy", "tier": "Supporting Character", "faction": "Prison 507 / Zombie Apocalypse", "role": "Key Ring-Mission Giver in District 8", "arc": "District 8 Hidden Storyline Arc (Ch. 309–1458)", "abilities": "Clue Provision, Storyline Triggers", "bio": "An important mission NPC in District 8 whose exclusive timed quest chain provides Fang Heng with critical early-to-mid game storyline clues.", "total_mentions": 135, "chapters_count": 22, "first_chapter": 309, "last_chapter": 1458, "peak_chapter": 322, "peak_mentions": 22}, {"rank": 136, "name": "Yu Jie", "full_display": "Yu Jie", "first_name": "Jie", "last_name": "Yu", "first_word": "Yu", "last_word": "Jie", "aliases": "Commander Yu Jie", "tier": "Supporting Character", "faction": "Federation", "role": "Main Person in Charge of the Regional Shelter", "arc": "District 8 / District 7 Shelter Defense Arc (Ch. 292–508)", "abilities": "Shelter Governance, Defensive Command", "bio": "A resolute shelter commander who manages survivor defenses during the escalating zombie waves.", "total_mentions": 134, "chapters_count": 30, "first_chapter": 292, "last_chapter": 508, "peak_chapter": 317, "peak_mentions": 12}, {"rank": 137, "name": "Cole Karot", "full_display": "Prince Cole Karot", "first_name": "Cole", "last_name": "Karot", "first_word": "Cole", "last_word": "Karot", "aliases": "Prince Cole Karot", "tier": "Supporting Character", "faction": "Tree Spirit Tribe / World of Forests", "role": "Crown Prince of the Elves", "arc": "Elven & Flying Squirrel Alliance Arc (Ch. 3034–3162)", "abilities": "Royal Elven Magic, Nature & Elemental Mastery", "bio": "The noble Crown Prince and heir to the Elven throne who boards Captain Kapa's vessel and interacts with Fang Heng during the late-game dimensional alliance.", "total_mentions": 133, "chapters_count": 25, "first_chapter": 3034, "last_chapter": 3162, "peak_chapter": 3058, "peak_mentions": 14}, {"rank": 138, "name": "Xiao Jing", "full_display": "Xiao Jing", "first_name": "Jing", "last_name": "Xiao", "first_word": "Xiao", "last_word": "Jing", "aliases": "Player Xiao Jing", "tier": "Supporting Character", "faction": "Federation", "role": "Federation Frontline Marksman", "arc": "District 8 & District 7 Operations (Ch. 162–486)", "abilities": "Rifle Marksmanship, Squad Support", "bio": "A Federation player under Chen Yu's command who participates in early joint operations with Fang Heng.", "total_mentions": 133, "chapters_count": 20, "first_chapter": 162, "last_chapter": 486, "peak_chapter": 482, "peak_mentions": 16}, {"rank": 139, "name": "Miguel", "full_display": "Miguel", "first_name": "Miguel", "last_name": "Miguel", "first_word": "Miguel", "last_word": "Miguel", "aliases": "Captain Miguel", "tier": "Supporting Character", "faction": "God Clan / Tribunal of Sin", "role": "Secret Teleportation & Ambush Coordinator", "arc": "Late-Game Research Remains Arc (Ch. 3206–3232)", "abilities": "Spatial Transfer Logistics, Ambush Command", "bio": "An officer tasked with secretly transferring remains and setting up ambushes against intruders in the late-game arc.", "total_mentions": 133, "chapters_count": 19, "first_chapter": 3206, "last_chapter": 3232, "peak_chapter": 3227, "peak_mentions": 18}, {"rank": 140, "name": "Qiu Xiaoling", "full_display": "Qiu Xiaoling", "first_name": "Xiaoling", "last_name": "Qiu", "first_word": "Qiu", "last_word": "Xiaoling", "aliases": "Gluttony Seed Qiu Xiaoling", "tier": "Supporting Character", "faction": "Noel Clan / Occult Research", "role": "Host of the Demonic Seed of Gluttony", "arc": "Demonic Seeds Arena Arc (Ch. 2496–2780)", "abilities": "Gluttony Demonic Seed Power, Devouring Aura", "bio": "One of the awakened hosts of the Demonic Seed of Gluttony who introduces Fang Heng (disguised as Fang Bai) to the arena alongside Abulati.", "total_mentions": 132, "chapters_count": 25, "first_chapter": 2496, "last_chapter": 2780, "peak_chapter": 2497, "peak_mentions": 17}, {"rank": 141, "name": "Alba", "full_display": "Alba", "first_name": "Alba", "last_name": "Alba", "first_word": "Alba", "last_word": "Alba", "aliases": "Commander Alba", "tier": "Supporting Character", "faction": "Federation", "role": "Commander of the Federation's Southwest Region", "arc": "Southwest Region & Primeval Forest Arc (Ch. 794–835)", "abilities": "Regional Administration, Identity Verification", "bio": "The Federation commander overseeing the Southwest region who monitors Fang Heng's rapid expansion.", "total_mentions": 132, "chapters_count": 15, "first_chapter": 794, "last_chapter": 835, "peak_chapter": 823, "peak_mentions": 24}, {"rank": 142, "name": "Mu Qingxin", "full_display": "Mu Qingxin", "first_name": "Mu", "last_name": "Qingxin", "first_word": "Mu", "last_word": "Qingxin", "aliases": "Overlord Mu Qingxin", "tier": "Supporting Character", "faction": "Netherworld / Death Realm / Evil Clan", "role": "Death Realm Territory Lord", "arc": "Death Realm & Disaster Fusion Arc (Ch. 2584–2996)", "abilities": "Death Realm Domain Control, Potential Unlocking", "bio": "A feared female territory lord in the Death Realm who partners with Proust to fuse Disaster and Death Realm powers.", "total_mentions": 129, "chapters_count": 26, "first_chapter": 2584, "last_chapter": 2996, "peak_chapter": 2988, "peak_mentions": 23}, {"rank": 143, "name": "Qiu Hai", "full_display": "Qiu Hai", "first_name": "Hai", "last_name": "Qiu", "first_word": "Qiu", "last_word": "Hai", "aliases": "Commander Qiu Hai", "tier": "Supporting Character", "faction": "Necromancer Association / Tower of Bones", "role": "Death Realm Camp Commander", "arc": "Death Realm Rift Arc (Ch. 943–1374)", "abilities": "Camp Defense, Undead Suppression", "bio": "A regional camp commander who investigates the massive magic array Fang Heng uses to siphon Death Realm aura.", "total_mentions": 127, "chapters_count": 18, "first_chapter": 943, "last_chapter": 1374, "peak_chapter": 951, "peak_mentions": 20}, {"rank": 144, "name": "Vionne", "full_display": "Vionne", "first_name": "Vionne", "last_name": "Vionne", "first_word": "Vionne", "last_word": "Vionne", "aliases": "Expert Vionne", "tier": "Supporting Character", "faction": "Federation", "role": "Special Expert from the Western Federation Presidential Office", "arc": "Mutant Cocoon Investigation Arc (Ch. 2947–2979)", "abilities": "Biological Inspection, Presidential Authority", "bio": "A smug special expert dispatched by the Presidential Office of the Western District Federation who butts heads with Collete during the cocoon crisis.", "total_mentions": 127, "chapters_count": 18, "first_chapter": 2947, "last_chapter": 2979, "peak_chapter": 2958, "peak_mentions": 19}, {"rank": 145, "name": "Kou Ming", "full_display": "Kou Ming", "first_name": "Ming", "last_name": "Kou", "first_word": "Kou", "last_word": "Ming", "aliases": "Player Kou Ming", "tier": "Supporting Character", "faction": "Necromancer Association / Tower of Bones", "role": "Tower of Bones Necromancer Recruit", "arc": "Tower of Bones Arc (Ch. 1394–1627)", "abilities": "Necromancy, Reconnaissance", "bio": "A necromancer player at the Tower of Bones who witnesses Fang Heng's shockingly fast progression to Level 30.", "total_mentions": 124, "chapters_count": 32, "first_chapter": 1394, "last_chapter": 1627, "peak_chapter": 1425, "peak_mentions": 15}, {"rank": 146, "name": "Li Xue", "full_display": "Li Xue", "first_name": "Xue", "last_name": "Li", "first_word": "Li", "last_word": "Xue", "aliases": "Coordinator Li Xue", "tier": "Supporting Character", "faction": "Enkama Empire / Royal Family", "role": "Offline Operations Coordinator", "arc": "Enkama Empire & Real-World Strategy Arc (Ch. 1238–1353)", "abilities": "Tactical Coordination, Offline Intelligence", "bio": "The capable coordinator in charge of offline strategy sessions who quickly grasps the brilliance of Fang Heng's battle plans.", "total_mentions": 123, "chapters_count": 45, "first_chapter": 1238, "last_chapter": 1353, "peak_chapter": 1251, "peak_mentions": 16}, {"rank": 147, "name": "Hayez", "full_display": "Hayez", "first_name": "Hayez", "last_name": "Hayez", "first_word": "Hayez", "last_word": "Hayez", "aliases": "Elder Hayez", "tier": "Supporting Character", "faction": "Vampire Clan", "role": "Elder of the Tremere Vampire Clan", "arc": "Vampire Clan Trial & Inheritance Arc (Ch. 842–1409)", "abilities": "Tremere Blood Magic, Clan Adjudication", "bio": "A senior elder of the Tremere vampire clan who presides over bloodline evaluations and praises Fang Heng's talent.", "total_mentions": 122, "chapters_count": 32, "first_chapter": 842, "last_chapter": 1409, "peak_chapter": 844, "peak_mentions": 12}, {"rank": 148, "name": "Wu Xiao", "full_display": "Wu Xiao", "first_name": "Xiao", "last_name": "Wu", "first_word": "Wu", "last_word": "Xiao", "aliases": "Leader Wu Xiao", "tier": "Supporting Character", "faction": "Federation", "role": "Mercenary Tough in the Western District", "arc": "Western District Recruitment Arc (Ch. 2828–2917)", "abilities": "Brawl & Intimidation, Squad Skirmishing", "bio": "An aggressive mercenary leader in the Western District who tries to intimidate Fang Heng's group before being surrounded and humbled.", "total_mentions": 122, "chapters_count": 17, "first_chapter": 1257, "last_chapter": 2917, "peak_chapter": 2830, "peak_mentions": 21}, {"rank": 149, "name": "Zhang Zhe", "full_display": "Zhang Zhe", "first_name": "Zhe", "last_name": "Zhang", "first_word": "Zhang", "last_word": "Zhe", "aliases": "Officer Zhang Zhe", "tier": "Supporting Character", "faction": "Federation", "role": "Federation Intelligence & Dossier Analyst", "arc": "District 8 Report Arc (Ch. 258–307)", "abilities": "Data Analysis, Strategic Assessment", "bio": "An overworked, dark-circled Federation analyst who reviews Chen Yu's increasingly unbelievable intelligence reports on Fang Heng.", "total_mentions": 120, "chapters_count": 20, "first_chapter": 258, "last_chapter": 307, "peak_chapter": 293, "peak_mentions": 14}, {"rank": 150, "name": "Chen Li", "full_display": "Chen Li", "first_name": "Li", "last_name": "Chen", "first_word": "Chen", "last_word": "Li", "aliases": "Bishop Chen Li", "tier": "Supporting Character", "faction": "Holy Court / Purifiers", "role": "Regional Bishop of the Holy Court", "arc": "District 7 / Holy Court Purge Arc (Ch. 678–727)", "abilities": "Bishop-Tier Holy Light, Inquisition Command", "bio": "A serious regional bishop who gathers high-ranking Holy Court officials to purge necromancers and vampires before running into Fang Heng.", "total_mentions": 120, "chapters_count": 17, "first_chapter": 678, "last_chapter": 727, "peak_chapter": 715, "peak_mentions": 24}];
+
+const NOVEL_VERIFIED = {
+  1: ["Ch. 2", "Starter SSS Enhanced Super Zombie Clone awakened (1 clone)"],
+  2: ["Ch. 3", "First level-up in starter forest (+2 clones = 3 total)"],
+  4: ["Ch. 3", "Cleared nearby forest zombies (+4 clones = 10 total)"],
+  6: ["Ch. 17", "Absorbed Tier 1 complete evolution crystal (21 total)"],
+  7: ["Ch. 32", "Upgraded to Lv 7 before Prison 507 operation (28 total)"],
+  9: ["Ch. 32", "Novel explicitly confirms 45 zombie clones at Lv 9"],
+  10: ["Ch. 76 & 113", "Novel confirms 55 clones; unlocks SSS Stage 1 Talent: Rapid Growth"],
+  11: ["Ch. 113 & 115", "First +20% level-up (+11 clones = 66 base, 264 with proliferators)"],
+  12: ["Ch. 115", "Upgraded to Lv 12 in Prison 507 (+14 clones = 80 base)"],
+  13: ["Ch. 115", "Upgraded to Lv 13 in Prison 507 (+16 clones = 96 base)"],
+  16: ["Ch. 239", "Reached Lv 16 & learned low-level Vampire Bloodline (168 base)"],
+  17: ["Ch. 247 & 262", "Reached Lv 17; zombie resurrection time shortened to 8.6 hours"],
+  20: ["Ch. 707", "Reached Lv 20 during Holy Court & Vampire conflict (351 base)"],
+  23: ["Ch. 819", "Novel explicitly confirms +102 gained = 609 total base clones"],
+  24: ["Ch. 830", "Novel explicitly confirms +122 gained = 731 total base clones"],
+  27: ["Ch. 1029", "Novel explicitly confirms 1,265 current zombie clones"],
+  28: ["Ch. 1064", "Novel explicitly confirms 1,518 current zombie clones"],
+  30: ["Ch. 1386 & 1630", "Reached Lv 30; unlocks SSS Stage 2 Talent: Efficient Evolution"],
+  32: ["Ch. 1648", "Novel explicitly confirms 3,150 current zombie clones"],
+  34: ["Ch. 1663", "Novel explicitly confirms 4,536 current zombie clones"],
+  35: ["Ch. 1669", "Novel explicitly confirms 5,444 current zombie clones"],
+  36: ["Ch. 1734", "Novel explicitly confirms 6,533 current zombie clones"],
+  37: ["Ch. 1797", "Novel explicitly confirms 7,840 current zombie clones"],
+  38: ["Ch. 1797", "Novel explicitly confirms 9,408 current zombie clones"],
+  39: ["Ch. 1797", "Novel explicitly confirms 11,290 clones (breaks 10,000 mark!)"],
+  40: ["Ch. 1813", "Novel confirms +2,258 gained = 13,548 total; unlocks Life Diversion & Mutant Infection"],
+  41: ["Ch. 2318", "Novel explicitly confirms +2,710 gained = 16,258 base clones"],
+  42: ["Ch. 2329", "Novel explicitly confirms +3,252 gained = 19,510 base clones"],
+  49: ["Ch. 2461", "Reached Lv 49 (>50,000 base clones: 69,911 base / 279,644 total)"],
+  50: ["Ch. 2579", "Novel explicitly confirms +13,983 gained = 83,894 base clones"],
+  51: ["Ch. 2622", "Novel explicitly confirms +16,779 gained = 100,673 base clones"],
+  59: ["Ch. 2622", "Novel explicitly confirms +72,147 gained = 432,881 base clones"],
+  60: ["Ch. 3256", "Novel explicitly confirms +86,577 gained = 519,458 base clones"],
+  61: ["Ch. 3258", "Novel explicitly confirms +103,892 gained = 623,350 base clones"],
+  62: ["Ch. 3258", "Novel explicitly confirms +124,670 gained = 748,020 base clones"],
+  63: ["Ch. 3269", "Novel explicitly confirms +149,604 gained = 897,624 base clones"],
+  67: ["Ch. 3305", "Fang Heng holds his level at Lv 67 (1,861,314 base / 7,445,256 with proliferators)"],
+  70: ["Ch. 3305 & 3323", "Spirit/Death Crystal threshold (3,216,352 base / 12,865,408 with proliferators)"]
+};
+
+// Precompute zombie levels up to 150
+const ZOMBIE_DATA = [];
+let runningTotal = 0;
+for (let lv = 1; lv <= 150; lv++) {
+  let gained = 0;
+  if (lv <= 10) {
+    gained = lv;
+    runningTotal += gained;
+  } else {
+    const nextTotal = Math.ceil(runningTotal * 1.2);
+    gained = nextTotal - runningTotal;
+    runningTotal = nextTotal;
+  }
+  const unenh = (lv * (lv + 1)) / 2;
+  ZOMBIE_DATA.push({
+    level: lv,
+    gained: gained,
+    total: runningTotal,
+    p6h: lv >= 11 ? runningTotal * 2 : null,
+    p12h: lv >= 11 ? runningTotal * 3 : null,
+    p18h: lv >= 11 ? runningTotal * 4 : null,
+    unenhanced: unenh,
+    verified: NOVEL_VERIFIED[lv] || null
+  });
+}
+
+let currentWikiSort = 'mentions_desc';
+let currentAlphaFilter = 'ALL';
+
+function initApp() {
+  // Populate Faction Filter
+  const factions = {};
+  CHARACTERS.forEach(c => {
+    factions[c.faction] = (factions[c.faction] || 0) + 1;
+  });
+  const facSelect = document.getElementById('wikiFaction');
+  Object.keys(factions).sort((a,b) => factions[b] - factions[a]).forEach(f => {
+    const opt = document.createElement('option');
+    opt.value = f;
+    opt.textContent = `${f} (${factions[f]})`;
+    facSelect.appendChild(opt);
+  });
+
+  // Build Alphabet Bar
+  const alphaBar = document.getElementById('alphaBar');
+  let alphaHTML = `<span class="sort-pill-label">Quick Initial Filter:</span>`;
+  alphaHTML += `<button class="alpha-btn active" onclick="setAlpha('ALL', this)">ALL</button>`;
+  for (let i = 65; i <= 90; i++) {
+    const letter = String.fromCharCode(i);
+    alphaHTML += `<button class="alpha-btn" onclick="setAlpha('${letter}', this)">${letter}</button>`;
+  }
+  alphaBar.innerHTML = alphaHTML;
+
+  renderWiki();
+  syncZombieLevel(40);
+  calcModCosts();
+  renderZombieTable();
+  syncAbeLevel(148);
+  syncOuroLevel(56);
+
+  // Restore saved chapter bookmark if present
+  const savedCh = localStorage.getItem('gg_saved_chapter') || '1813';
+  const savedNotes = localStorage.getItem('gg_saved_notes') || '';
+  document.getElementById('trkNotes').value = savedNotes;
+  updateChapterTracker(savedCh);
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const btn = document.getElementById('themeBtn');
+  if (html.getAttribute('data-theme') === 'light') {
+    html.removeAttribute('data-theme');
+    btn.textContent = '☀️ Light Mode';
+  } else {
+    html.setAttribute('data-theme', 'light');
+    btn.textContent = '🌙 Dark Mode';
+  }
+}
+
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  btn.classList.add('active');
+}
+
+function setWikiSort(sortMode, btn) {
+  currentWikiSort = sortMode;
+  document.querySelectorAll('#tab-wiki .sort-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderWiki();
+}
+
+function setWikiSortByCol(sortMode) {
+  if (currentWikiSort === sortMode) {
+    if (sortMode.endsWith('_asc')) sortMode = sortMode.replace('_asc', '_desc');
+    else if (sortMode.endsWith('_desc')) sortMode = sortMode.replace('_desc', '_asc');
+  }
+  currentWikiSort = sortMode;
+  document.querySelectorAll('#tab-wiki .sort-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-sort') === sortMode);
+  });
+  renderWiki();
+}
+
+function setAlpha(letter, btn) {
+  currentAlphaFilter = letter;
+  document.querySelectorAll('#alphaBar .alpha-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderWiki();
+}
+
+function resetWikiFilters() {
+  document.getElementById('wikiSearch').value = '';
+  document.getElementById('wikiFaction').value = 'ALL';
+  document.getElementById('wikiTier').value = 'ALL';
+  currentAlphaFilter = 'ALL';
+  document.querySelectorAll('#alphaBar .alpha-btn').forEach((b, idx) => b.classList.toggle('active', idx === 0));
+  setWikiSort('mentions_desc', document.querySelector('[data-sort="mentions_desc"]'));
+}
+
+function getFilteredCharacters() {
+  const q = document.getElementById('wikiSearch').value.trim().toLowerCase();
+  const fac = document.getElementById('wikiFaction').value;
+  const tier = document.getElementById('wikiTier').value;
+
+  let list = CHARACTERS.filter(c => {
+    if (fac !== 'ALL' && c.faction !== fac) return false;
+    if (tier !== 'ALL' && c.tier !== tier) return false;
+    if (currentAlphaFilter !== 'ALL') {
+      let targetWord = c.name;
+      if (currentWikiSort.startsWith('first_')) targetWord = c.first_name;
+      else if (currentWikiSort.startsWith('last_')) targetWord = c.last_name;
+      if (!targetWord.toUpperCase().startsWith(currentAlphaFilter)) return false;
+    }
+    if (q) {
+      const hay = `${c.name} ${c.first_name} ${c.last_name} ${c.aliases} ${c.faction} ${c.role} ${c.abilities} ${c.bio}`.toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+
+  list.sort((a, b) => {
+    switch (currentWikiSort) {
+      case 'mentions_desc': return b.total_mentions - a.total_mentions || b.chapters_count - a.chapters_count;
+      case 'mentions_asc': return a.total_mentions - b.total_mentions;
+      case 'chapters_desc': return b.chapters_count - a.chapters_count || b.total_mentions - a.total_mentions;
+      case 'chapters_asc': return a.chapters_count - b.chapters_count;
+      case 'first_asc': return a.first_name.localeCompare(b.first_name) || b.total_mentions - a.total_mentions;
+      case 'first_desc': return b.first_name.localeCompare(a.first_name) || b.total_mentions - a.total_mentions;
+      case 'last_asc': return a.last_name.localeCompare(b.last_name) || a.first_name.localeCompare(b.first_name);
+      case 'last_desc': return b.last_name.localeCompare(a.last_name) || a.first_name.localeCompare(b.first_name);
+      case 'full_asc': return a.name.localeCompare(b.name);
+      case 'full_desc': return b.name.localeCompare(a.name);
+      case 'debut_asc': return a.first_chapter - b.first_chapter || b.total_mentions - a.total_mentions;
+      case 'debut_desc': return b.first_chapter - a.first_chapter;
+      default: return b.total_mentions - a.total_mentions;
+    }
+  });
+  return list;
+}
+
+function renderWiki() {
+  const list = getFilteredCharacters();
+  const mode = document.getElementById('wikiViewMode').value;
+  const cardsEl = document.getElementById('wikiCardsContainer');
+  const tableEl = document.getElementById('wikiTableContainer');
+  const tbody = document.getElementById('wikiTableBody');
+
+  document.getElementById('wikiCountSummary').textContent = `Showing ${list.length} of 150 verified key characters`;
+
+  cardsEl.style.display = (mode === 'table') ? 'none' : 'grid';
+  tableEl.style.display = (mode === 'cards_only') ? 'none' : 'block';
+
+  if (mode !== 'table') {
+    cardsEl.innerHTML = list.map(c => {
+      const leftPct = ((c.first_chapter - 1) / 3555 * 100).toFixed(1);
+      const widthPct = Math.max(1.5, ((c.last_chapter - c.first_chapter + 1) / 3555 * 100)).toFixed(1);
+      const rankClass = c.rank === 1 ? 'top-1' : (c.rank <= 15 ? 'top-15' : '');
+      return `
+      <div class="char-card" onclick="openCharModal(${c.rank})">
+        <div>
+          <div class="char-card-top">
+            <div>
+              <span class="rank-badge ${rankClass}">Rank #${c.rank} • ${c.tier.split('/')[0].trim()}</span>
+              <div class="char-name" style="margin-top:6px;">${c.name}</div>
+              <div class="char-name-breakdown">Given/First: <span>${c.first_name}</span> &bull; Family/Last: <span>${c.last_name}</span></div>
+            </div>
+            <div class="mention-Right">
+              <div class="mention-count">${c.total_mentions.toLocaleString()}</div>
+              <div class="chapter-count">mentions in ${c.chapters_count.toLocaleString()} chs</div>
+            </div>
+          </div>
+          <div class="char-tags">
+            <span class="tag-pill faction">${c.faction}</span>
+            <span class="tag-pill">Debut: Ch.${c.first_chapter}</span>
+            <span class="tag-pill">Peak: Ch.${c.peak_chapter}</span>
+          </div>
+          <div class="char-role">${c.role}</div>
+          <div class="char-bio">${c.bio}</div>
+        </div>
+        <div class="timeline-wrap">
+          <div class="timeline-labels">
+            <span>First: Ch.${c.first_chapter}</span>
+            <span>Active Span (Ch. 1–3555)</span>
+            <span>Last: Ch.${c.last_chapter}</span>
+          </div>
+          <div class="timeline-track">
+            <div class="timeline-fill" style="left:${leftPct}%; width:${widthPct}%;"></div>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  if (mode !== 'cards_only') {
+    tbody.innerHTML = list.map(c => `
+      <tr onclick="openCharModal(${c.rank})" style="cursor:pointer;">
+        <td><span class="rank-badge ${c.rank===1?'top-1':(c.rank<=15?'top-15':'')}">#${c.rank}</span></td>
+        <td><strong>${c.name}</strong></td>
+        <td style="color:var(--accent-cyan); font-weight:600;">${c.first_name}</td>
+        <td style="color:var(--accent-gold); font-weight:600;">${c.last_name}</td>
+        <td class="num-col"><strong>${c.total_mentions.toLocaleString()}</strong></td>
+        <td class="num-col">${c.chapters_count.toLocaleString()}</td>
+        <td>Ch. ${c.first_chapter} – ${c.last_chapter} <span style="color:var(--text-muted); font-size:0.75rem;">(Peak: ${c.peak_chapter})</span></td>
+        <td><span class="tag-pill faction">${c.faction}</span></td>
+        <td>${c.role}</td>
+      </tr>
+    `).join('');
+  }
+}
+
+function openCharModal(rank) {
+  const c = CHARACTERS.find(x => x.rank === rank);
+  if (!c) return;
+  const leftPct = ((c.first_chapter - 1) / 3555 * 100).toFixed(1);
+  const widthPct = Math.max(1.5, ((c.last_chapter - c.first_chapter + 1) / 3555 * 100)).toFixed(1);
+  const modal = document.getElementById('charModal');
+  const box = document.getElementById('charModalContent');
+  box.innerHTML = `
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:14px;">
+      <div>
+        <span class="rank-badge ${c.rank===1?'top-1':(c.rank<=15?'top-15':'')}">Frequency Rank #${c.rank} &bull; ${c.tier}</span>
+        <h2 style="font-size:1.6rem; margin-top:8px;">${c.full_display}</h2>
+        <div style="font-size:0.86rem; color:var(--text-secondary); margin-top:2px;">
+          <strong>Aliases / Titles:</strong> ${c.aliases}
+        </div>
+      </div>
+      <button class="btn-secondary" onclick="closeModal()">✕ Close</button>
+    </div>
+
+    <div class="kpi-grid" style="margin:14px 0;">
+      <div class="kpi-box">
+        <div class="kpi-label">Total Novel Mentions</div>
+        <div class="kpi-val green">${c.total_mentions.toLocaleString()}</div>
+        <div class="kpi-sub">Rank #${c.rank} in Novel</div>
+      </div>
+      <div class="kpi-box">
+        <div class="kpi-label">Chapters Appeared In</div>
+        <div class="kpi-val cyan">${c.chapters_count.toLocaleString()}</div>
+        <div class="kpi-sub">${((c.chapters_count / 3555)*100).toFixed(1)}% of all chapters</div>
+      </div>
+      <div class="kpi-box">
+        <div class="kpi-label">Index Name Parsing</div>
+        <div class="kpi-val gold" style="font-size:1.1rem;">First: ${c.first_name}</div>
+        <div class="kpi-sub">Last / Family: ${c.last_name}</div>
+      </div>
+    </div>
+
+    <div style="background:var(--bg-surface); border:1px solid var(--border-color); border-radius:10px; padding:14px; margin-bottom:14px;">
+      <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:var(--text-secondary); margin-bottom:6px;">
+        <span><strong>Debut Chapter:</strong> Ch. ${c.first_chapter}</span>
+        <span><strong>Peak Chapter:</strong> Ch. ${c.peak_chapter} (${c.peak_mentions} mentions)</span>
+        <span><strong>Final Appearance:</strong> Ch. ${c.last_chapter}</span>
+      </div>
+      <div class="timeline-track" style="height:10px;">
+        <div class="timeline-fill" style="left:${leftPct}%; width:${widthPct}%;"></div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:12px;">
+      <div style="font-size:0.78rem; text-transform:uppercase; font-weight:700; color:var(--text-muted);">Faction & Role</div>
+      <div style="font-size:0.95rem; font-weight:700; color:var(--accent-gold); margin-top:2px;">${c.faction} — ${c.role}</div>
+      <div style="font-size:0.83rem; color:var(--text-secondary); margin-top:2px;"><strong>Primary Story Arcs:</strong> ${c.arc}</div>
+    </div>
+
+    <div style="margin-bottom:12px;">
+      <div style="font-size:0.78rem; text-transform:uppercase; font-weight:700; color:var(--text-muted);">Known Abilities, Talents & Specializations</div>
+      <div style="font-size:0.9rem; color:var(--accent-cyan); margin-top:3px;">${c.abilities}</div>
+    </div>
+
+    <div>
+      <div style="font-size:0.78rem; text-transform:uppercase; font-weight:700; color:var(--text-muted);">Character Dossier & Story Summary</div>
+      <p style="font-size:0.92rem; color:var(--text-primary); margin-top:4px; line-height:1.65;">${c.bio}</p>
+    </div>
+  `;
+  modal.classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('charModal').classList.remove('open');
+}
+
+// ==================== TAB 2: ZOMBIE CALCULATOR FUNCTIONS ====================
+function syncZombieLevel(val) {
+  let lv = parseInt(val) || 1;
+  if (lv < 1) lv = 1;
+  if (lv > 150) lv = 150;
+  document.getElementById('zLevelSlider').value = Math.min(120, lv);
+  document.getElementById('zLevelInput').value = lv;
+
+  const row = ZOMBIE_DATA[lv - 1];
+  document.getElementById('kpiBaseZombies').textContent = row.total.toLocaleString();
+  document.getElementById('kpiGainedZombies').textContent = `+${row.gained.toLocaleString()} gained at Level ${lv}`;
+
+  if (lv >= 11) {
+    document.getElementById('kpiFullArmy').textContent = row.p18h.toLocaleString();
+    document.getElementById('kpiProlifOnly').textContent = `${(row.total * 3).toLocaleString()} Proliferators active (18h)`;
+    document.getElementById('kpiMidProlif').textContent = `${row.p6h.toLocaleString()} / ${row.p12h.toLocaleString()}`;
+  } else {
+    document.getElementById('kpiFullArmy').textContent = row.total.toLocaleString();
+    document.getElementById('kpiProlifOnly').textContent = `Proliferators unlock at Lv 11 (Ch. 113)`;
+    document.getElementById('kpiMidProlif').textContent = `— / —`;
+  }
+
+  document.getElementById('kpiUnenhanced').textContent = row.unenhanced.toLocaleString();
+  const mult = (row.total / row.unenhanced).toFixed(2);
+  document.getElementById('kpiMultiplier').textContent = `${mult}× vs unenhanced S-rank`;
+
+  const banner = document.getElementById('novelMilestoneBanner');
+  if (row.verified) {
+    banner.innerHTML = `✅ <strong>Novel-Verified Milestone (${row.verified[0]}):</strong> ${row.verified[1]}`;
+    banner.style.borderColor = 'rgba(16,185,129,0.5)';
+  } else {
+    banner.innerHTML = `ℹ️ <strong>Formula Calculation (Level ${lv}):</strong> Base clones = <code>ceil(Lv_${lv-1} × 1.2) = ${row.total.toLocaleString()}</code>. Full proliferated army after 18 hours = <code>${(lv>=11 ? row.p18h : row.total).toLocaleString()}</code>.`;
+    banner.style.borderColor = 'var(--border-color)';
+  }
+}
+
+function useLevelBaseForMod() {
+  const lv = parseInt(document.getElementById('zLevelInput').value) || 40;
+  document.getElementById('modCloneCount').value = ZOMBIE_DATA[lv - 1].total;
+  calcModCosts();
+}
+
+function useLevelGainedForMod() {
+  const lv = parseInt(document.getElementById('zLevelInput').value) || 40;
+  document.getElementById('modCloneCount').value = ZOMBIE_DATA[lv - 1].gained;
+  calcModCosts();
+}
+
+function calcModCosts() {
+  const form = document.getElementById('modFormSelect').value;
+  const count = Math.max(1, parseInt(document.getElementById('modCloneCount').value) || 1);
+  const kpiWrap = document.getElementById('modCostKPIs');
+  const noteEl = document.getElementById('modLoreNote');
+
+  let kpis = '';
+  let note = '';
+  if (form === 'vine_tyrant') {
+    kpis = `
+      <div class="kpi-box"><div class="kpi-label">Survival Points</div><div class="kpi-val gold">${(count * 15000).toLocaleString()}</div><div class="kpi-sub">15,000 pts / clone</div></div>
+      <div class="kpi-box"><div class="kpi-label">Tier-1 Evolution Crystals</div><div class="kpi-val cyan">${(count * 3).toLocaleString()}</div><div class="kpi-sub">3 crystals / clone</div></div>
+    `;
+    note = `<strong>Canonical Reference (Ch. 177 & 379):</strong> Eliminates unstable mutation risk and permanently solidifies the dual Fusion Tyrant + Vine Parasite form so clones retain it after death and resurrection.`;
+  } else if (form === 'worm_trifusion') {
+    kpis = `
+      <div class="kpi-box"><div class="kpi-label">Survival Points</div><div class="kpi-val gold">${(count * 2000).toLocaleString()}</div><div class="kpi-sub">400,000 per 200 clones</div></div>
+      <div class="kpi-box"><div class="kpi-label">Tier-1 Evolution Crystals</div><div class="kpi-val cyan">${(count * 1).toLocaleString()}</div><div class="kpi-sub">200 per 200 clones</div></div>
+    `;
+    note = `<strong>Canonical Reference (Ch. 445):</strong> Fuses the Mutant Worm body with the Tyrant and Vine Parasite forms inside the District 7 research base.`;
+  } else if (form === 'worm_late') {
+    kpis = `
+      <div class="kpi-box"><div class="kpi-label">King of Gods' Points</div><div class="kpi-val crimson">${(count * 500).toLocaleString()}</div><div class="kpi-sub">500 King of Gods' pts / clone</div></div>
+    `;
+    note = `<strong>Canonical Reference (Ch. 3256 & 3258):</strong> At Level 60 (+86,577 clones), Fang Heng spends <code>86,577 × 500 = 43,288,500</code> King of Gods' Points, and at Levels 61–62 (+228,562 clones) spends <code>228,562 × 500 = 114,281,000</code> points.`;
+  } else if (form === 'rapid_div') {
+    kpis = `
+      <div class="kpi-box"><div class="kpi-label">King of Gods' Points</div><div class="kpi-val crimson">${(count * 1500).toLocaleString()}</div><div class="kpi-sub">1,500 King of Gods' pts / clone</div></div>
+    `;
+    note = `<strong>Canonical Reference (Ch. 2919):</strong> Solidifies the Rapid Division form (20 clones = 30,000 King of Gods' Points).`;
+  } else if (form === 'undead_base') {
+    kpis = `
+      <div class="kpi-box"><div class="kpi-label">King of Gods' Points</div><div class="kpi-val cyan">${(count * 5000).toLocaleString()}</div><div class="kpi-sub">5,000 Main God pts / clone</div></div>
+    `;
+    note = `<strong>Canonical Reference (Ch. 3307):</strong> Unlocked upon advancing to God-Level Undead Studies; converts zombie clones into pure Undead form.`;
+  } else if (form === 'underworld_hunter') {
+    kpis = `
+      <div class="kpi-box"><div class="kpi-label">Total King of Gods' Points</div><div class="kpi-val gold">${(count * 105000).toLocaleString()}</div><div class="kpi-sub">5,000 base + 100,000 solidification</div></div>
+    `;
+    note = `<strong>Canonical Reference (Ch. 3332):</strong> Faith conversion + solidification into an Underworld Hunter that retains its form upon rebirth.`;
+  } else if (form === 'god_underworld') {
+    kpis = `
+      <div class="kpi-box"><div class="kpi-label">Total King of Gods' Points</div><div class="kpi-val crimson">${(count * 10005000).toLocaleString()}</div><div class="kpi-sub">5,000 base + 10,000,000 solidification</div></div>
+    `;
+    note = `<strong>Canonical Reference (Ch. 3378):</strong> Highest-tier Netherworld faith modification — transforms a clone into a God of the Underworld.`;
+  }
+  kpiWrap.innerHTML = kpis;
+  noteEl.innerHTML = note;
+}
+
+function renderZombieTable() {
+  const maxLv = Math.min(150, Math.max(10, parseInt(document.getElementById('tableMaxLevel').value) || 70));
+  const mode = document.getElementById('tableFilterMode').value;
+  const tbody = document.getElementById('zombieTableBody');
+
+  let rows = ZOMBIE_DATA.slice(0, maxLv);
+  if (mode === 'verified') {
+    rows = rows.filter(r => r.verified !== null);
+  }
+
+  tbody.innerHTML = rows.map(r => `
+    <tr class="${r.verified ? 'verified-row' : ''}" onclick="syncZombieLevel(${r.level})" style="cursor:pointer;">
+      <td><strong>Lv. ${r.level}</strong></td>
+      <td class="num-col" style="color:var(--accent-green);">+${r.gained.toLocaleString()}</td>
+      <td class="num-col"><strong>${r.total.toLocaleString()}</strong></td>
+      <td class="num-col">${r.p6h ? r.p6h.toLocaleString() : '—'}</td>
+      <td class="num-col">${r.p12h ? r.p12h.toLocaleString() : '—'}</td>
+      <td class="num-col"><strong style="color:var(--accent-crimson);">${r.p18h ? r.p18h.toLocaleString() : '—'}</strong></td>
+      <td class="num-col" style="color:var(--text-muted);">${r.unenhanced.toLocaleString()}</td>
+      <td>${r.verified ? `<span class="milestone-pill">${r.verified[0]}</span> ${r.verified[1]}` : '<span style="color:var(--text-muted);">—</span>'}</td>
+    </tr>
+  `).join('');
+}
+
+// ==================== TAB 3: ABE AKAYA & OUROBOROS ====================
+function syncAbeLevel(val) {
+  let lv = Math.max(1, Math.min(500, parseInt(val) || 1));
+  document.getElementById('abeLevelSlider').value = Math.min(320, lv);
+  document.getElementById('abeLevelInput').value = lv;
+
+  const maxDim = Math.floor(lv / 10) + 1;
+  document.getElementById('abeMaxDimLv').textContent = `Level ${maxDim}`;
+
+  // Canonical Vampire Clan attribute boost curve from Ch. 2290 - 2766
+  let boost = 0;
+  if (lv < 41) boost = 0;
+  else if (maxDim <= 2) boost = maxDim * 20;
+  else if (maxDim <= 8) boost = maxDim * 20;
+  else if (maxDim <= 16) boost = Math.round(maxDim * 10);
+  else if (maxDim <= 27) boost = Math.round((maxDim - 10) * 45);
+  else boost = Math.round((maxDim - 15) * 90);
+
+  document.getElementById('abeVampBoost').textContent = lv < 41 ? 'Not Unlocked (<Lv.41)' : `+${boost.toLocaleString()}%`;
+
+  let form = 'Sapling / Blood Form';
+  let sub = 'Bound in Enkama / World of Forests (Ch. 1062)';
+  if (lv >= 277) {
+    form = 'Complete Form: Tree of Hell';
+    sub = 'All Demonic Seeds Absorbed (Ch. 3031+)';
+  } else if (lv >= 160) {
+    form = 'Complete-Eligible Dimensional';
+    sub = 'Exceeds Lv.160 Threshold (Ch. 2332)';
+  } else if (lv >= 41) {
+    form = 'Mature Dimensional Form';
+    sub = 'Bound to Temple of Incantation (Ch. 2281+)';
+  }
+  document.getElementById('abeFormStage').textContent = form;
+  document.getElementById('abeFormSub').textContent = sub;
+}
+
+function syncOuroLevel(val) {
+  let lv = Math.max(1, Math.min(100, parseInt(val) || 1));
+  document.getElementById('ouroSlider').value = Math.min(60, lv);
+  document.getElementById('ouroInput').value = lv;
+
+  const slots = Math.floor(lv / 20) + 1;
+  document.getElementById('ouroSlots').textContent = `${slots} External Slot${slots>1?'s':''}`;
+  document.getElementById('ouroAwaken').textContent = lv >= 50 ? 'Unlocked (Lv 50+ Passed)' : `Requires Lv 50 (Current: ${lv})`;
+}
+
+// ==================== TAB 4: READING CHAPTER TIME-MACHINE ====================
+const CHAPTER_MILESTONES = [
+  { maxCh: 2, lv: 1, arc: "Prologue & Transmigration", range: "Ch. 1–2", talent: "SSS Enhanced Super Zombie Clone", forms: "Ordinary Zombie Clone", tree: "None" },
+  { maxCh: 16, lv: 5, arc: "Starter Forest & Apocalypse Merchant", range: "Ch. 3–16", talent: "Base SSS Talent (Lv 1–5)", forms: "Wooden Spear / Axe Zombies", tree: "None" },
+  { maxCh: 31, lv: 6, arc: "Prison No. 507 Discovery", range: "Ch. 17–31", talent: "Base SSS Talent", forms: "Basic Zombie Horde", tree: "None" },
+  { maxCh: 75, lv: 9, arc: "Prison No. 507 Clearing & Qiu Yaokang", range: "Ch. 32–75", talent: "Base SSS Talent (45 Clones)", forms: "Corpse Vine Parasite Form", tree: "None" },
+  { maxCh: 114, lv: 10, arc: "Three S-Rank Talent Plans Synthesis", range: "Ch. 76–114", talent: "Stage 1 SSS: Rapid Growth (Ch. 113)", forms: "Vine Zombie + Proliferators", tree: "None" },
+  { maxCh: 246, lv: 13, arc: "Meteorite Company & Tyrant Pod", range: "Ch. 115–246", talent: "Stage 1 SSS: Rapid Growth", forms: "Vine + Tyrant Fusion & Licker", tree: "None" },
+  { maxCh: 506, lv: 18, arc: "District 7, Potions & Sealing Arts", range: "Ch. 247–506", talent: "Stage 1 SSS + Undying Body", forms: "Tri-Fusion Tyrant (Vine+Tyrant+Worm)", tree: "None" },
+  { maxCh: 706, lv: 19, arc: "Vampire Invasion & Stealing Angetas", range: "Ch. 507–706", talent: "Undying Body + High-Tier Vampire", forms: "Undying Fusion Tyrants & Lickers", tree: "Sacred Tree Angetas (Stolen Ch.615)" },
+  { maxCh: 818, lv: 20, arc: "Holy Court Purge & Vampire Prince Carl", range: "Ch. 707–818", talent: "Marquis Vampire Bloodline", forms: "Blood-Tempered Lickers & Tyrants", tree: "Angetas in Prison 507" },
+  { maxCh: 829, lv: 23, arc: "Primeval Forest & Southwest Region", range: "Ch. 819–829", talent: "Duke Vampire Bloodline", forms: "609 Base / 2,436 Full Army", tree: "Angetas" },
+  { maxCh: 1028, lv: 24, arc: "Vampire King's Coffin & Jian Muzhi", range: "Ch. 830–1028", talent: "Vampire King Inheritor (Ch. 953)", forms: "Vampire King Remains Tyrants", tree: "Angetas + Sacred Tree Seed" },
+  { maxCh: 1063, lv: 27, arc: "Enkama Empire Entry & Princess Mingyue", range: "Ch. 1029–1063", talent: "Vampire King's Coffin Summoning", forms: "1,265 Base / 5,060 Full Army", tree: "Abe Akaya Cultivated (Ch. 1062)" },
+  { maxCh: 1385, lv: 28, arc: "Enkama Civil War & Omniscient Eye", range: "Ch. 1064–1385", talent: "S-Rank Omniscient Eye (Ch. 1216)", forms: "1,518 Base / 6,072 Full Army", tree: "Abe Akaya Mature Companion (Ch. 1338)" },
+  { maxCh: 1647, lv: 30, arc: "Tower of Bones & Punoze Uprising", range: "Ch. 1386–1647", talent: "Stage 2 SSS: Efficient Evolution (Ch. 1630)", forms: "Multi-Form Evolution Zombies", tree: "Abe Akaya (Tree of Light / Foulness)" },
+  { maxCh: 1662, lv: 32, arc: "Frontier Outpost & Spatial Science", range: "Ch. 1648–1662", talent: "Efficient Evolution + Occult Eye", forms: "3,150 Base / 12,600 Full Army", tree: "Abe Akaya" },
+  { maxCh: 1668, lv: 34, arc: "Black Castle & Obsidian Company", range: "Ch. 1663–1668", talent: "Efficient Evolution", forms: "4,536 Base / 18,144 Full Army", tree: "Abe Akaya" },
+  { maxCh: 1733, lv: 35, arc: "Demi-Human & Charlene Cooperation", range: "Ch. 1669–1733", talent: "Efficient Evolution", forms: "5,444 Base / 21,776 Full Army", tree: "Abe Akaya" },
+  { maxCh: 1796, lv: 36, arc: "Level 40 One-Month Challenge", range: "Ch. 1734–1796", talent: "Efficient Evolution", forms: "6,533 Base / 26,132 Full Army", tree: "Abe Akaya" },
+  { maxCh: 1812, lv: 39, arc: "Breaking 10,000 Base Zombie Clones", range: "Ch. 1797–1812", talent: "Efficient Evolution", forms: "Flesh Armored + Mutant Worm (11,290)", tree: "Abe Akaya" },
+  { maxCh: 2317, lv: 40, arc: "Chiporeya & World of Forests / OmniTech", range: "Ch. 1813–2317", talent: "Stage 3 SSS: Life Diversion & Mutant Infection", forms: "13,548 Base / 54,192 Full Army", tree: "Abe Akaya Dimensional Form (Lv 41–81)" },
+  { maxCh: 2328, lv: 41, arc: "Sacred Tree Sapling Absorption", range: "Ch. 2318–2328", talent: "Grandmaster Necromancy", forms: "16,258 Base / 65,032 Full Army", tree: "Abe Akaya Lv. 148 (Dim Lv. 15)" },
+  { maxCh: 2460, lv: 42, arc: "Progenitor Sacred Tree Trial & Tower Siege", range: "Ch. 2329–2460", talent: "Grandmaster Necromancy Lv. 28", forms: "19,510 Base / 78,040 Full Army", tree: "Abe Akaya Lv. 188+" },
+  { maxCh: 2578, lv: 49, arc: "Demonic Seeds Arena & Death Realm Entry", range: "Ch. 2461–2578", talent: "Commander Death God Bloodline", forms: "69,911 Base / 279,644 Full Army", tree: "Abe Akaya Tree of Hell Path" },
+  { maxCh: 2621, lv: 50, arc: "Death Realm Warlords & Underworld Bloodline", range: "Ch. 2579–2621", talent: "God of the Underworld Bloodline", forms: "83,894 Base / 335,576 Full Army", tree: "Abe Akaya Absorbing Demonic Seeds" },
+  { maxCh: 3255, lv: 59, arc: "God-Level Necromancy, Ouroboros & Noel Clan", range: "Ch. 2622–3255", talent: "Super-God Necromancy + Seed of Ouroboros", forms: "432,881 Base / 1,731,524 Full Army", tree: "Abe Akaya Complete Form (Lv. 277)" },
+  { maxCh: 3257, lv: 60, arc: "Netherworld Black Fog Pillars", range: "Ch. 3256–3257", talent: "Super-God Necromancy + God Natural Science", forms: "519,458 Base / 2,077,832 Full Army", tree: "Abe Akaya Complete Form" },
+  { maxCh: 3268, lv: 62, arc: "Netherworld Soul Brand & Death Crystals", range: "Ch. 3258–3268", talent: "God-Level Occult", forms: "748,020 Base / 2,992,080 Full Army", tree: "Abe Akaya Complete Form" },
+  { maxCh: 3304, lv: 63, arc: "Ouroboros Primogenitor Final Fusion", range: "Ch. 3269–3304", talent: "Ouroboros Lv.50 Awakening", forms: "897,624 Base / 3,590,496 Full Army", tree: "Abe Akaya Complete Form" },
+  { maxCh: 3555, lv: 67, arc: "God Clan Temple, 99 Layers of Hell & Tribunal of Sin", range: "Ch. 3305–3555", talent: "Super-God Necromancy, Hell Studies & Alchemy", forms: "1,861,314 Base (Undead / God of Underworld)", tree: "Abe Akaya Soul-Fused Overlord" }
+];
+
+function updateChapterTracker(chVal) {
+  let ch = Math.max(1, Math.min(3555, parseInt(chVal) || 1));
+  document.getElementById('chTrackerSlider').value = ch;
+  document.getElementById('chTrackerInput').value = ch;
+
+  const m = CHAPTER_MILESTONES.find(x => ch <= x.maxCh) || CHAPTER_MILESTONES[CHAPTER_MILESTONES.length - 1];
+  const z = ZOMBIE_DATA[m.lv - 1];
+
+  document.getElementById('trkArc').textContent = m.arc;
+  document.getElementById('trkArcRange').textContent = m.range;
+  document.getElementById('trkLevel').textContent = `Level ${m.lv}`;
+  document.getElementById('trkTalentStage').textContent = m.talent;
+  document.getElementById('trkBaseClones').textContent = z.total.toLocaleString();
+  document.getElementById('trkFullArmy').textContent = z.p18h ? `${z.p18h.toLocaleString()} with Proliferators (×4)` : `No Proliferators yet (<Lv.11)`;
+  document.getElementById('trkForms').textContent = m.forms;
+  document.getElementById('trkTreeStatus').textContent = m.tree;
+
+  // Find characters active within [ch - 50, ch + 50]
+  const active = CHARACTERS.filter(c => c.first_chapter <= ch + 40 && c.last_chapter >= ch - 40).slice(0, 18);
+  document.getElementById('trkActiveChars').innerHTML = active.map(c =>
+    `<span class="tag-pill" style="cursor:pointer;" onclick="openCharModal(${c.rank})">#${c.rank} ${c.name}</span>`
+  ).join('');
+}
+
+function saveReadingBookmark() {
+  const ch = document.getElementById('chTrackerInput').value;
+  const notes = document.getElementById('trkNotes').value;
+  localStorage.setItem('gg_saved_chapter', ch);
+  localStorage.setItem('gg_saved_notes', notes);
+}
+
+// CSV Exports
+function exportWikiCSV() {
+  const list = getFilteredCharacters();
+  const headers = ['Rank','Name','First_Given_Name','Last_Family_Name','Total_Mentions','Chapters_Count','First_Chapter','Last_Chapter','Peak_Chapter','Tier','Faction','Role','Aliases'];
+  const rows = list.map(c => [
+    c.rank, `"${c.name}"`, `"${c.first_name}"`, `"${c.last_name}"`,
+    c.total_mentions, c.chapters_count, c.first_chapter, c.last_chapter, c.peak_chapter,
+    `"${c.tier}"`, `"${c.faction}"`, `"${c.role}"`, `"${c.aliases.replace(/"/g, '""')}"`
+  ].join(','));
+  downloadCSV([headers.join(','), ...rows].join('\n'), 'global_game_character_wiki.csv');
+}
+
+function exportZombieCSV() {
+  const maxLv = Math.min(150, Math.max(10, parseInt(document.getElementById('tableMaxLevel').value) || 70));
+  const headers = ['Level','Zombies_Gained','Total_Base_Zombies','Prolif_6h_2x','Prolif_12h_3x','Total_Zombies_Plus_Proliferators_4x','Unenhanced_S_Rank','Novel_Verified_Chapter','Milestone_Note'];
+  const rows = ZOMBIE_DATA.slice(0, maxLv).map(r => [
+    r.level, r.gained, r.total, r.p6h || '', r.p12h || '', r.p18h || '', r.unenhanced,
+    r.verified ? `"${r.verified[0]}"` : '', r.verified ? `"${r.verified[1].replace(/"/g, '""')}"` : ''
+  ].join(','));
+  downloadCSV([headers.join(','), ...rows].join('\n'), `fang_heng_zombie_calculator_lv1_to_${maxLv}.csv`);
+}
+
+function downloadCSV(content, filename) {
+  const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+window.addEventListener('DOMContentLoaded', initApp);
+</script>
+</body>
+</html>

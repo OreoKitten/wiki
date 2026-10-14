@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OreoKitten / wiki — Personal Novel & Software Wiki Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-main: #0b0f17;
+    --bg-card: #131b2e;
+    --bg-card-hover: #19233c;
+    --bg-surface: #0f1626;
+    --bg-elevated: #1e2942;
+    --border-color: #263454;
+    --border-highlight: #3b4f7d;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --accent-green: #10b981;
+    --accent-green-dim: rgba(16, 185, 129, 0.14);
+    --accent-crimson: #f43f5e;
+    --accent-crimson-dim: rgba(244, 63, 94, 0.14);
+    --accent-gold: #f59e0b;
+    --accent-gold-dim: rgba(245, 158, 11, 0.14);
+    --accent-cyan: #06b6d4;
+    --accent-cyan-dim: rgba(6, 182, 212, 0.14);
+    --accent-purple: #8b5cf6;
+    --accent-purple-dim: rgba(139, 92, 246, 0.14);
+    --shadow-lg: 0 12px 32px -6px rgba(0, 0, 0, 0.55);
+  }
+  [data-theme="light"] {
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f1f5f9;
+    --bg-surface: #eef2f6;
+    --bg-elevated: #e2e8f0;
+    --border-color: #cbd5e1;
+    --border-highlight: #94a3b8;
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    --shadow-lg: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.55;
+    padding-bottom: 64px;
+    min-height: 100vh;
+  }
+  code, pre, .mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+
+  /* Header & Hero */
+  .hub-header {
+    background: linear-gradient(135deg, #0d1527 0%, #162447 52%, #1d1936 100%);
+    border-bottom: 1px solid var(--border-color);
+    padding: 24px 24px 0 24px;
+    color: #f8fafc;
+  }
+  .header-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+  .header-top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 18px;
+    padding-bottom: 20px;
+  }
+  .brand-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .brand-logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+    flex-shrink: 0;
+  }
+  .brand-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .repo-pill {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #38bdf8;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .repo-pill:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+  .brand-subtitle {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    margin-top: 4px;
+    max-width: 780px;
+  }
+  .header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  .path-mode-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 10px;
+    padding: 5px 10px;
+  }
+  .path-mode-box label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #94a3b8;
+    letter-spacing: 0.04em;
+  }
+  .path-mode-select {
+    background: transparent;
+    color: #34d399;
+    border: none;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+  }
+  .path-mode-select option {
+    background: #0f172a;
+    color: #f8fafc;
+  }
+  .hdr-btn {
+    background: rgba(255, 255, 255, 0.09);
+    color: #f8fafc;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 9px;
+    padding: 8px 13px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s;
+  }
+  .hdr-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: #34d399;
+  }
+  .hdr-btn.primary {
+    background: var(--accent-green);
+    color: #042f1e;
+    border-color: var(--accent-green);
+    font-weight: 700;
+  }
+  .hdr-btn.primary:hover {
+    opacity: 0.92;
+  }
+
+  /* Navigation Tabs */
+  .nav-tabs {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 4px;
+  }
+  .nav-tab {
+    background: transparent;
+    color: #94a3b8;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 12px 18px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .nav-tab:hover {
+    color: #f8fafc;
+    background: rgba(255, 255, 255, 0.04);
+  }
+  .nav-tab.active {
+    color: #34d399;
+    border-bottom-color: #10b981;
+    background: rgba(16, 185, 129, 0.08);
+  }
+
+  /* Main Layout */
+  .main-container {
+    max-width: 1440px;
+    margin: 24px auto;
+    padding: 0 24px;
+  }
+  .tab-panel {
+    display: none;
+  }
+  .tab-panel.active {
+    display: block;
+  }
+
+  /* Summary Banner KPIs */
+  .summary-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .stat-tile {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 15px 18px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .stat-tile-label {
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+  }
+  .stat-tile-val {
+    font-size: 1.45rem;
+    font-weight: 800;
+    margin-top: 3px;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-tile-sub {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 2px;
+  }
+  .stat-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  /* Panel Card & Filter Bar */
+  .panel-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-lg);
+  }
+  .filter-grid {
+    display: grid;
+    grid-template-columns: 2.2fr 1.2fr 1.2fr 1.2fr auto;
+    gap: 12px;
+    align-items: end;
+  }
+  @media (max-width: 1024px) {
+    .filter-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 640px) {
+    .filter-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .control-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+  }
+  .input-field, .select-field, .textarea-field {
+    width: 100%;
+    padding: 9px 12px;
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-family: inherit;
+  }
+  .input-field:focus, .select-field:focus, .textarea-field:focus {
+    outline: none;
+    border-color: var(--accent-green);
+  }
+
+  .pill-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-color);
+    align-items: center;
+  }
+  .pill-label {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-right: 4px;
+  }
+  .filter-pill {
+    background: var(--bg-surface);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-pill:hover {
+    border-color: var(--accent-green);
+    color: var(--text-primary);
+  }
+  .filter-pill.active {
+    background: var(--accent-green-dim);
+    color: var(--accent-green);
+    border-color: var(--accent-green);
+  }
+
+  /* Project Grid & Cards */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(410px, 1fr));
+    gap: 18px;
+  }
+  @media (max-width: 520px) {
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .project-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.16s ease, border-color 0.16s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-green);
+  }
+  .project-card.featured {
+    border-color: rgba(16, 185, 129, 0.45);
+    background: linear-gradient(180deg, rgba(16, 185, 129, 0.05) 0%, var(--bg-card) 38%);
+  }
+  .card-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .folder-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent-green-dim);
+    color: var(--accent-green);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 8px;
+  }
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+  }
+  .badge.novel {
+    background: var(--accent-purple-dim);
+    color: var(--accent-purple);
+    border-color: rgba(139, 92, 246, 0.3);
+  }
+  .badge.software {
+    background: var(--accent-cyan-dim);
+    color: var(--accent-cyan);
+    border-color: rgba(6, 182, 212, 0.3);
+  }
+  .badge.gemini {
+    background: rgba(56, 189, 248, 0.14);
+    color: #38bdf8;
+    border-color: rgba(56, 189, 248, 0.3);
+  }
+  .badge.claude {
+    background: var(--accent-gold-dim);
+    color: var(--accent-gold);
+    border-color: rgba(245, 158, 11, 0.35);
+  }
+  .badge.selfmade {
+    background: var(--accent-crimson-dim);
+    color: var(--accent-crimson);
+    border-color: rgba(244, 63, 94, 0.3);
+  }
+  .project-title {
+    font-size: 1.22rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.35;
+  }
+  .project-author {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 3px;
+    margin-bottom: 10px;
+  }
+  .project-desc {
+    font-size: 0.86rem;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+  }
+  .metrics-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .metric-chip {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 7px 10px;
+  }
+  .metric-chip-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 700;
+  }
+  .metric-chip-val {
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-top: 1px;
+  }
+
+  /* Subfolder File List inside Card */
+  .file-list-box {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 16px;
+  }
+  .file-list-title {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    font-weight: 700;
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px dashed rgba(148, 163, 184, 0.14);
+    font-size: 0.8rem;
+    gap: 8px;
+  }
+  .file-item:last-child {
+    border-bottom: none;
+  }
+  .file-path-code {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent-cyan);
+    font-size: 0.76rem;
+    word-break: break-all;
+  }
+  .file-kind-tag {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  .card-actions {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr auto;
+    gap: 8px;
+    margin-top: auto;
+  }
+  @media (max-width: 520px) {
+    .card-actions {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .btn {
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 0.81rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-decoration: none;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .btn:hover {
+    border-color: var(--accent-green);
+    background: var(--bg-card-hover);
+  }
+  .btn.btn-launch {
+    background: var(--accent-green);
+    color: #042f1e;
+    border-color: var(--accent-green);
+  }
+  .btn.btn-launch:hover {
+    opacity: 0.92;
+  }
+
+  /* Data Table */
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+  }
+  table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    background: var(--bg-card);
+  }
+  table.data-table th, table.data-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border-color);
+    text-align: left;
+  }
+  table.data-table th {
+    background: var(--bg-surface);
+    color: var(--text-secondary);
+    font-weight: 700;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  table.data-table tr:hover td {
+    background: var(--bg-card-hover);
+  }
+  .num-col {
+    text-align: right !important;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Two Column Layout */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 920px) {
+    .two-col {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Code Block */
+  .code-block-wrap {
+    background: #070a10;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 14px;
+    position: relative;
+    margin-top: 8px;
+  }
+  .code-block-wrap pre {
+    color: #e2e8f0;
+    font-size: 0.8rem;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  .copy-chip {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #34d399;
+    border: 1px solid rgba(52, 211, 153, 0.35);
+    border-radius: 6px;
+    padding: 4px 9px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .copy-chip:hover {
+    background: rgba(52, 211, 153, 0.2);
+  }
+
+  /* Modal */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 7, 18, 0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 1000;
+  }
+  .modal-backdrop.open {
+    display: flex;
+  }
+  .modal-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    max-width: 820px;
+    width: 100%;
+    padding: 24px;
+    box-shadow: var(--shadow-lg);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  /* Toast */
+  .toast-container {
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    z-index: 1200;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 420px;
+  }
+  .toast {
+    background: #111827;
+    color: #f8fafc;
+    border: 1px solid var(--accent-green);
+    border-left: 4px solid var(--accent-green);
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 0.84rem;
+    box-shadow: var(--shadow-lg);
+  }
+</style>
+</head>
+<body>
+
+<header class="hub-header">
+  <div class="header-inner">
+    <div class="header-top">
+      <div>
+        <div class="brand-row">
+          <div class="brand-logo" aria-hidden="true">🗂️</div>
+          <div>
+            <div class="brand-title">
+              <span>OreoKitten / wiki</span>
+              <a href="https://github.com/OreoKitten/wiki" target="_blank" rel="noopener noreferrer" class="repo-pill">🐙 GitHub Repo</a>
+              <span class="repo-pill" style="color:#34d399; border-color:rgba(52,211,153,0.3);">⚡ Pages Ready</span>
+            </div>
+            <p class="brand-subtitle">
+              Central navigation hub for self-made, Gemini-generated, and Claude-generated novel encyclopedias, software wikis, and Python stat calculators.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="path-mode-box" title="Choose how subfolder links resolve when clicked">
+          <label for="pathModeSelect">Link Mode:</label>
+          <select id="pathModeSelect" class="path-mode-select" onchange="changePathMode(this.value)">
+            <option value="standard">Standardized (./FOLDER/index.html & README.md)</option>
+            <option value="original">Original Filenames (./AITZA/global_game_...)</option>
+            <option value="github">GitHub Repo View (github.com/OreoKitten/wiki)</option>
+          </select>
+        </div>
+        <button class="hdr-btn" onclick="syncGitHubRepo()" id="syncRepoBtn">🔄 Sync GitHub Repo</button>
+        <button class="hdr-btn primary" onclick="switchHubTab('generator', document.getElementById('tabBtnGenerator'))">➕ Add Subfolder Wiki</button>
+        <button class="hdr-btn" onclick="toggleTheme()" id="themeToggleBtn">☀️ Light</button>
+      </div>
+    </div>
+
+    <nav class="nav-tabs">
+      <button class="nav-tab active" id="tabBtnDirectory" onclick="switchHubTab('directory', this)">🗂️ Subfolder Wiki Directory</button>
+      <button class="nav-tab" id="tabBtnAitza" onclick="switchHubTab('aitza', this)">🧟 AITZA Quick Inspector & CLI Calc</button>
+      <button class="nav-tab" id="tabBtnGenerator" onclick="switchHubTab('generator', this)">➕ Add New Subfolder / Config Builder</button>
+      <button class="nav-tab" id="tabBtnDeploy" onclick="switchHubTab('deploy', this)">☁️ GitHub & Cloudflare Pages Guide</button>
+    </nav>
+  </div>
+</header>
+
+<main class="main-container">
+
+  <!-- ==================== TAB 1: SUBFOLDER WIKI DIRECTORY ==================== -->
+  <section id="panel-directory" class="tab-panel active">
+    <div class="summary-strip">
+      <div class="stat-tile">
+        <div>
+          <div class="stat-tile-label">Active Wiki Subfolders</div>
+          <div class="stat-tile-val" id="statTotalProjects" style="color:var(--accent-green);">1</div>
+          <div class="stat-tile-sub" id="statBreakdownSub">1 Novel • 0 Software</div>
+        </div>
+        <div class="stat-icon" style="background:var(--accent-green-dim); color:var(--accent-green);">📁</div>
+      </div>
+      <div class="stat-tile">
+        <div>
+          <div class="stat-tile-label">First Flagship Subfolder</div>
+          <div class="stat-tile-val mono" style="color:var(--accent-cyan);">AITZA/</div>
+          <div class="stat-tile-sub">AFK In The Zombie Apocalypse</div>
+        </div>
+        <div class="stat-icon" style="background:var(--accent-cyan-dim); color:var(--accent-cyan);">🧟</div>
+      </div>
+      <div class="stat-tile">
+        <div>
+          <div class="stat-tile-label">Bundled Artifacts in AITZA</div>
+          <div class="stat-tile-val" style="color:var(--accent-gold);">3 Files</div>
+          <div class="stat-tile-sub">1 HTML App • 1 MD Wiki • 1 PY CLI</div>
+        </div>
+        <div class="stat-icon" style="background:var(--accent-gold-dim); color:var(--accent-gold);">📦</div>
+      </div>
+      <div class="stat-tile">
+        <div>
+          <div class="stat-tile-label">Hosting Compatibility</div>
+          <div class="stat-tile-val" style="color:var(--accent-purple); font-size:1.15rem;">GH & CF Pages</div>
+          <div class="stat-tile-sub" id="syncStatusText">Static relative routing active</div>
+        </div>
+        <div class="stat-icon" style="background:var(--accent-purple-dim); color:var(--accent-purple);">🌐</div>
+      </div>
+    </div>
+
+    <div class="panel-card">
+      <div class="filter-grid">
+        <div class="control-group">
+          <label for="searchWikiInput">Search Subfolder Code, Title, Tags, Characters, or Files (Press /)</label>
+          <input type="text" id="searchWikiInput" class="input-field" placeholder="e.g., AITZA, Fang Heng, Zombie, Calculator, Python, Gemini..." oninput="renderDirectory()">
+        </div>
+        <div class="control-group">
+          <label for="categoryFilter">Category</label>
+          <select id="categoryFilter" class="select-field" onchange="renderDirectory()">
+            <option value="ALL">All Categories</option>
+            <option value="novel">📚 Novels & Lore Wikis</option>
+            <option value="software">💻 Software & Tool Wikis</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="generatorFilter">Built With / AI Model</label>
+          <select id="generatorFilter" class="select-field" onchange="renderDirectory()">
+            <option value="ALL">All Generators</option>
+            <option value="Gemini">✨ Gemini</option>
+            <option value="Claude">🤖 Claude</option>
+            <option value="Self-Made">🛠️ Self-Made</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="viewLayoutSelect">Directory Layout</label>
+          <select id="viewLayoutSelect" class="select-field" onchange="renderDirectory()">
+            <option value="both">Rich Subfolder Cards + Master Table</option>
+            <option value="cards">Rich Subfolder Cards Only</option>
+            <option value="table">Compact Master Table Only</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <button class="btn" onclick="resetDirectoryFilters()">Reset</button>
+        </div>
+      </div>
+
+      <div class="pill-bar">
+        <span class="pill-label">Quick Filter:</span>
+        <button class="filter-pill active" id="qf-all" onclick="setQuickTag('ALL', this)">🔥 All Subfolders</button>
+        <button class="filter-pill" id="qf-novel" onclick="setQuickTag('novel', this)">📚 Novel Wikis</button>
+        <button class="filter-pill" id="qf-software" onclick="setQuickTag('software', this)">💻 Software Wikis</button>
+        <button class="filter-pill" id="qf-python" onclick="setQuickTag('has_py', this)">🐍 Has Python Calculator (.py)</button>
+        <button class="filter-pill" id="qf-gemini" onclick="setQuickTag('Gemini', this)">✨ Gemini Generated</button>
+        <button class="filter-pill" id="qf-claude" onclick="setQuickTag('Claude', this)">🤖 Claude Generated</button>
+      </div>
+    </div>
+
+    <!-- Cards Container -->
+    <div id="projectsGridContainer" class="projects-grid" style="margin-bottom:24px;"></div>
+
+    <!-- Compact Table Container -->
+    <div id="projectsTableContainer" class="panel-card" style="padding:0; overflow:hidden;">
+      <div style="padding:16px 20px; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <h3 style="font-size:1.02rem;">Master Subfolder Routing Table</h3>
+        <span style="font-size:0.78rem; color:var(--text-muted);" id="activeModeHint">Links currently use Standardized Subfolder Naming (./FOLDER/index.html)</span>
+      </div>
+      <div class="table-wrap" style="border:none; border-radius:0;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Subfolder</th>
+              <th>Project Title</th>
+              <th>Category</th>
+              <th>Generator</th>
+              <th>Web App (.html)</th>
+              <th>Markdown Wiki (.md)</th>
+              <th>Python Calculator (.py)</th>
+              <th>Quick Inspect</th>
+            </tr>
+          </thead>
+          <tbody id="projectsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 2: AITZA QUICK INSPECTOR & CLI CALC ==================== -->
+  <section id="panel-aitza" class="tab-panel">
+    <div class="panel-card" style="border-color:rgba(16,185,129,0.4);">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:14px; margin-bottom:16px;">
+        <div>
+          <span class="folder-badge">📁 ./AITZA/</span>
+          <h2 style="font-size:1.35rem; margin-top:8px;">Global Game: AFK In The Zombie Apocalypse Game — Subfolder Inspector</h2>
+          <p style="font-size:0.86rem; color:var(--text-secondary); margin-top:3px;">
+            Preview of the 3 files inside <code>AITZA/</code>: <code>global_game_wiki_and_tracker.html</code> (or <code>index.html</code>), <code>global_game_character_wiki.md</code> (or <code>README.md</code>), and <code>global_game_tracker.py</code>.
+          </p>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn btn-launch" onclick="openSubfolderResource('AITZA', 'html')">🚀 Open AITZA Web App</button>
+          <button class="btn" onclick="openSubfolderResource('AITZA', 'md')">📖 Open Markdown Wiki</button>
+          <button class="btn" onclick="openSubfolderResource('AITZA', 'py')">🐍 View Python Script</button>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <!-- Embedded Mini Zombie Clone & Abe Akaya Calculator -->
+        <div style="background:var(--bg-surface); border:1px solid var(--border-color); border-radius:12px; padding:18px;">
+          <h3 style="font-size:1.02rem; margin-bottom:6px;">🧟 Quick Fang Heng Zombie Clone & Proliferator Calculator</h3>
+          <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:14px;">
+            Mirrors the exact math in <code>AITZA/global_game_tracker.py</code> & <code>AITZA/index.html</code> (Lv 1–10: <code>+n</code> clones; Lv 11+: <code>ceil(prev × 1.2)</code> base clones + up to 3 Proliferators every 18h = <code>×4</code> full army).
+          </p>
+
+          <div style="display:flex; gap:12px; align-items:center; margin-bottom:14px;">
+            <div style="flex:1;">
+              <label for="hubZSlider" style="font-size:0.74rem; font-weight:700; color:var(--text-secondary);">FANG HENG LEVEL (1 – 100)</label>
+              <input type="range" id="hubZSlider" min="1" max="100" value="40" style="width:100%; margin-top:6px;" oninput="updateHubMiniCalc(this.value)">
+            </div>
+            <div style="width:95px;">
+              <label for="hubZInput" style="font-size:0.74rem; font-weight:700; color:var(--text-secondary);">LEVEL</label>
+              <input type="number" id="hubZInput" class="input-field" min="1" max="120" value="40" oninput="updateHubMiniCalc(this.value)">
+            </div>
+          </div>
+
+          <div class="metrics-mini-grid">
+            <div class="metric-chip">
+              <div class="metric-chip-label">Zombies Gained</div>
+              <div class="metric-chip-val" id="hubZGained" style="color:var(--accent-green);">+2,258</div>
+            </div>
+            <div class="metric-chip">
+              <div class="metric-chip-label">Base Zombie Clones</div>
+              <div class="metric-chip-val" id="hubZBase">13,548</div>
+            </div>
+            <div class="metric-chip">
+              <div class="metric-chip-label">18h Full Army (×4)</div>
+              <div class="metric-chip-val" id="hubZFull" style="color:var(--accent-crimson);">54,192</div>
+            </div>
+          </div>
+
+          <div id="hubZMilestone" style="background:var(--accent-green-dim); border:1px solid rgba(16,185,129,0.35); border-radius:8px; padding:10px 12px; font-size:0.8rem; color:var(--text-primary);"></div>
+        </div>
+
+        <!-- Interactive CLI Command Builder for global_game_tracker.py -->
+        <div style="background:var(--bg-surface); border:1px solid var(--border-color); border-radius:12px; padding:18px;">
+          <h3 style="font-size:1.02rem; margin-bottom:6px;">🐍 Python CLI Command Builder (<code>AITZA/global_game_tracker.py</code>)</h3>
+          <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:12px;">
+            Select a preset mode to generate the exact terminal command for running your Python calculator inside the repository.
+          </p>
+
+          <div class="control-group" style="margin-bottom:10px;">
+            <label for="cliPresetSelect">Select CLI Action</label>
+            <select id="cliPresetSelect" class="select-field" onchange="updateCliBuilder()">
+              <option value="python3 AITZA/global_game_tracker.py --interactive">Launch Interactive Terminal Menu (All 7 Tools + CSV Export)</option>
+              <option value="python3 AITZA/global_game_tracker.py --max-level 70 --extended">Print Lv 1–70 Zombie Clone & Proliferator Table + Chapter Notes</option>
+              <option value="python3 AITZA/global_game_tracker.py --level 40">Inspect Single Character Level 40 Breakdown (JSON)</option>
+              <option value="python3 AITZA/global_game_tracker.py --wiki --sort mentions --limit 25">Print Top 25 Characters Ordered by Mention Frequency</option>
+              <option value="python3 AITZA/global_game_tracker.py --wiki --sort first --limit 50">Print Character Index Sorted Alphabetically by First/Given Name</option>
+              <option value="python3 AITZA/global_game_tracker.py --wiki --sort last --limit 50">Print Character Index Sorted Alphabetically by Last/Family Name</option>
+              <option value="python3 AITZA/global_game_tracker.py --search &quot;Vampire&quot;">Search Character Dossiers by Keyword or Faction ("Vampire")</option>
+              <option value="python3 AITZA/global_game_tracker.py --abe-level 148">Calculate Sacred Tree Abe Akaya Stats at Tree Level 148</option>
+            </select>
+          </div>
+
+          <div class="code-block-wrap">
+            <button class="copy-chip" onclick="copyTextById('cliOutputCode', 'CLI command copied!')">📋 Copy</button>
+            <pre id="cliOutputCode">python3 AITZA/global_game_tracker.py --interactive</pre>
+          </div>
+
+          <div style="margin-top:12px; font-size:0.78rem; color:var(--text-secondary);">
+            <strong>Tip:</strong> <code>global_game_tracker.py</code> uses only Python 3 standard library modules (<code>argparse</code>, <code>csv</code>, <code>json</code>, <code>math</code>)—zero <code>pip install</code> needed.
+          </div>
+        </div>
+      </div>
+
+      <!-- Top 15 Core Characters Preview from global_game_character_wiki.md -->
+      <h3 style="font-size:1.02rem; margin:20px 0 10px 0;">📖 Top 15 Core Characters Preview (from <code>AITZA/global_game_character_wiki.md</code>)</h3>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Character Name</th>
+              <th>Given / First</th>
+              <th>Family / Last</th>
+              <th class="num-col">Mentions</th>
+              <th class="num-col">Chapters</th>
+              <th>Chapter Span</th>
+              <th>Primary Faction</th>
+              <th>Role / Title</th>
+            </tr>
+          </thead>
+          <tbody id="aitzaTop15Body"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 3: ADD NEW SUBFOLDER / CONFIG BUILDER ==================== -->
+  <section id="panel-generator" class="tab-panel">
+    <div class="two-col">
+      <div class="panel-card">
+        <h2 style="font-size:1.2rem; margin-bottom:6px;">➕ Add a New Novel or Software Wiki Subfolder</h2>
+        <p style="font-size:0.84rem; color:var(--text-secondary); margin-bottom:16px;">
+          Fill out the details for your next subfolder. You can test-add it right into this browser session and copy the ready-to-paste JSON snippet for <code>index.html</code> plus the Markdown row for <code>README.md</code>.
+        </p>
+
+        <div class="two-col" style="gap:12px; margin-bottom:12px;">
+          <div class="control-group">
+            <label for="newFolderCode">Subfolder Code / Directory Name</label>
+            <input type="text" id="newFolderCode" class="input-field mono" placeholder="e.g., LOTM or NEOVIM" value="LOTM" oninput="updateConfigPreview()">
+          </div>
+          <div class="control-group">
+            <label for="newCategory">Category</label>
+            <select id="newCategory" class="select-field" onchange="updateConfigPreview()">
+              <option value="novel">📚 Novel Wiki & Tracker</option>
+              <option value="software">💻 Software / Tool Wiki</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="two-col" style="gap:12px; margin-bottom:12px;">
+          <div class="control-group">
+            <label for="newTitle">Full Novel or Software Title</label>
+            <input type="text" id="newTitle" class="input-field" placeholder="e.g., Lord of the Mysteries — Pathway & Tarot Wiki" value="Lord of the Mysteries — Pathway & Beyonder Encyclopedia" oninput="updateConfigPreview()">
+          </div>
+          <div class="control-group">
+            <label for="newSubtitle">Author / Developer / Version</label>
+            <input type="text" id="newSubtitle" class="input-field" placeholder="e.g., Cuttlefish That Loves Diving (1,432 Chapters)" value="Cuttlefish That Loves Diving • 22 Pathways" oninput="updateConfigPreview()">
+          </div>
+        </div>
+
+        <div class="two-col" style="gap:12px; margin-bottom:12px;">
+          <div class="control-group">
+            <label for="newGenerator">Primary Generator</label>
+            <select id="newGenerator" class="select-field" onchange="updateConfigPreview()">
+              <option value="Gemini">✨ Gemini</option>
+              <option value="Claude">🤖 Claude</option>
+              <option value="Self-Made">🛠️ Self-Made</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label for="newTags">Search Tags (comma-separated)</label>
+            <input type="text" id="newTags" class="input-field" value="Pathways, Sequences, Tarot Club, Acting Method" oninput="updateConfigPreview()">
+          </div>
+        </div>
+
+        <div class="two-col" style="gap:12px; margin-bottom:12px;">
+          <div class="control-group">
+            <label for="newHtmlFile">Original .html Filename (if not index.html)</label>
+            <input type="text" id="newHtmlFile" class="input-field mono" value="lotm_pathway_wiki.html" oninput="updateConfigPreview()">
+          </div>
+          <div class="control-group">
+            <label for="newMdFile">Original .md Filename (if not README.md)</label>
+            <input type="text" id="newMdFile" class="input-field mono" value="lotm_character_compendium.md" oninput="updateConfigPreview()">
+          </div>
+        </div>
+
+        <div class="control-group" style="margin-bottom:12px;">
+          <label for="newPyFile">Optional Python Calculator / Script (.py) — leave blank if none</label>
+          <input type="text" id="newPyFile" class="input-field mono" value="potion_digestion_calc.py" oninput="updateConfigPreview()">
+        </div>
+
+        <div class="control-group" style="margin-bottom:16px;">
+          <label for="newDesc">Short Summary / Description</label>
+          <textarea id="newDesc" class="textarea-field" rows="2" oninput="updateConfigPreview()">Interactive 22-Pathway Sequence 9–0 progression tracker, Tarot Club member dossier index, and potion formula reference.</textarea>
+        </div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn btn-launch" onclick="addGeneratedProjectToHub()">➕ Preview Card in Hub Directory Now</button>
+          <button class="btn" onclick="clearCustomProjects()">🗑️ Reset Custom Session Cards</button>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <h3 style="font-size:1.08rem; margin-bottom:6px;">1. Terminal Commands to Create & Standardize the Subfolder</h3>
+        <p style="font-size:0.8rem; color:var(--text-secondary);">
+          Renaming your single HTML file to <code>index.html</code> and Markdown file to <code>README.md</code> inside the subfolder makes <code>/FOLDER/</code> work cleanly on GitHub Pages and Cloudflare Pages:
+        </p>
+        <div class="code-block-wrap">
+          <button class="copy-chip" onclick="copyTextById('genShellCode', 'Shell commands copied!')">📋 Copy</button>
+          <pre id="genShellCode"></pre>
+        </div>
+
+        <h3 style="font-size:1.08rem; margin:18px 0 6px 0;">2. JSON Object for <code>WIKI_PROJECTS</code> in Root <code>index.html</code></h3>
+        <div class="code-block-wrap">
+          <button class="copy-chip" onclick="copyTextById('genJsonCode', 'JSON entry copied!')">📋 Copy</button>
+          <pre id="genJsonCode"></pre>
+        </div>
+
+        <h3 style="font-size:1.08rem; margin:18px 0 6px 0;">3. Markdown Row for Root <code>README.md</code></h3>
+        <div class="code-block-wrap">
+          <button class="copy-chip" onclick="copyTextById('genMdRowCode', 'Markdown row copied!')">📋 Copy</button>
+          <pre id="genMdRowCode"></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 4: GITHUB & CLOUDFLARE PAGES GUIDE ==================== -->
+  <section id="panel-deploy" class="tab-panel">
+    <div class="panel-card">
+      <h2 style="font-size:1.25rem; margin-bottom:8px;">☁️ Hosting Your Wiki Hub: GitHub Pages vs. Cloudflare Pages (Or Both!)</h2>
+      <p style="font-size:0.86rem; color:var(--text-secondary); margin-bottom:18px;">
+        Because this hub and your subfolder wikis are 100% static files using relative paths (<code>./AITZA/index.html</code>), you can host the exact same <code>OreoKitten/wiki</code> repository on <strong>both GitHub Pages and Cloudflare Pages simultaneously</strong> with zero code changes.
+      </p>
+
+      <div class="two-col" style="margin-bottom:20px;">
+        <div style="background:var(--bg-surface); border:1px solid var(--border-color); border-radius:12px; padding:18px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <h3 style="font-size:1.05rem;">🐙 Option A: GitHub Pages</h3>
+            <span class="badge gemini">Zero Setup • Built into GitHub</span>
+          </div>
+          <ol style="padding-left:18px; font-size:0.85rem; color:var(--text-secondary); line-height:1.7;">
+            <li>Open <a href="https://github.com/OreoKitten/wiki/settings/pages" target="_blank" rel="noopener noreferrer" style="color:var(--accent-cyan);">github.com/OreoKitten/wiki → Settings → Pages</a>.</li>
+            <li>Under <strong>Build and deployment → Source</strong>, select <strong>Deploy from a branch</strong>.</li>
+            <li>Select branch <strong><code>main</code></strong> and folder <strong><code>/ (root)</code></strong>, then click <strong>Save</strong>.</li>
+            <li>In ~60 seconds, your hub is live at <code>https://oreokitten.github.io/wiki/</code> and your first wiki is at <code>https://oreokitten.github.io/wiki/AITZA/</code>.</li>
+          </ol>
+        </div>
+
+        <div style="background:var(--bg-surface); border:1px solid var(--border-color); border-radius:12px; padding:18px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <h3 style="font-size:1.05rem;">⚡ Option B: Cloudflare Pages</h3>
+            <span class="badge claude">Unlimited Bandwidth • Global Edge</span>
+          </div>
+          <ol style="padding-left:18px; font-size:0.85rem; color:var(--text-secondary); line-height:1.7;">
+            <li>In Cloudflare Dashboard, go to <strong>Workers & Pages → Create → Pages → Connect to Git</strong>.</li>
+            <li>Select your <strong><code>OreoKitten/wiki</code></strong> repository and branch <strong><code>main</code></strong>.</li>
+            <li>Leave <strong>Build command</strong> empty and set <strong>Build output directory</strong> to <code>/</code>.</li>
+            <li>Deploy! Cloudflare automatically serves <code>index.html</code> at root and <code>/AITZA/</code> for your subfolder.</li>
+          </ol>
+        </div>
+      </div>
+
+      <h3 style="font-size:1.05rem; margin-bottom:10px;">💡 Why Renaming Subfolder Files to <code>index.html</code> & <code>README.md</code> Works Best</h3>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Original Uploaded File</th>
+              <th>Recommended Path in Repo</th>
+              <th>Alternative (Original Name Kept)</th>
+              <th>Why Standardized Naming Wins</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="mono">global_game_wiki_and_tracker.html</td>
+              <td class="mono" style="color:var(--accent-green); font-weight:700;">AITZA/index.html</td>
+              <td class="mono">AITZA/global_game_wiki_and_tracker.html</td>
+              <td>Allows clean folder URLs like <code>/wiki/AITZA/</code> on both GitHub Pages and Cloudflare Pages without typing the filename.</td>
+            </tr>
+            <tr>
+              <td class="mono">global_game_character_wiki.md</td>
+              <td class="mono" style="color:var(--accent-green); font-weight:700;">AITZA/README.md</td>
+              <td class="mono">AITZA/global_game_character_wiki.md</td>
+              <td>GitHub automatically renders <code>README.md</code> when browsing <code>github.com/OreoKitten/wiki/tree/main/AITZA</code>.</td>
+            </tr>
+            <tr>
+              <td class="mono">global_game_tracker.py</td>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:700;">AITZA/global_game_tracker.py</td>
+              <td class="mono">AITZA/global_game_tracker.py</td>
+              <td>Keeps its descriptive script name so CLI commands (<code>python3 AITZA/global_game_tracker.py</code>) stay clear.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Subfolder Detail / Inspector Modal -->
+<div class="modal-backdrop" id="projectModal" onclick="if(event.target===this)closeProjectModal()">
+  <div class="modal-box" id="projectModalContent"></div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ============================================================================
+// MASTER SUBFOLDER REGISTRY (Add new Novel or Software subfolders here!)
+// ============================================================================
+const DEFAULT_WIKI_PROJECTS = [
+  {
+    id: "AITZA",
+    folder: "AITZA",
+    title: "Global Game: AFK In The Zombie Apocalypse Game",
+    subtitle: "Empire Black Knight • 3,555 Chapters (~28.04M Characters)",
+    category: "novel",
+    generators: ["Gemini", "Self-Made"],
+    featured: true,
+    updated: "2026-10-14",
+    description: "Complete 150-character appearance frequency encyclopedia (66,802 Fang Heng mentions) paired with verified mathematical calculators for SSS-Rank Enhanced Super Zombie Clones, 6h/12h/18h Proliferators, Zombie Form Solidification costs, Sacred Tree Abe Akaya Dimensional levels, Seed of Ouroboros slots, and a spoiler-free Chapter Time-Machine.",
+    tags: ["Fang Heng", "Zombie Clone Calculator", "Proliferators", "Abe Akaya", "Seed of Ouroboros", "150 Characters", "Progression Fantasy"],
+    metrics: [
+      { label: "Chapters Parsed", value: "3,555" },
+      { label: "Indexed Characters", value: "150" },
+      { label: "Fang Heng Mentions", value: "66,802" }
+    ],
+    files: {
+      htmlStandard: "index.html",
+      htmlOriginal: "global_game_wiki_and_tracker.html",
+      mdStandard: "README.md",
+      mdOriginal: "global_game_character_wiki.md",
+      pyScripts: ["global_game_tracker.py"]
+    }
+  }
+];
+
+const AITZA_TOP_15 = [
+  { rank: 1, name: "Fang Heng", first: "Heng", last: "Fang", mentions: 66802, chapters: 3529, span: "Ch. 1–3555", faction: "Prison 507 / Zombie Apocalypse", role: "Protagonist / Sovereign of the Undead & Sacred Trees" },
+  { rank: 2, name: "Mo Jiawei", first: "Jiawei", last: "Mo", mentions: 2470, chapters: 589, span: "Ch. 144–3011", faction: "Prison 507 / Zombie Apocalypse", role: "Core Companion / Tactician & Master Manipulator" },
+  { rank: 3, name: "Qiu Yaokang", first: "Yaokang", last: "Qiu", mentions: 1222, chapters: 273, span: "Ch. 43–3389", faction: "Prison 507 / Zombie Apocalypse", role: "Chief Biologist & Virus Mutation Researcher" },
+  { rank: 4, name: "Tang Mingyue", first: "Mingyue", last: "Tang", mentions: 1192, chapters: 216, span: "Ch. 509–1752", faction: "Enkama Empire / Royal Family", role: "Imperial Princess (later Ruler) of the Enkama Empire" },
+  { rank: 5, name: "Chen Yu", first: "Yu", last: "Chen", mentions: 1188, chapters: 196, span: "Ch. 73–3495", faction: "Federation", role: "Captain of the 17th Elite Team / Senior Liaison" },
+  { rank: 6, name: "Zane", first: "Zane", last: "Zane", mentions: 1114, chapters: 211, span: "Ch. 3209–3555", faction: "Netherworld / Death Realm", role: "Late-Game Deuteragonist & Evil God Space Guide" },
+  { rank: 7, name: "Sandy", first: "Sandy", last: "Nelen", mentions: 1027, chapters: 222, span: "Ch. 276–2406", faction: "Prison 507 / Zombie Apocalypse", role: "Chief Alchemist / Saint of Alchemy Inheritor" },
+  { rank: 8, name: "Adam", first: "Adam", last: "Adam", mentions: 1015, chapters: 62, span: "Ch. 3308–3380", faction: "God Clan / Tribunal of Sin", role: "God Clan Divine Magic Array Master" },
+  { rank: 9, name: "Li Shaoqiang", first: "Shaoqiang", last: "Li", mentions: 816, chapters: 154, span: "Ch. 526–2619", faction: "Federation", role: "Veteran Federation Necromancer & Analyst" },
+  { rank: 10, name: "Vannes", first: "Vannes", last: "Vannes", mentions: 802, chapters: 92, span: "Ch. 2131–2363", faction: "Tree Spirit Tribe / World of Forests", role: "Elder of the Tree Spirit Race" },
+  { rank: 11, name: "Ji Xiaobo", first: "Xiaobo", last: "Ji", mentions: 801, chapters: 162, span: "Ch. 1363–2802", faction: "Necromancer Association / Tower of Bones", role: "Tower of Bones Necromancer & Info Conduit" },
+  { rank: 12, name: "Lucia", first: "Lucia", last: "Lucia", mentions: 792, chapters: 110, span: "Ch. 144–531", faction: "Dark Knights / Apocalypse Merchants", role: "Leader of Meteorite Logistics / Shelter Researcher" },
+  { rank: 13, name: "Ed", first: "Ed", last: "Ed", mentions: 782, chapters: 135, span: "Ch. 1103–1486", faction: "Enkama Empire / Royal Family", role: "President of the Imperial Mage & Mercenary Guild" },
+  { rank: 14, name: "Viona", first: "Viona", last: "Viona", mentions: 736, chapters: 106, span: "Ch. 1362–2783", faction: "Holy Court / Purifiers", role: "Chosen Saintess of the Holy Court" },
+  { rank: 15, name: "Old Black", first: "Old Black", last: "Black", mentions: 726, chapters: 147, span: "Ch. 48–2808", faction: "Dark Knights / Apocalypse Merchants", role: "Underground Information Broker & Black Market Merchant" }
+];
+
+const NOVEL_ZOMBIE_MILESTONES = {
+  1: "Ch. 2: Starter SSS Enhanced Super Zombie Clone awakened (1 clone)",
+  10: "Ch. 76 & 113: 55 base clones; unlocks SSS Stage 1 Talent: Rapid Growth (+20%/lv & Proliferators)",
+  20: "Ch. 707: Reached Lv 20 during Holy Court & Vampire conflict (351 base / 1,404 full army)",
+  30: "Ch. 1386 & 1630: Reached Lv 30 (2,187 base); unlocks SSS Stage 2 Talent: Efficient Evolution",
+  39: "Ch. 1797: 11,290 base clones — breaks the 10,000 base zombie clone mark!",
+  40: "Ch. 1813: +2,258 gained = 13,548 base clones (54,192 with Proliferators); unlocks Life Diversion & Mutant Infection",
+  50: "Ch. 2579: +13,983 gained = 83,894 base clones (335,576 full army)",
+  59: "Ch. 2622: +72,147 gained = 432,881 base clones (1,731,524 full army)",
+  60: "Ch. 3256: +86,577 gained = 519,458 base clones",
+  63: "Ch. 3269: +149,604 gained = 897,624 base clones (3,590,496 full army)",
+  67: "Ch. 3305: Fang Heng holds level at Lv 67 (1,861,314 base / 7,445,256 with Proliferators)",
+  70: "Ch. 3305 & 3323: Spirit/Death Crystal threshold (3,216,352 base / 12,865,408 full army)"
+};
+
+// Precompute Zombie table Lv 1-120
+const ZOMBIE_CALC_TABLE = [];
+(function buildZombieTable() {
+  let total = 0;
+  for (let lv = 1; lv <= 120; lv++) {
+    let gained = 0;
+    if (lv <= 10) {
+      gained = lv;
+      total += gained;
+    } else {
+      const next = Math.ceil(total * 1.2);
+      gained = next - total;
+      total = next;
+    }
+    ZOMBIE_CALC_TABLE.push({
+      level: lv,
+      gained: gained,
+      base: total,
+      full4x: lv >= 11 ? total * 4 : total
+    });
+  }
+})();
+
+let wikiProjects = [];
+let currentPathMode = "standard"; // 'standard' | 'original' | 'github'
+let quickFilterMode = "ALL";
+
+function safeGetStorage(key, fallback) {
+  try {
+    const val = localStorage.getItem(key);
+    return val !== null ? val : fallback;
+  } catch (e) {
+    return fallback;
+  }
+}
+
+function safeSetStorage(key, val) {
+  try {
+    localStorage.setItem(key, val);
+  } catch (e) {
+    // Ignore storage quota / sandbox restrictions
+  }
+}
+
+function showToast(msg) {
+  const wrap = document.getElementById("toastContainer");
+  const el = document.createElement("div");
+  el.className = "toast";
+  el.textContent = msg;
+  wrap.appendChild(el);
+  setTimeout(() => {
+    if (el.parentNode) el.parentNode.removeChild(el);
+  }, 3600);
+}
+
+function loadProjects() {
+  const customRaw = safeGetStorage("oreokitten_custom_wikis", "[]");
+  let customList = [];
+  try {
+    customList = JSON.parse(customRaw);
+  } catch (e) {
+    customList = [];
+  }
+  const map = new Map();
+  DEFAULT_WIKI_PROJECTS.forEach(p => map.set(p.id.toUpperCase(), p));
+  customList.forEach(p => map.set(p.id.toUpperCase(), p));
+  wikiProjects = Array.from(map.values());
+}
+
+function resolveProjectUrl(project, kind) {
+  const folder = project.folder;
+  const f = project.files || {};
+  if (currentPathMode === "github") {
+    if (kind === "folder") return `https://github.com/OreoKitten/wiki/tree/main/${folder}`;
+    if (kind === "html") return `https://github.com/OreoKitten/wiki/blob/main/${folder}/${f.htmlOriginal || f.htmlStandard || "index.html"}`;
+    if (kind === "md") return `https://github.com/OreoKitten/wiki/blob/main/${folder}/${f.mdOriginal || f.mdStandard || "README.md"}`;
+    if (kind === "py" && f.pyScripts && f.pyScripts.length) {
+      return `https://github.com/OreoKitten/wiki/blob/main/${folder}/${f.pyScripts[0]}`;
+    }
+    return `https://github.com/OreoKitten/wiki/tree/main/${folder}`;
+  }
+  if (currentPathMode === "original") {
+    if (kind === "html") return `./${folder}/${f.htmlOriginal || "index.html"}`;
+    if (kind === "md") return `./${folder}/${f.mdOriginal || "README.md"}`;
+    if (kind === "py" && f.pyScripts && f.pyScripts.length) return `./${folder}/${f.pyScripts[0]}`;
+    return `./${folder}/`;
+  }
+  // Standard mode (./FOLDER/index.html & ./FOLDER/README.md)
+  if (kind === "html") return `./${folder}/${f.htmlStandard || "index.html"}`;
+  if (kind === "md") return `./${folder}/${f.mdStandard || "README.md"}`;
+  if (kind === "py" && f.pyScripts && f.pyScripts.length) return `./${folder}/${f.pyScripts[0]}`;
+  return `./${folder}/`;
+}
+
+function changePathMode(mode) {
+  currentPathMode = mode;
+  safeSetStorage("oreokitten_path_mode", mode);
+  const hints = {
+    standard: "Links currently use Standardized Subfolder Naming (./FOLDER/index.html & README.md)",
+    original: "Links currently use Original Uploaded Filenames (./AITZA/global_game_wiki_and_tracker.html)",
+    github: "Links currently point to GitHub Repository Tree (github.com/OreoKitten/wiki)"
+  };
+  document.getElementById("activeModeHint").textContent = hints[mode] || "";
+  renderDirectory();
+  showToast(`Switched link resolution mode to: ${mode.toUpperCase()}`);
+}
+
+function switchHubTab(tabName, btnEl) {
+  document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".nav-tab").forEach(b => b.classList.remove("active"));
+  const target = document.getElementById("panel-" + tabName);
+  if (target) target.classList.add("active");
+  if (btnEl) btnEl.classList.add("active");
+}
+
+function setQuickTag(tag, btnEl) {
+  quickFilterMode = tag;
+  document.querySelectorAll(".filter-pill").forEach(b => b.classList.remove("active"));
+  if (btnEl) btnEl.classList.add("active");
+  renderDirectory();
+}
+
+function resetDirectoryFilters() {
+  document.getElementById("searchWikiInput").value = "";
+  document.getElementById("categoryFilter").value = "ALL";
+  document.getElementById("generatorFilter").value = "ALL";
+  quickFilterMode = "ALL";
+  document.querySelectorAll(".filter-pill").forEach(b => b.classList.remove("active"));
+  document.getElementById("qf-all").classList.add("active");
+  renderDirectory();
+}
+
+function getFilteredProjects() {
+  const q = document.getElementById("searchWikiInput").value.trim().toLowerCase();
+  const cat = document.getElementById("categoryFilter").value;
+  const gen = document.getElementById("generatorFilter").value;
+
+  return wikiProjects.filter(p => {
+    if (cat !== "ALL" && p.category !== cat) return false;
+    if (gen !== "ALL" && !(p.generators || []).includes(gen)) return false;
+
+    if (quickFilterMode === "novel" && p.category !== "novel") return false;
+    if (quickFilterMode === "software" && p.category !== "software") return false;
+    if (quickFilterMode === "has_py" && (!p.files || !p.files.pyScripts || p.files.pyScripts.length === 0)) return false;
+    if ((quickFilterMode === "Gemini" || quickFilterMode === "Claude") && !(p.generators || []).includes(quickFilterMode)) return false;
+
+    if (q) {
+      const pyStr = (p.files && p.files.pyScripts) ? p.files.pyScripts.join(" ") : "";
+      const hay = `${p.folder} ${p.title} ${p.subtitle} ${p.description} ${(p.tags || []).join(" ")} ${pyStr}`.toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+function renderDirectory() {
+  const list = getFilteredProjects();
+  const layout = document.getElementById("viewLayoutSelect").value;
+  const gridEl = document.getElementById("projectsGridContainer");
+  const tableEl = document.getElementById("projectsTableContainer");
+  const tbody = document.getElementById("projectsTableBody");
+
+  // Update summary KPIs
+  const novelCount = wikiProjects.filter(x => x.category === "novel").length;
+  const softCount = wikiProjects.filter(x => x.category === "software").length;
+  document.getElementById("statTotalProjects").textContent = String(wikiProjects.length);
+  document.getElementById("statBreakdownSub").textContent = `${novelCount} Novel${novelCount === 1 ? "" : "s"} • ${softCount} Software`;
+
+  gridEl.style.display = layout === "table" ? "none" : "grid";
+  tableEl.style.display = layout === "cards" ? "none" : "block";
+
+  gridEl.innerHTML = list.map(p => {
+    const htmlUrl = resolveProjectUrl(p, "html");
+    const mdUrl = resolveProjectUrl(p, "md");
+    const pyUrl = resolveProjectUrl(p, "py");
+    const hasPy = p.files && p.files.pyScripts && p.files.pyScripts.length > 0;
+
+    const genBadges = (p.generators || []).map(g => {
+      const cls = g === "Gemini" ? "gemini" : (g === "Claude" ? "claude" : "selfmade");
+      const icon = g === "Gemini" ? "✨" : (g === "Claude" ? "🤖" : "🛠️");
+      return `<span class="badge ${cls}">${icon} ${g}</span>`;
+    }).join("");
+
+    const metricsHTML = (p.metrics || []).map(m => `
+      <div class="metric-chip">
+        <div class="metric-chip-label">${m.label}</div>
+        <div class="metric-chip-val">${m.value}</div>
+      </div>
+    `).join("");
+
+    const tagPills = (p.tags || []).slice(0, 5).map(t =>
+      `<span class="file-kind-tag">#${t}</span>`
+    ).join(" ");
+
+    return `
+      <article class="project-card ${p.featured ? "featured" : ""}">
+        <div>
+          <div class="card-top-row">
+            <span class="folder-badge">📁 ./${p.folder}/</span>
+            <div class="badge-row">
+              <span class="badge ${p.category === "novel" ? "novel" : "software"}">${p.category === "novel" ? "📚 Novel Wiki" : "💻 Software Wiki"}</span>
+              ${genBadges}
+            </div>
+          </div>
+
+          <h2 class="project-title">${p.title}</h2>
+          <div class="project-author">${p.subtitle || ""}</div>
+          <p class="project-desc">${p.description}</p>
+
+          ${metricsHTML ? `<div class="metrics-mini-grid">${metricsHTML}</div>` : ""}
+
+          <div class="file-list-box">
+            <div class="file-list-title">
+              <span>Subfolder Contents (${currentPathMode.toUpperCase()} Mode)</span>
+              <span>Updated ${p.updated || "2026"}</span>
+            </div>
+            <div class="file-item">
+              <span class="file-path-code">${htmlUrl}</span>
+              <span class="file-kind-tag">Interactive HTML</span>
+            </div>
+            <div class="file-item">
+              <span class="file-path-code">${mdUrl}</span>
+              <span class="file-kind-tag">Markdown Wiki</span>
+            </div>
+            ${hasPy ? `
+            <div class="file-item">
+              <span class="file-path-code">${pyUrl}</span>
+              <span class="file-kind-tag">Python CLI (.py)</span>
+            </div>` : ""}
+          </div>
+
+          <div style="display:flex; flex-wrap:wrap; gap:5px; margin-bottom:14px;">
+            ${tagPills}
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <button class="btn btn-launch" onclick="openSubfolderResource('${p.id}', 'html')">🚀 Launch Wiki</button>
+          <button class="btn" onclick="openSubfolderResource('${p.id}', 'md')">📖 Read .MD</button>
+          ${hasPy ? `<button class="btn" onclick="openSubfolderResource('${p.id}', 'py')">🐍 .PY Calc</button>` : `<button class="btn" disabled>No .PY</button>`}
+          <button class="btn" onclick="openProjectModal('${p.id}')" title="Inspect Subfolder Details">🔍</button>
+        </div>
+      </article>
+    `;
+  }).join("");
+
+  tbody.innerHTML = list.map(p => {
+    const htmlUrl = resolveProjectUrl(p, "html");
+    const mdUrl = resolveProjectUrl(p, "md");
+    const pyUrl = resolveProjectUrl(p, "py");
+    const hasPy = p.files && p.files.pyScripts && p.files.pyScripts.length > 0;
+    return `
+      <tr>
+        <td class="mono"><strong style="color:var(--accent-green);">./${p.folder}/</strong></td>
+        <td><strong>${p.title}</strong><div style="font-size:0.75rem; color:var(--text-muted);">${p.subtitle || ""}</div></td>
+        <td><span class="badge ${p.category === "novel" ? "novel" : "software"}">${p.category === "novel" ? "Novel" : "Software"}</span></td>
+        <td>${(p.generators || []).join(", ")}</td>
+        <td><button class="btn" style="padding:5px 10px; font-size:0.76rem;" onclick="openSubfolderResource('${p.id}', 'html')">🚀 ${htmlUrl}</button></td>
+        <td><button class="btn" style="padding:5px 10px; font-size:0.76rem;" onclick="openSubfolderResource('${p.id}', 'md')">📖 ${mdUrl}</button></td>
+        <td>${hasPy ? `<button class="btn" style="padding:5px 10px; font-size:0.76rem;" onclick="openSubfolderResource('${p.id}', 'py')">🐍 ${pyUrl}</button>` : "—"}</td>
+        <td><button class="btn" style="padding:5px 10px; font-size:0.76rem;" onclick="openProjectModal('${p.id}')">🔍 Details</button></td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function isRunningOnLiveHost() {
+  const host = window.location.hostname || "";
+  return host.endsWith("github.io") || host.endsWith("pages.dev") || (window.location.protocol.startsWith("http") && !window.frameElement);
+}
+
+function openSubfolderResource(projectId, kind) {
+  const proj = wikiProjects.find(x => x.id === projectId);
+  if (!proj) return;
+  const targetUrl = resolveProjectUrl(proj, kind);
+
+  if (currentPathMode === "github" || isRunningOnLiveHost()) {
+    window.open(targetUrl, "_blank", "noopener,noreferrer");
+    showToast(`Opening ${targetUrl}`);
+  } else {
+    // In sandboxed preview, show the full interactive modal or switch to the AITZA inspector tab
+    openProjectModal(projectId, kind);
+    showToast(`Previewing ${targetUrl} (When hosted on GitHub/Cloudflare Pages, this opens ${targetUrl} directly)`);
+  }
+}
+
+function openProjectModal(projectId, highlightKind) {
+  const p = wikiProjects.find(x => x.id === projectId);
+  if (!p) return;
+  const modal = document.getElementById("projectModal");
+  const box = document.getElementById("projectModalContent");
+
+  const stdHtml = `./${p.folder}/${p.files.htmlStandard || "index.html"}`;
+  const origHtml = `./${p.folder}/${p.files.htmlOriginal || "index.html"}`;
+  const stdMd = `./${p.folder}/${p.files.mdStandard || "README.md"}`;
+  const origMd = `./${p.folder}/${p.files.mdOriginal || "README.md"}`;
+  const pyFile = (p.files.pyScripts && p.files.pyScripts[0]) ? `./${p.folder}/${p.files.pyScripts[0]}` : "None";
+
+  box.innerHTML = `
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:14px;">
+      <div>
+        <span class="folder-badge">📁 Subfolder: ./${p.folder}/</span>
+        <h2 style="font-size:1.45rem; margin-top:8px;">${p.title}</h2>
+        <div style="font-size:0.84rem; color:var(--text-secondary); margin-top:2px;">${p.subtitle || ""}</div>
+      </div>
+      <button class="btn" onclick="closeProjectModal()">✕ Close</button>
+    </div>
+
+    <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:16px;">${p.description}</p>
+
+    <div style="background:var(--bg-surface); border:1px solid var(--border-color); border-radius:12px; padding:16px; margin-bottom:16px;">
+      <div style="font-size:0.76rem; font-weight:700; text-transform:uppercase; color:var(--text-muted); margin-bottom:10px;">
+        Subfolder Routing Paths (GitHub Pages & Cloudflare Pages)
+      </div>
+      <div class="file-item">
+        <span><strong>Interactive HTML App (Standardized):</strong> <code style="color:var(--accent-green);">${stdHtml}</code></span>
+        <a href="https://github.com/OreoKitten/wiki/tree/main/${p.folder}" target="_blank" rel="noopener noreferrer" class="btn" style="padding:4px 10px; font-size:0.75rem;">GitHub Folder ↗</a>
+      </div>
+      <div class="file-item">
+        <span><strong>Interactive HTML App (Original Name):</strong> <code style="color:var(--accent-cyan);">${origHtml}</code></span>
+        <span class="file-kind-tag">${highlightKind === "html" ? "Selected" : "HTML5 Single-File"}</span>
+      </div>
+      <div class="file-item">
+        <span><strong>Markdown Wiki (Standardized / Original):</strong> <code>${stdMd}</code> / <code>${origMd}</code></span>
+        <span class="file-kind-tag">${highlightKind === "md" ? "Selected" : "Markdown"}</span>
+      </div>
+      <div class="file-item">
+        <span><strong>Python CLI Calculator:</strong> <code style="color:var(--accent-gold);">${pyFile}</code></span>
+        <span class="file-kind-tag">${highlightKind === "py" ? "Selected" : "Python 3 CLI"}</span>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center;">
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        ${p.id === "AITZA" ? `<button class="btn btn-launch" onclick="closeProjectModal(); switchHubTab('aitza', document.getElementById('tabBtnAitza'));">🧟 Open AITZA Quick Inspector & Calculator</button>` : ""}
+        <a href="https://github.com/OreoKitten/wiki/tree/main/${p.folder}" target="_blank" rel="noopener noreferrer" class="btn">🐙 View ./${p.folder}/ on GitHub</a>
+      </div>
+      <button class="btn" onclick="closeProjectModal()">Done</button>
+    </div>
+  `;
+  modal.classList.add("open");
+}
+
+function closeProjectModal() {
+  document.getElementById("projectModal").classList.remove("open");
+}
+
+// ============================================================================
+// LIVE GITHUB REPO AUTO-DISCOVERY (OreoKitten/wiki)
+// ============================================================================
+async function syncGitHubRepo() {
+  const btn = document.getElementById("syncRepoBtn");
+  const statusEl = document.getElementById("syncStatusText");
+  btn.textContent = "⏳ Syncing...";
+  try {
+    const res = await fetch("https://api.github.com/repos/OreoKitten/wiki/contents");
+    if (!res.ok) throw new Error("GitHub API status " + res.status);
+    const items = await res.json();
+    const dirs = Array.isArray(items) ? items.filter(x => x.type === "dir" && !x.name.startsWith(".")) : [];
+    let added = 0;
+    dirs.forEach(d => {
+      const code = d.name;
+      const exists = wikiProjects.some(p => p.folder.toLowerCase() === code.toLowerCase());
+      if (!exists) {
+        wikiProjects.push({
+          id: code.toUpperCase(),
+          folder: code,
+          title: `${code} — Auto-Discovered Repository Subfolder`,
+          subtitle: "Discovered via GitHub API (OreoKitten/wiki)",
+          category: "novel",
+          generators: ["Gemini"],
+          featured: false,
+          updated: "Live Sync",
+          description: `Subfolder ./${code}/ detected automatically from OreoKitten/wiki on GitHub.`,
+          tags: [code, "Auto-Discovered"],
+          metrics: [{ label: "Source", value: "GitHub API" }, { label: "Path", value: `./${code}/` }, { label: "Status", value: "Active" }],
+          files: {
+            htmlStandard: "index.html",
+            htmlOriginal: "index.html",
+            mdStandard: "README.md",
+            mdOriginal: "README.md",
+            pyScripts: []
+          }
+        });
+        added++;
+      }
+    });
+    renderDirectory();
+    statusEl.textContent = `Synced with GitHub (${dirs.length} folder${dirs.length === 1 ? "" : "s"} found)`;
+    showToast(added > 0 ? `Discovered ${added} new subfolder(s) from OreoKitten/wiki!` : `GitHub sync complete (${dirs.length} subfolder(s) verified).`);
+  } catch (err) {
+    statusEl.textContent = "Local registry active (offline/sandbox)";
+    showToast("Using built-in subfolder registry (GitHub API sync runs when deployed online).");
+  } finally {
+    btn.textContent = "🔄 Sync GitHub Repo";
+  }
+}
+
+// ============================================================================
+// TAB 2: AITZA MINI CALCULATOR & TOP 15 TABLE
+// ============================================================================
+function updateHubMiniCalc(val) {
+  let lv = Math.max(1, Math.min(120, parseInt(val, 10) || 1));
+  document.getElementById("hubZSlider").value = Math.min(100, lv);
+  document.getElementById("hubZInput").value = lv;
+
+  const row = ZOMBIE_CALC_TABLE[lv - 1];
+  document.getElementById("hubZGained").textContent = `+${row.gained.toLocaleString()}`;
+  document.getElementById("hubZBase").textContent = row.base.toLocaleString();
+  document.getElementById("hubZFull").textContent = lv >= 11 ? row.full4x.toLocaleString() : `${row.base.toLocaleString()} (No Prolif <Lv11)`;
+
+  const mNote = NOVEL_ZOMBIE_MILESTONES[lv];
+  const mBox = document.getElementById("hubZMilestone");
+  if (mNote) {
+    mBox.innerHTML = `✅ <strong>Verified Novel Milestone (Lv ${lv}):</strong> ${mNote}`;
+  } else {
+    mBox.innerHTML = `ℹ️ <strong>Level ${lv} Formula:</strong> Base Clones = <code>${row.base.toLocaleString()}</code> | 6h (×2) = <code>${(lv>=11?row.base*2:row.base).toLocaleString()}</code> | 12h (×3) = <code>${(lv>=11?row.base*3:row.base).toLocaleString()}</code> | 18h (×4) = <code>${row.full4x.toLocaleString()}</code>`;
+  }
+}
+
+function updateCliBuilder() {
+  const cmd = document.getElementById("cliPresetSelect").value;
+  document.getElementById("cliOutputCode").textContent = cmd;
+}
+
+function renderAitzaTop15() {
+  const tbody = document.getElementById("aitzaTop15Body");
+  tbody.innerHTML = AITZA_TOP_15.map(c => `
+    <tr>
+      <td><span class="folder-badge" style="padding:2px 7px; font-size:0.74rem;">#${c.rank}</span></td>
+      <td><strong>${c.name}</strong></td>
+      <td style="color:var(--accent-cyan); font-weight:600;">${c.first}</td>
+      <td style="color:var(--accent-gold); font-weight:600;">${c.last}</td>
+      <td class="num-col"><strong>${c.mentions.toLocaleString()}</strong></td>
+      <td class="num-col">${c.chapters.toLocaleString()}</td>
+      <td>${c.span}</td>
+      <td>${c.faction}</td>
+      <td>${c.role}</td>
+    </tr>
+  `).join("");
+}
+
+// ============================================================================
+// TAB 3: SUBFOLDER CONFIG & CARD GENERATOR
+// ============================================================================
+function buildDraftProjectFromForm() {
+  const code = (document.getElementById("newFolderCode").value.trim() || "NEW_WIKI").replace(/[^a-zA-Z0-9_-]/g, "");
+  const category = document.getElementById("newCategory").value;
+  const title = document.getElementById("newTitle").value.trim() || `${code} Wiki`;
+  const subtitle = document.getElementById("newSubtitle").value.trim() || "Personal Wiki";
+  const gen = document.getElementById("newGenerator").value;
+  const tagsRaw = document.getElementById("newTags").value;
+  const tags = tagsRaw.split(",").map(s => s.trim()).filter(Boolean);
+  const htmlOrig = document.getElementById("newHtmlFile").value.trim() || "index.html";
+  const mdOrig = document.getElementById("newMdFile").value.trim() || "README.md";
+  const pyOrig = document.getElementById("newPyFile").value.trim();
+  const desc = document.getElementById("newDesc").value.trim() || "Custom wiki and reference.";
+
+  return {
+    id: code.toUpperCase(),
+    folder: code,
+    title: title,
+    subtitle: subtitle,
+    category: category,
+    generators: [gen],
+    featured: false,
+    updated: new Date().toISOString().slice(0, 10),
+    description: desc,
+    tags: tags,
+    metrics: [
+      { label: "Subfolder", value: `./${code}/` },
+      { label: "Generator", value: gen },
+      { label: "Files", value: pyOrig ? "HTML + MD + PY" : "HTML + MD" }
+    ],
+    files: {
+      htmlStandard: "index.html",
+      htmlOriginal: htmlOrig,
+      mdStandard: "README.md",
+      mdOriginal: mdOrig,
+      pyScripts: pyOrig ? [pyOrig] : []
+    }
+  };
+}
+
+function updateConfigPreview() {
+  const p = buildDraftProjectFromForm();
+  const f = p.folder;
+  const pyLine = (p.files.pyScripts.length > 0)
+    ? `\ncp ${p.files.pyScripts[0]} ${f}/${p.files.pyScripts[0]}`
+    : "";
+
+  const shellCmds = `# Create subfolder and standardize filenames for GitHub & Cloudflare Pages
+mkdir -p ${f}
+cp ${p.files.htmlOriginal} ${f}/index.html
+cp ${p.files.mdOriginal} ${f}/README.md${pyLine}
+git add ${f}/ index.html README.md
+git commit -m "Add ${f} (${p.title}) wiki subfolder"
+git push origin main`;
+
+  document.getElementById("genShellCode").textContent = shellCmds;
+  document.getElementById("genJsonCode").textContent = JSON.stringify(p, null, 2);
+
+  const pyCell = p.files.pyScripts.length > 0 ? `[\`${p.files.pyScripts[0]}\`](./${f}/${p.files.pyScripts[0]})` : "—";
+  const mdRow = `| **\`${f}/\`** | **${p.title}** *(${p.subtitle})* | ${p.category === "novel" ? "📚 Novel Wiki" : "💻 Software Wiki"} | ${p.generators[0]} | [Launch Web App](./${f}/index.html) | [Read Wiki](./${f}/README.md) | ${pyCell} | ${p.description} |`;
+  document.getElementById("genMdRowCode").textContent = mdRow;
+}
+
+function addGeneratedProjectToHub() {
+  const p = buildDraftProjectFromForm();
+  const customRaw = safeGetStorage("oreokitten_custom_wikis", "[]");
+  let customList = [];
+  try {
+    customList = JSON.parse(customRaw);
+  } catch (e) {
+    customList = [];
+  }
+  customList = customList.filter(x => x.id.toUpperCase() !== p.id.toUpperCase());
+  customList.push(p);
+  safeSetStorage("oreokitten_custom_wikis", JSON.stringify(customList));
+  loadProjects();
+  renderDirectory();
+  switchHubTab("directory", document.getElementById("tabBtnDirectory"));
+  showToast(`Added ./${p.folder}/ (${p.title}) to the Hub Directory!`);
+}
+
+function clearCustomProjects() {
+  safeSetStorage("oreokitten_custom_wikis", "[]");
+  loadProjects();
+  renderDirectory();
+  showToast("Reset custom session cards back to default repository state.");
+}
+
+function copyTextById(elemId, toastMsg) {
+  const text = document.getElementById(elemId).textContent;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast(toastMsg || "Copied to clipboard!");
+    }).catch(() => fallbackCopy(text, toastMsg));
+  } else {
+    fallbackCopy(text, toastMsg);
+  }
+}
+
+function fallbackCopy(text, toastMsg) {
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  ta.style.position = "fixed";
+  ta.style.opacity = "0";
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand("copy");
+    showToast(toastMsg || "Copied to clipboard!");
+  } catch (e) {
+    showToast("Copy failed — please select and copy manually.");
+  }
+  document.body.removeChild(ta);
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const btn = document.getElementById("themeToggleBtn");
+  if (html.getAttribute("data-theme") === "light") {
+    html.removeAttribute("data-theme");
+    btn.textContent = "☀️ Light";
+    safeSetStorage("oreokitten_theme", "dark");
+  } else {
+    html.setAttribute("data-theme", "light");
+    btn.textContent = "🌙 Dark";
+    safeSetStorage("oreokitten_theme", "light");
+  }
+}
+
+// Keyboard shortcut '/' to focus search
+window.addEventListener("keydown", function(e) {
+  if (e.key === "/" && document.activeElement.tagName !== "INPUT" && document.activeElement.tagName !== "TEXTAREA") {
+    e.preventDefault();
+    const s = document.getElementById("searchWikiInput");
+    if (s) s.focus();
+  }
+});
+
+window.addEventListener("DOMContentLoaded", function() {
+  const savedTheme = safeGetStorage("oreokitten_theme", "dark");
+  if (savedTheme === "light") {
+    document.documentElement.setAttribute("data-theme", "light");
+    document.getElementById("themeToggleBtn").textContent = "🌙 Dark";
+  }
+  const savedMode = safeGetStorage("oreokitten_path_mode", "standard");
+  currentPathMode = savedMode;
+  document.getElementById("pathModeSelect").value = savedMode;
+
+  loadProjects();
+  renderDirectory();
+  updateHubMiniCalc(40);
+  renderAitzaTop15();
+  updateConfigPreview();
+});
+</script>
+</body>
+</html>
