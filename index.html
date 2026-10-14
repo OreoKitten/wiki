@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
 <style>
   :root {
     --bg-main: #0b0f17;
@@ -678,12 +679,78 @@
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: 16px;
-    max-width: 820px;
+    max-width: 1080px;
     width: 100%;
     padding: 24px;
     box-shadow: var(--shadow-lg);
     max-height: 90vh;
     overflow-y: auto;
+  }
+
+  /* Rendered Markdown Body inside Reader Modal */
+  .md-rendered-body {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 22px 26px;
+    max-height: 68vh;
+    overflow-y: auto;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+  .md-rendered-body h1, .md-rendered-body h2, .md-rendered-body h3 {
+    margin-top: 1.2em;
+    margin-bottom: 0.5em;
+    color: var(--text-primary);
+    font-weight: 800;
+  }
+  .md-rendered-body h1:first-child, .md-rendered-body h2:first-child {
+    margin-top: 0;
+  }
+  .md-rendered-body h1 { font-size: 1.45rem; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+  .md-rendered-body h2 { font-size: 1.18rem; color: var(--accent-green); border-bottom: 1px solid var(--border-color); padding-bottom: 6px; }
+  .md-rendered-body h3 { font-size: 1.02rem; color: var(--accent-cyan); }
+  .md-rendered-body p, .md-rendered-body ul, .md-rendered-body ol { margin-bottom: 12px; }
+  .md-rendered-body ul, .md-rendered-body ol { padding-left: 22px; }
+  .md-rendered-body code {
+    background: var(--bg-elevated);
+    color: var(--accent-cyan);
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 0.82rem;
+  }
+  .md-rendered-body pre {
+    background: #070a10;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px 14px;
+    overflow-x: auto;
+    margin-bottom: 14px;
+  }
+  .md-rendered-body pre code {
+    background: transparent;
+    padding: 0;
+    color: #e2e8f0;
+  }
+  .md-rendered-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 0.82rem;
+  }
+  .md-rendered-body th, .md-rendered-body td {
+    padding: 8px 11px;
+    border: 1px solid var(--border-color);
+    text-align: left;
+  }
+  .md-rendered-body th {
+    background: var(--bg-elevated);
+    color: var(--accent-gold);
+    font-weight: 700;
+  }
+  .md-rendered-body tr:nth-child(even) td {
+    background: rgba(255, 255, 255, 0.02);
   }
 
   /* Toast */
@@ -1502,13 +1569,97 @@ function openSubfolderResource(projectId, kind) {
   if (!proj) return;
   const targetUrl = resolveProjectUrl(proj, kind);
 
+  // For .md and .py files, static hosts serve raw plain text by default.
+  // If in 'github' mode, open GitHub's native rendered blob page; otherwise open the formatted In-Hub Reader Modal!
+  if (kind === "md" || kind === "py") {
+    if (currentPathMode === "github") {
+      window.open(targetUrl, "_blank", "noopener,noreferrer");
+      showToast(`Opening rendered view on GitHub: ${targetUrl}`);
+    } else {
+      openFormattedFileReader(projectId, kind);
+    }
+    return;
+  }
+
   if (currentPathMode === "github" || isRunningOnLiveHost()) {
     window.open(targetUrl, "_blank", "noopener,noreferrer");
     showToast(`Opening ${targetUrl}`);
   } else {
-    // In sandboxed preview, show the full interactive modal or switch to the AITZA inspector tab
     openProjectModal(projectId, kind);
     showToast(`Previewing ${targetUrl} (When hosted on GitHub/Cloudflare Pages, this opens ${targetUrl} directly)`);
+  }
+}
+
+async function openFormattedFileReader(projectId, kind) {
+  const p = wikiProjects.find(x => x.id === projectId);
+  if (!p) return;
+  const modal = document.getElementById("projectModal");
+  const box = document.getElementById("projectModalContent");
+
+  const f = p.files || {};
+  const stdFile = kind === "md" ? (f.mdStandard || "README.md") : ((f.pyScripts && f.pyScripts[0]) || "script.py");
+  const origFile = kind === "md" ? (f.mdOriginal || stdFile) : stdFile;
+  const activeFile = currentPathMode === "original" ? origFile : stdFile;
+
+  const relUrl = `./${p.folder}/${activeFile}`;
+  const ghBlobUrl = `https://github.com/OreoKitten/wiki/blob/main/${p.folder}/${activeFile}`;
+  const ghFolderUrl = `https://github.com/OreoKitten/wiki/tree/main/${p.folder}`;
+  const ghRawUrl = `https://raw.githubusercontent.com/OreoKitten/wiki/main/${p.folder}/${activeFile}`;
+
+  box.innerHTML = `
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
+      <div>
+        <span class="folder-badge">📖 Formatted ${kind.toUpperCase()} Reader • ./${p.folder}/${activeFile}</span>
+        <h2 style="font-size:1.35rem; margin-top:6px;">${p.title}</h2>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <a href="${ghBlobUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-launch" style="padding:7px 12px; font-size:0.78rem;">🐙 View Rendered on GitHub ↗</a>
+        <a href="${ghFolderUrl}" target="_blank" rel="noopener noreferrer" class="btn" style="padding:7px 12px; font-size:0.78rem;">📁 GitHub Subfolder ↗</a>
+        <button class="btn" style="padding:7px 12px; font-size:0.78rem;" onclick="closeProjectModal()">✕ Close</button>
+      </div>
+    </div>
+    <div id="mdReaderContainer" class="md-rendered-body">
+      <div style="color:var(--text-secondary);">⏳ Loading and rendering <code>${relUrl}</code>...</div>
+    </div>
+  `;
+  modal.classList.add("open");
+
+  const container = document.getElementById("mdReaderContainer");
+  let rawText = null;
+
+  // Try fetching relative URL first (when hosted on GitHub Pages / Cloudflare Pages), then fallback to GitHub Raw API
+  const candidateUrls = isRunningOnLiveHost()
+    ? [relUrl, `./${p.folder}/${origFile}`, ghRawUrl]
+    : [ghRawUrl];
+
+  for (const url of candidateUrls) {
+    try {
+      const res = await fetch(url);
+      if (res.ok) {
+        rawText = await res.text();
+        break;
+      }
+    } catch (e) {
+      // Try next candidate
+    }
+  }
+
+  if (!rawText) {
+    container.innerHTML = `
+      <p style="margin-bottom:10px;"><strong>Live Markdown Renderer Ready!</strong> When hosted on <code>oreokitten.github.io/wiki/</code>, this reader automatically fetches <code>${relUrl}</code> and renders all Markdown tables, headers, and code blocks with full styling.</p>
+      <p style="color:var(--text-secondary);">You can also click <strong>🐙 View Rendered on GitHub ↗</strong> above to view GitHub's native Markdown rendering at <code>${ghBlobUrl}</code>.</p>
+    `;
+    return;
+  }
+
+  if (kind === "py") {
+    const escaped = rawText.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    container.innerHTML = `<pre><code>${escaped}</code></pre>`;
+  } else if (window.marked && typeof window.marked.parse === "function") {
+    container.innerHTML = window.marked.parse(rawText);
+  } else {
+    const escaped = rawText.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    container.innerHTML = `<pre><code>${escaped}</code></pre>`;
   }
 }
 
